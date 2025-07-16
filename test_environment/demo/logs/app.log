@@ -1,0 +1,23 @@
+2025-07-10 14:25:11 INFO  c.g.demo.DemoApplication - Starting DemoApplication using Java 17.0.13 with PID 24608 (C:\Users\k250415412\Spring\General_Function\demo\target\classes started by k250415412 in C:\Users\k250415412\Spring\General_Function\demo)
+2025-07-10 14:25:11 INFO  c.g.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2025-07-10 14:25:11 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-07-10 14:25:11 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-07-10 14:25:12 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-07-10 14:25:12 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 0 JDBC repository interfaces.
+2025-07-10 14:25:13 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-10 14:25:13 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-10 14:25:13 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-10 14:25:13 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-10 14:25:13 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1635 ms
+2025-07-10 14:25:13 INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-07-10 14:25:14 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-10 14:25:14 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@61acbd2d
+2025-07-10 14:25:14 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-10 14:25:14 INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-07-10 14:25:14 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-10 14:25:14 INFO  c.g.demo.DemoApplication - Started DemoApplication in 3.89 seconds (process running for 4.553)
+2025-07-10 14:26:33 INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-07-10 14:26:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-10 14:26:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-07-10 14:26:33 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-07-10 14:26:33 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
