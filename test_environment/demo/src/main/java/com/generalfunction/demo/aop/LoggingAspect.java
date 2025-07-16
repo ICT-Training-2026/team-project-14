@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * このクラスはAOP（Aspect-Oriented Programming）のAspectであり、
- * 指定パッケージ内の全メソッドの実行前、正常終了後、例外発生後にログを出力することを目的としている。
+ * 指定パッケージ内の全メソッドの実行前、正常終了後、例外発生後にログを出力することを目的としています。
+ * テストするときに使ってください
  */
 @Aspect
 @Component

@@ -11,12 +11,16 @@ import com.generalfunction.demo.repository.login.EmployeeRepository;
 
 import lombok.RequiredArgsConstructor;
 
+
+/*データベースにデモ用のユーザ情報を初期設定するためのコードになります。
+ * 実環境ではadminだけ残して消すようにしてください
+ */
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
-
+ 
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
@@ -50,7 +54,7 @@ public class DataInitializer implements ApplicationRunner {
             employee_user.setDepartmentId(1);   // 部署ID（例: 1）
             employee_user.setIsActive(true);
 
-            employeeRepository.insertEmployee(employee_user); // ← ここを修正
+            employeeRepository.insertEmployee(employee_user); 
             System.out.println("一般(User)ユーザーを初期作成しました。");
         }
     }

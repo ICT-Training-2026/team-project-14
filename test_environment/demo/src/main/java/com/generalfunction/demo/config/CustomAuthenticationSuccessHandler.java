@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 /**
  * Spring Securityの認証成功時に呼ばれるハンドラクラス。
  * 認証に成功したユーザーを特定し、任意のURLへリダイレクトさせる役割を持つ。
+ * まだ機能作れていない管理者用ログイン画面と利用者用ログイン画面に分けるので修正
  */
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -31,21 +32,30 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                                         Authentication authentication) throws IOException, ServletException {
         // 認証済みユーザーのユーザ名（principal名）を取得
         String username = authentication.getName();
+       
         System.out.println("username"+username);
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         System.out.println("authorities"+authorities);
+        boolean isloginType = request.getParameter("loginType").equals("admin");
+        String loginType = request.getParameter("loginType");
+        System.out.println("loginType: " + loginType);
 
         boolean isAdmin = authorities.stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
         String redirectUrl;
-        if (isAdmin) {
+        if (isAdmin && isloginType) {
             // adminユーザは admin.html にリダイレクト
             redirectUrl = "/admin";
-        } else {
+        } else if(!isAdmin && isloginType){
+        	
+        	 redirectUrl ="/login?role-error";
+        	
+        }else
+        {
             // それ以外のユーザは username/top へリダイレクト
-            redirectUrl = "/" + username + "/top";
+            redirectUrl = "/" + username+ "/top";
         }
 
         // クライアントへリダイレクトを指示（HTTPステータス302）

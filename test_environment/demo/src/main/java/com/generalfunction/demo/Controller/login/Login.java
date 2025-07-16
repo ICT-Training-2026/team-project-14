@@ -1,7 +1,6 @@
 package com.generalfunction.demo.Controller.login;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.Data;
@@ -11,17 +10,39 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class Login {
-//    private final EmployeeService userService;
 	//login画面の表示
     @GetMapping("/login") // "/login"へのGETリクエストを処理
     public String login() {
         return "login/login";  // login.htmlを表示
     }
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("form", new RegisterForm());
-        return "login/login"; // templates/login/register.htmlを表示
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//いらない、ユーザ追加するときの参考に
+//    @GetMapping("/register")
+//    public String showRegistrationForm(Model model) {
+//        model.addAttribute("form", new RegisterForm());
+//        return "login/login"; // templates/login/register.htmlを表示
+//    }
 
 //    @PostMapping("/register")
 //    public String registerUser(@Valid @ModelAttribute("form") RegisterForm form,

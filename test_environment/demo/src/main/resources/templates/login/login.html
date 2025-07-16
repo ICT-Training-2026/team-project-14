@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	
 <head>
     <meta charset="UTF-8" />
-    <title>ログイン・ユーザ登録</title>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" />
+    <title>ログイン</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" />
     <link rel="stylesheet" th:href="@{/css/loginstyle.css}" />
 </head>
 <body>
-	<body>
-	    <div class="container">
-	        <h1><b>ログイン・ユーザ登録</b></h1>
+	<div th:if="${param['role-error']}" class="message" style="color: red;" role="alert" aria-live="assertive">
+	    権限がありません。
+	</div>
+    <div class="container">
+        <h1><b>ログイン</b></h1>
 
-	        <div class="tab-buttons">
-	            <div id="signInTab" class="tab-button active">ログイン</div>
-	            <div id="signUpTab" class="tab-button">登録</div>
-	        </div>
+        <div class="tab-buttons">
+            <div id="userLoginTab" class="tab-button active">利用者ログイン</div>
+            <div id="adminLoginTab" class="tab-button">管理者ログイン</div>
+        </div>
 
-	        <!-- ログインフォーム -->
-	        <form id="signInForm" th:action="@{/login}" method="post">
-	            <div th:if="${param.error}" class="message" role="alert" aria-live="assertive">
-	                ログインに失敗しました。ユーザ名またはパスワードを確認してください。
-	            </div>
-	            <div th:if="${param.logout}" class="message" style="color: green;" role="alert" aria-live="assertive">
-	                ログアウトしました。
-	            </div>
-	            <input id="username" name="username" type="text" placeholder="ユーザ名" autocomplete="username" required autofocus />
-	            <input id="password" name="password" type="password" placeholder="パスワード" autocomplete="current-password" required />
-	            <button type="submit">ログイン</button>
-	        </form>
+		<!-- 利用者用ログインフォーム -->
+		<form id="userLoginForm" th:action="@{/login}" method="post">
+		    <input type="hidden" name="loginType" value="user"/>
+		    <input id="username" name="username" type="text" placeholder="ユーザ名" required autofocus />
+		    <input id="password" name="password" type="password" placeholder="パスワード" required />
+		    <button type="submit">利用者ログイン</button>
+		</form>
 
-<!--	         登録フォーム -->
-<!--	        <form id="signUpForm" th:action="@{/register}" method="post" style="display:none;">-->
-<!--	            <input id="reg-username" name="username" type="text" placeholder="ユーザ名" autocomplete="username" required />-->
-<!--	            <input id="reg-email" name="email" type="email" placeholder="メールアドレス" autocomplete="email" required />-->
-<!--	            <input id="reg-password" name="password" type="password" placeholder="パスワード" autocomplete="new-password" required />-->
-<!--	            <input id="reg-password-confirm" name="passwordConfirm" type="password" placeholder="パスワード確認" autocomplete="new-password" required />-->
-<!--	            <div id="passwordMismatchMessage" style="color: red; display:none;">パスワードが一致しません。</div>-->
-<!--	            <button type="submit">登録</button>-->
-<!--	        </form>-->
-	    </div>
-	
-	
-	<script src="/js/login.js"></script>
+		<!-- 管理者用ログインフォーム -->
+		<form id="adminLoginForm" th:action="@{/login}" method="post" style="display:none;">
+		    <input type="hidden" name="loginType" value="admin"/>
+		    <input id="admin-username" name="username" type="text" placeholder="管理者名" required />
+		    <input id="admin-password" name="password" type="password" placeholder="パスワード" required />
+		    <button type="submit">管理者ログイン</button>
+		</form>
+    </div>
+
+    <script>
+        // タブ切り替えスクリプト
+        document.getElementById('userLoginTab').onclick = function() {
+            document.getElementById('userLoginForm').style.display = '';
+            document.getElementById('adminLoginForm').style.display = 'none';
+            this.classList.add('active');
+            document.getElementById('adminLoginTab').classList.remove('active');
+        };
+        document.getElementById('adminLoginTab').onclick = function() {
+            document.getElementById('userLoginForm').style.display = 'none';
+            document.getElementById('adminLoginForm').style.display = '';
+            this.classList.add('active');
+            document.getElementById('userLoginTab').classList.remove('active');
+        };
+    </script>
 </body>
 </html>

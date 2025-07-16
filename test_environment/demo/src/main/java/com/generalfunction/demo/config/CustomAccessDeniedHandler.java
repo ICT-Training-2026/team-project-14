@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
-
+//エラーハンドリング用コンフィグ
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -19,11 +19,10 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
-        // 403エラーページにフォワードする例
+        // 403エラーページ
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         request.getRequestDispatcher("/error/403").forward(request, response);
 
-        // もしくはリダイレクトする場合
-        // response.sendRedirect(request.getContextPath() + "/error/403");
+
     }
 }
