@@ -1166,3 +1166,6 @@ java.io.FileNotFoundException: C:\Users\k250415412\Spring\kintaiTeam15\test_envi
 2025-07-16 15:31:40,067 [Worker-1: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-07-16 15:31:40,075 [Worker-1: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 9 resources from src\main\resources to target\classes
 2025-07-16 15:31:40,081 [Worker-1: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\k250415412\Spring\kintaiTeam15\test_environment\demo\src\test\resources
+2025-07-16 15:35:03,042 [Worker-9: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-07-16 15:35:03,051 [Worker-9: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 9 resources from src\main\resources to target\classes
+2025-07-16 15:35:03,057 [Worker-9: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\k250415412\Spring\kintaiTeam15\test_environment\demo\src\test\resources
