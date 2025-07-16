@@ -12,6 +12,10 @@
     <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
+<<<<<<< HEAD
+=======
+    <fullyQualifiedTypeName name="ch.qos.logback.core.model.Model"/>
+>>>>>>> 0ac386201b32ccfb1aa0f2faecbdd9df0cd81260
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.generalfunction.demo.repository.login.UserRepository"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ModelAttribute"/>
@@ -20,7 +24,10 @@
     <fullyQualifiedTypeName name="java.security.PublicKey"/>
     <fullyQualifiedTypeName name="java.lang.Long"/>
     <fullyQualifiedTypeName name="com.generalfunction.demo.repository.login.RoleRepository"/>
+<<<<<<< HEAD
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity"/>
     <fullyQualifiedTypeName name="ch.qos.logback.core.model.Model"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
+=======
+>>>>>>> 0ac386201b32ccfb1aa0f2faecbdd9df0cd81260
 </qualifiedTypeNameHistroy>

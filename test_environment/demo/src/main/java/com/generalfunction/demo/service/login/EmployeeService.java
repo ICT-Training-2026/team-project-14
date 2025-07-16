@@ -1,0 +1,106 @@
+package com.generalfunction.demo.service.login;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.generalfunction.demo.entity.Employee;
+import com.generalfunction.demo.repository.login.EmployeeRepository;
+import com.generalfunction.demo.repository.login.RoleRepository;
+
+import lombok.RequiredArgsConstructor;
+/**
+ * ユーザー登録やユーザー情報取得などのビジネスロジックを担当するサービスクラス。
+ * 
+ * - パスワードを安全にBCryptでハッシュ化してからDBに保存する。
+ * - ユーザー名での検索をリポジトリに委譲する。
+ */
+@Service
+@RequiredArgsConstructor
+
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    /**
+     * 新しいユーザーを登録する。
+     * パスワードはBCryptでハッシュ化して保存することが必須。
+     * 
+     * @param username ユーザー名
+     * @param rawPassword 平文パスワード
+     */
+    public void registerUser(String employeeName, String rawPassword, int roleId,int departmentId) {
+        // パスワードをハッシュ化
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+
+        // Userエンティティにセット
+        Employee employee = new Employee();
+        // userIdはauto-incrementの場合はセット不要
+        employee.setUserName(employeeName);
+        employee.setPassword(encodedPassword);
+        employee.setRoleId(roleId);
+        employee.setDepartmentId(departmentId);
+        employee.setIsActive(false);
+
+        // DBに保存
+        employeeRepository.insertEmployee(employee);
+    }
+
+    /**
+     * 指定されたユーザー名に対応するユーザー情報を取得する。
+     * 
+     * @param username ユーザー名
+     * @return Userオブジェクト（存在しない場合はnull）
+     */
+    public Employee findByUsername(String username) {
+        return employeeRepository.findByEmployeeName(username);
+    }
+    
+    public List<Employee> getAllUsers() {
+        return employeeRepository.findAll();
+    }
+
+
+    public void deleteUserById(Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+  
+    public Optional<Employee> findUserById(Long id) {
+        return employeeRepository.findById(id);
+    }
+    
+    
+    public void updateRoleByRoleName(Long userId, String roleName) {
+        Integer roleId = roleRepository.findRoleIdByRoleName(roleName);
+        if (roleId == null) {
+            throw new IllegalArgumentException("指定された権限名は存在しません: " + roleName);
+        }
+        employeeRepository.updateRole(userId, roleId);
+    }
+    
+    public void grantAdminRole(Long id) {
+        // 例：管理者ロール名が "Admin" の場合
+        Integer adminRoleId = roleRepository.findRoleIdByRoleName("Admin");
+        employeeRepository.findById(id).ifPresent(user -> {
+            user.setRoleId(adminRoleId);
+            employeeRepository.save(user);
+        });
+    }
+
+    public void revokeAdminRole(Long id) {
+        // 例：一般ユーザーロール名が "User" の場合
+        Integer userRoleId = roleRepository.findRoleIdByRoleName("User");
+        employeeRepository.findById(id).ifPresent(user -> {
+            user.setRoleId(userRoleId);
+            employeeRepository.save(user);
+        });
+    }
+
+
+
+}

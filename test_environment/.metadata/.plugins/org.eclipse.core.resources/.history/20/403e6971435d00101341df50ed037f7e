@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ユーザー管理</title>
+</head>
+<body>
+<h1>ユーザー管理</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>ユーザー名</th>
+        <th>メール</th>
+        <th>役割</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.role}"></td>
+        <td>
+            <form th:action="@{'/admin/User-management/delete/' + ${user.id}}" method="post" style="display:inline;">
+                <button type="submit">削除</button>
+            </form>
+
+            <form th:if="${user.role != 'ADMIN'}" th:action="@{'/admin/User-management/grant-admin/' + ${user.id}}" method="post" style="display:inline;">
+                <button type="submit">admin権限付与</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

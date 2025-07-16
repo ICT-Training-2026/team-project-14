@@ -1,0 +1,86 @@
+package com.generalfunction.demo.service.login;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.generalfunction.demo.entity.Employee;
+import com.generalfunction.demo.repository.login.EmployeeRepository;
+
+import lombok.RequiredArgsConstructor;
+/**
+ * ユーザー登録やユーザー情報取得などのビジネスロジックを担当するサービスクラス。
+ * 
+ * - パスワードを安全にBCryptでハッシュ化してからDBに保存する。
+ * - ユーザー名での検索をリポジトリに委譲する。
+ */
+@Service
+@RequiredArgsConstructor
+
+public class UserService {
+
+    private final EmployeeRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    /**
+     * 新しいユーザーを登録する。
+     * パスワードはBCryptでハッシュ化して保存することが必須。
+     * 
+     * @param username ユーザー名
+     * @param rawPassword 平文パスワード
+     */
+    public void registerUser(String username, String rawPassword, String email) {
+        // パスワードをハッシュ化
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+
+        // Userエンティティにセット
+        Employee employee = new Employee();
+        employee.setUsername(username);
+        employee.setPassword(encodedPassword);
+        employee.setEmail(email);
+        employee.setRole("User");
+
+        // DBに保存
+        userRepository.insertUser(employee);
+    }
+
+    /**
+     * 指定されたユーザー名に対応するユーザー情報を取得する。
+     * 
+     * @param username ユーザー名
+     * @return Userオブジェクト（存在しない場合はnull）
+     */
+    public Employee findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+    
+    public List<Employee> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+  
+    public Optional<Employee> findUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+
+    public void grantAdminRole(Long id) {
+        userRepository.findById(id).ifPresent(user -> {
+            user.setRole("Admin");
+            userRepository.save(user);
+        });
+    }
+    public void revokeAdminRole(Long id) {
+    	  userRepository.findById(id).ifPresent(user -> {
+              user.setRole("User");
+              userRepository.save(user);
+          });
+    }
+}
