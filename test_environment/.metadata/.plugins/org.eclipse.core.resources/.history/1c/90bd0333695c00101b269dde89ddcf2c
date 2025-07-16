@@ -1,0 +1,54 @@
+package com.generalfunction.demo.service.login;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.generalfunction.demo.entity.User;
+import com.generalfunction.demo.repository.login.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+/**
+ * ユーザー登録やユーザー情報取得などのビジネスロジックを担当するサービスクラス。
+ * 
+ * - パスワードを安全にBCryptでハッシュ化してからDBに保存する。
+ * - ユーザー名での検索をリポジトリに委譲する。
+ */
+@Service
+@RequiredArgsConstructor
+public class AddUserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    /**
+     * 新しいユーザーを登録する。
+     * パスワードはBCryptでハッシュ化して保存することが必須。
+     * 
+     * @param username ユーザー名
+     * @param rawPassword 平文パスワード
+     */
+    public void registerUser(String username, String rawPassword, String email) {
+        // パスワードをハッシュ化
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+
+        // Userエンティティにセット
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(encodedPassword);
+        user.setEmail(email);
+        user.setRole("User");
+
+        // DBに保存
+        userRepository.insertUser(user);
+    }
+
+    /**
+     * 指定されたユーザー名に対応するユーザー情報を取得する。
+     * 
+     * @param username ユーザー名
+     * @return Userオブジェクト（存在しない場合はnull）
+     */
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+}

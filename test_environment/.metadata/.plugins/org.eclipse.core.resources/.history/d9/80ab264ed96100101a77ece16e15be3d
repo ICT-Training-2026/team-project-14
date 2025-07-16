@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+    <meta charset="UTF-8" />
+    <title>ログイン・ユーザ登録</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" />
+    <link rel="stylesheet" th:href="@{/css/loginstyle.css}" />
+</head>
+<body>
+	<body>
+	    <div class="container">
+	        <h1><b>ログイン・ユーザ登録</b></h1>
+
+	        <div class="tab-buttons">
+	            <div id="signInTab" class="tab-button active">ログイン</div>
+	            <div id="signUpTab" class="tab-button">登録</div>
+	        </div>
+
+	        <!-- ログインフォーム -->
+	        <form id="signInForm" th:action="@{/login}" method="post">
+	            <div th:if="${param.error}" class="message" role="alert" aria-live="assertive">
+	                ログインに失敗しました。ユーザ名またはパスワードを確認してください。
+	            </div>
+	            <div th:if="${param.logout}" class="message" style="color: green;" role="alert" aria-live="assertive">
+	                ログアウトしました。
+	            </div>
+	            <input id="username" name="username" type="text" placeholder="ユーザ名" autocomplete="username" required autofocus />
+	            <input id="password" name="password" type="password" placeholder="パスワード" autocomplete="current-password" required />
+	            <button type="submit">ログイン</button>
+	        </form>
+
+	        <!-- 登録フォーム -->
+	        <form id="signUpForm" th:action="@{/register}" method="post" style="display:none;">
+	            <input id="reg-username" name="username" type="text" placeholder="ユーザ名" autocomplete="username" required />
+	            <input id="reg-email" name="email" type="email" placeholder="メールアドレス" autocomplete="email" required />
+	            <input id="reg-password" name="password" type="password" placeholder="パスワード" autocomplete="new-password" required />
+	            <input id="reg-password-confirm" name="passwordConfirm" type="password" placeholder="パスワード確認" autocomplete="new-password" required />
+	            <div id="passwordMismatchMessage" style="color: red; display:none;">パスワードが一致しません。</div>
+	            <button type="submit">登録</button>
+	        </form>
+	    </div>
+	
+	
+	<script src="/js/login.js"></script>
+</body>
+</html>
