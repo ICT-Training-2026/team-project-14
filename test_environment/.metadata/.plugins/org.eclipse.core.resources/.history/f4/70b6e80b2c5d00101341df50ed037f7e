@@ -1,0 +1,35 @@
+package com.generalfunction.demo.Controller.admin;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.generalfunction.demo.entity.User;
+import com.generalfunction.demo.repository.login.UserRepository;
+import com.generalfunction.demo.service.login.UserService;
+
+import lombok.RequiredArgsConstructor;
+
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/admin/User-management")
+public class Admin {
+	private final UserService userService;
+	
+
+
+
+	@GetMapping
+	public String listUser(Model model) {
+		List<User> users=userService.findAll();
+		model.addAttribute("user", users);
+		return "login/admin";
+	}
+	
+	
+
+}

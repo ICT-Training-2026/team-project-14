@@ -1,0 +1,50 @@
+package com.generalfunction.demo.entity;
+
+import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+/*MVCにおけるmodel,人によってはエンティティという場合もある考え方の違い？
+ * この段階ではMySQLとつながってないはず…
+ Lombokのアノテーションについて：
+ * @Data
+ *   - クラスの全フィールドに対して、getter/setter、equals、hashCode、toStringメソッドを自動生成する。
+ * 
+ * @AllArgsConstructor
+ *   - 全フィールドを引数にとるコンストラクタを自動生成する。
+ * 
+ * @NoArgsConstructor
+ *   - 引数なしのデフォルトコンストラクタを自動生成する。
+ * 
+ * これらにより、コードが簡潔になり、オブジェクトの生成やプロパティアクセスが容易になる。
+ * */
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
+    private Long id;                     // ユーザーID（主キー）
+   @NotNull(message = "ユーザー名は必須です")
+   @Size(min=1, max=32, message="1文字から32文字で指定してください。")
+    private String username;             // ユーザー名（ログインIDとして利用）
+   @Size(min = 8, message = "パスワードは8文字以上で入力してください")
+   @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$",
+            message = "パスワードは英字と数字を両方含めてください")
+    private String password;             // ハッシュ化されたパスワード
+   	private String role; 						//ユーザの役割
+    @Email(message = "正しいメールアドレスの形式で入力してください")
+    @Size(max = 255, message = "メールアドレスは255文字以内で入力してください")
+    private String email;                // メールアドレス
+//    private Boolean enabled;             // ユーザー有効フラグ（true: 有効, false: 無効）
+    private LocalDateTime createdAt;     // レコード作成日時
+    private LocalDateTime updatedAt;     // レコード更新日時
+
+}
