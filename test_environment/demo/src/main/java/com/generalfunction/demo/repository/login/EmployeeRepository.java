@@ -66,16 +66,17 @@ public class EmployeeRepository {
      * @return 登録に成功したレコード数（通常1）
      */
 
-    public int insertEmployee(Employee employee) {
-    	  String sql = "INSERT INTO employee (user_name, password, role_id, department_id, is_active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
-          return jdbcTemplate.update(sql,
-              employee.getUserName(),
-              employee.getPassword(),
-              employee.getRoleId(),
-              employee.getDepartmentId(),
-              employee.getIsActive()
-        );
-    }
+     public int insertEmployee(Employee employee) {
+	  	  String sql = "INSERT INTO employee (user_id,user_name, password, role_id, department_id, is_active, created_at, updated_at) VALUES (?,?, ?, ?, ?, ?, NOW(), NOW())";
+	        return jdbcTemplate.update(sql,
+	      		  employee.getUserId(),
+	            employee.getUserName(),
+	            employee.getPassword(),
+	            employee.getRoleId(),
+	            employee.getDepartmentId(),
+	            employee.getIsActive()
+	      );
+	  }
     /**
      * すべてのユーザーを取得する。
      *
