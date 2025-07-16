@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>管理者ホーム</title>
+</head>
+<body>
+    <h1>管理者メニュー</h1>
+    <p>管理者用の操作を選択してください。</p>
+
+    <a th:href="@{/admin/User-management}"><button>ユーザー管理</button></a>
+
+    <!-- 他の管理メニューを追加する場合はここに記載 -->
+</body>
+</html>

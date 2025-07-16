@@ -1,0 +1,5 @@
+package com.generalfunction.demo.repository.admin;
+
+public class Admin {
+
+}

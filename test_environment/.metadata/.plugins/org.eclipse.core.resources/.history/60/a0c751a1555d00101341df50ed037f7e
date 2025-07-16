@@ -1,0 +1,99 @@
+package com.generalfunction.demo.Controller.admin;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.generalfunction.demo.entity.User;
+import com.generalfunction.demo.service.login.UserService;
+
+import lombok.RequiredArgsConstructor;
+
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/admin/User-management")
+public class AdminUserManagement {
+	private final UserService userService;
+	
+
+
+
+	 @GetMapping
+	    public String listUsers(Model model) {
+	        model.addAttribute("users", userService.getAllUsers());
+	        return "admin/user-management";
+	    }
+
+	    /**
+	     * ユーザー削除機能
+	     */
+	    @PostMapping("/delete/{id}")
+	    public String deleteUser(@PathVariable Long id) {
+	        userService.deleteUserById(id);
+	        return "redirect:/admin/User-management";
+	    }
+
+	    /**
+	     * admin権限付与機能
+	     */
+	    @PostMapping("/grant-admin/{id}")
+	    public String grantAdminRole(@PathVariable Long id) {
+	        userService.grantAdminRole(id);
+	        return "redirect:/admin/User-management";
+	    }
+	    
+	    /**
+	     * admin権限削除機能
+	     */
+	    @PostMapping("/revoke-admin/{id}")
+	    public String RevokeAdminRole(@PathVariable Long id) {
+	        userService.revokeAdminRole(id);
+	        return "redirect:/admin/User-management";
+	    }
+	    
+	    @GetMapping("/export")
+	    public void exportUsersCsv(HttpServletResponse response) throws IOException {
+	        response.setContentType("text/csv; charset=UTF-8");
+	        response.setHeader("Content-Disposition", "attachment; filename=\"users.csv\"");
+
+	        List<User> users = userService.getAllUsers();
+
+	        try (PrintWriter writer = response.getWriter()) {
+	            // ヘッダー行
+	            writer.println("ID,ユーザー名,メール,役割");
+
+	            for (User user : users) {
+	                writer.println(String.format("%d,%s,%s,%s",
+	                    user.getId(),
+	                    escapeCsv(user.getUsername()),
+	                    escapeCsv(user.getEmail()),
+	                    escapeCsv(user.getRole())
+	                ));
+	            }
+	        }
+	    }
+
+	    // CSVの値を適切にエスケープするメソッド例
+	    private String escapeCsv(String value) {
+	        if (value == null) return "";
+	        String escaped = value.replace("\"", "\"\"");
+	        if (escaped.contains(",") || escaped.contains("\"") || escaped.contains("\n")) {
+	            return "\"" + escaped + "\"";
+	        }
+	        return escaped;
+	    }
+	}
+	
+	
+
+
