@@ -1,0 +1,72 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+**/logs/
+**/node_modules/
+**/dist/
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+*.iml
+.idea/
+*.ipr
+*.iws
+*.vscode/
+*.sw?
+*.sublime-*
+*.project
+*.classpath
+*.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spring Boot
+application-local.properties
+application-local.yml
+application-dev.properties
+application-dev.yml
+application-prod.properties
+application-prod.yml
+spring.log
+.env
+.env.*
+
+# Test reports
+/test-output/
+/surefire-reports/
+/jacoco.exec
+
+# Logs
+*.log
+
+# Database
+*.h2.db
+*.mv.db
+*.sqlite
+
+# Others
+*.bak
+*.tmp
+*.swp
+*.swo
+
+# Lombok config
+lombok.config
+
+# IntelliJ
+out/
+
+# Eclipse
+bin/

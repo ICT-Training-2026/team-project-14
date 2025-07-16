@@ -1,0 +1,46 @@
+package com.generalfunction.demo.service.login;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.generalfunction.demo.entity.Employee;
+import com.generalfunction.demo.repository.login.EmployeeRepository;
+import com.generalfunction.demo.repository.login.RoleRepository;
+
+import lombok.RequiredArgsConstructor;
+/**
+ * ログイン機能関連
+ * Spring SecurityのUserDetailsServiceの実装クラス。
+ * 
+ * ユーザー名をもとにDBからユーザー情報を取得し、
+ * 認証に必要なUserDetailsオブジェクトを生成して返す。
+ */
+@Service
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
+
+	 private final EmployeeRepository employeeRepository;
+	 private final RoleRepository roleRepository;
+
+	    @Override
+	    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+	        // DBからユーザーを検索
+	        Employee employee = employeeRepository.findByEmployeeName(userName);
+
+	        if (employee == null) {
+	            throw new UsernameNotFoundException("ユーザーが見つかりません");
+	        }
+
+	        // roleIdを権限名に変換（例：ROLE_1, ROLE_2 など）
+	        String roleName = roleRepository.findRoleNameById(employee.getRoleId())
+
+	        // Spring SecurityのUserDetailsを返す
+	        return org.springframework.security.core.userdetails.User.builder()
+	                .username(employee.getUserName())
+	                .password(employee.getPassword())
+	                .roles(roleName)
+	                .build();
+	    }
+}

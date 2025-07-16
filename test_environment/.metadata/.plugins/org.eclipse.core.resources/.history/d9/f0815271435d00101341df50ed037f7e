@@ -1,0 +1,38 @@
+package com.generalfunction.demo.config;
+
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.generalfunction.demo.entity.User;
+import com.generalfunction.demo.repository.login.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
+public class DataInitializer implements ApplicationRunner{
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	@Override
+	@Transactional
+	public void run(ApplicationArguments args) throws Exception{
+		// adminユーザーが存在するかチェック
+        User adminUser = userRepository.findByUsername("admin");
+        if (adminUser == null) {
+            // adminユーザーが存在しなければ作成
+            User user = new User();
+            user.setUsername("admin");
+            user.setPassword(passwordEncoder.encode("admin")); // 初期パスワードは適宜変更
+            user.setEmail("admin@example.com");
+            user.setRole("admin");
+            userRepository.insertUser(user);
+            System.out.println("管理者(admin)ユーザーを初期作成しました。");
+        }
+    }
+}
+	
+
+
