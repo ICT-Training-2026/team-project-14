@@ -20,4 +20,5 @@
     <fullyQualifiedTypeName name="lombok.RequiredArgsConstructor"/>
     <fullyQualifiedTypeName name="java.security.PublicKey"/>
     <fullyQualifiedTypeName name="java.lang.Long"/>
+    <fullyQualifiedTypeName name="com.generalfunction.demo.repository.login.RoleRepository"/>
 </qualifiedTypeNameHistroy>

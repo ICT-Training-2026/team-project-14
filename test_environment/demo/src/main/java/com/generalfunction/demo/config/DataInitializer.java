@@ -25,7 +25,7 @@ public class DataInitializer implements ApplicationRunner {
         if (adminUser == null) {
             // adminユーザーが存在しなければ作成
             Employee employee = new Employee();
-            employee.setUserId("000000");
+            employee.setUserId((long) 111111);
             employee.setUserName("admin");
             employee.setPassword(passwordEncoder.encode("admin")); // 初期パスワードは適宜変更
             employee.setRoleId(1);         // 管理者ロールID（例: 1）
@@ -43,7 +43,7 @@ public class DataInitializer implements ApplicationRunner {
         Employee normalUser = employeeRepository.findByEmployeeName("user");
         if (normalUser == null) {
             Employee employee_user = new Employee();
-            employee_user.setUserId("000001");
+            employee_user.setUserId((long) 000001);
             employee_user.setUserName("user");
             employee_user.setPassword(passwordEncoder.encode("user")); // 初期パスワードは適宜変更
             employee_user.setRoleId(2);         // 一般ロールID（例: 2）

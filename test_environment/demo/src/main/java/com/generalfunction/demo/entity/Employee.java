@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee {
-	 private String userId; // ユーザーID（主キー）
+	 private Long userId; // ユーザーID（主キー）
 
 	    @NotNull(message = "ユーザー名は必須です")
 	    @Size(min = 1, max = 30, message = "1文字から30文字で指定してください。")
