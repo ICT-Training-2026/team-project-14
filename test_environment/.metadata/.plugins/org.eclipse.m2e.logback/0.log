@@ -1130,3 +1130,4 @@ java.io.FileNotFoundException: C:\Users\k250415412\Spring\kintaiTeam15\test_envi
 	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:207)
 	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:300)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2025-07-16 15:17:31,415 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is not available. Remote download required.
