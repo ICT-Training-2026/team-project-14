@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="SearchDialog">
+<<<<<<< HEAD
+		<item value="true" key="IS_OPEN_PREVIOUS_PAGE"/>
+		<item value="org.eclipse.rse.internal.files.ui.search.searchPage" key="PREVIOUS_PAGE"/>
+=======
 		<item key="IS_OPEN_PREVIOUS_PAGE" value="true"/>
 		<item key="PREVIOUS_PAGE" value="org.eclipse.jdt.ui.JavaSearchPage"/>
 	</section>
@@ -41,5 +45,6 @@
 	<section name="">
 		<item key="org.eclipse.jdt.search.resultpage.limit" value="1000"/>
 		<item key="org.eclipse.jdt.search.resultpage.limit_enabled" value="TRUE"/>
+>>>>>>> 0ac386201b32ccfb1aa0f2faecbdd9df0cd81260
 	</section>
 </section>

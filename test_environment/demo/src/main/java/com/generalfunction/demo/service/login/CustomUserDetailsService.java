@@ -5,9 +5,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.generalfunction.demo.config.CustomUserDetails;
 import com.generalfunction.demo.entity.Employee;
 import com.generalfunction.demo.repository.login.EmployeeRepository;
-import com.generalfunction.demo.repository.login.RoleRepository;
 
 import lombok.RequiredArgsConstructor;
 /**
@@ -22,25 +22,30 @@ import lombok.RequiredArgsConstructor;
 public class CustomUserDetailsService implements UserDetailsService {
 
 	 private final EmployeeRepository employeeRepository;
-	 private final RoleRepository roleRepository;
+
 
 	    @Override
 	    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 	        // DBからユーザーを検索
+	    	// DBからユーザーを検索
 	        Employee employee = employeeRepository.findByEmployeeName(userName);
 
 	        if (employee == null) {
 	            throw new UsernameNotFoundException("ユーザーが見つかりません");
 	        }
 
-	        // roleIdを権限名に変換（例：ROLE_1, ROLE_2 など）
-	        String roleName = roleRepository.findRoleNameById(employee.getRoleId());
+	        String roleName;
+	        // department_idが'S001'ならadmin
+	        if ("S001".equals(employee.getDepartmentId())) {
+	            roleName = "ADMIN";
+	        } else {
+	            // それ以外は元のロール取得やデフォルトロール
+	            // 例：roleRepositoryから取得する場合
+	            // roleName = roleRepository.findRoleNameById(employee.getRoleId());
+	            // あるいは一律USER
+	            roleName = "USER";
+	        }
 
-	        // Spring SecurityのUserDetailsを返す
-	        return org.springframework.security.core.userdetails.User.builder()
-	                .username(employee.getUserName())
-	                .password(employee.getPassword())
-	                .roles(roleName)
-	                .build();
+	        return new CustomUserDetails(employee, roleName);
 	    }
 }

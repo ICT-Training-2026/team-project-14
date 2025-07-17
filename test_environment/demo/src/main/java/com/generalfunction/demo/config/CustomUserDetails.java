@@ -29,6 +29,11 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
+    
+    public long getUserId() {
+    	return employee.getEmployeeId();
+		
+	}
 
     @Override
     public String getPassword() {
@@ -37,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return employee.getUserName();
+        return employee.getEmployeeName();
     }
 
     @Override
@@ -55,10 +60,7 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return employee.getIsActive() != null && employee.getIsActive();
-    }
+
 
     public Employee getEmployee() {
         return employee;
