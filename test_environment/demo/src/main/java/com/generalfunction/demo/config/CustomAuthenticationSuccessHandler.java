@@ -43,7 +43,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         boolean isAdmin = authorities.stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-
+        Long userId = null;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            userId = ((CustomUserDetails) principal).getUserId();
+        }
         String redirectUrl;
         if (isAdmin && isloginType) {
             // adminユーザは admin.html にリダイレクト
@@ -55,7 +59,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }else
         {
             // それ以外のユーザは username/top へリダイレクト
-            redirectUrl = "/" + username+ "/top";
+            redirectUrl = "/" + userId+ "/top";
         }
 
         // クライアントへリダイレクトを指示（HTTPステータス302）

@@ -33,18 +33,22 @@ public class EmployeeService {
      * @param username ユーザー名
      * @param rawPassword 平文パスワード
      */
-    public void registerUser(String employeeName, String rawPassword, int roleId,int departmentId) {
+    public void registerUser(String employeeName, String rawPassword, String departmentId) {
         // パスワードをハッシュ化
         String encodedPassword = passwordEncoder.encode(rawPassword);
 
-        // Userエンティティにセット
+        // Employeeエンティティにセット
         Employee employee = new Employee();
-        // userIdはauto-incrementの場合はセット不要
-        employee.setUserName(employeeName);
+        // employeeIdはauto-incrementではない場合セットが必要ですが、ここでは省略
+        employee.setEmployeeName(employeeName);
         employee.setPassword(encodedPassword);
-        employee.setRoleId(roleId);
         employee.setDepartmentId(departmentId);
-        employee.setIsActive(false);
+
+        // 初期値をセット（要件に応じて修正）
+        employee.setIsPassword(true);       // 初期設定フラグ（例：初回登録時はtrue）
+        employee.setPaidHoliday(0);         // 有休数（例：0日で初期化）
+        employee.setCompDay(0);             // 代休数（例：0日で初期化）
+        employee.setDepartmentHistory(null); // 部署履歴（初期はnullや空文字など）
 
         // DBに保存
         employeeRepository.insertEmployee(employee);
@@ -75,31 +79,9 @@ public class EmployeeService {
     }
     
     
-    public void updateRoleByRoleName(Long userId, String roleName) {
-        Integer roleId = roleRepository.findRoleIdByRoleName(roleName);
-        if (roleId == null) {
-            throw new IllegalArgumentException("指定された権限名は存在しません: " + roleName);
-        }
-        employeeRepository.updateRole(userId, roleId);
-    }
-    
-    public void grantAdminRole(Long id) {
-        // 例：管理者ロール名が "Admin" の場合
-        Integer adminRoleId = roleRepository.findRoleIdByRoleName("Admin");
-        employeeRepository.findById(id).ifPresent(user -> {
-            user.setRoleId(adminRoleId);
-            employeeRepository.save(user);
-        });
-    }
 
-    public void revokeAdminRole(Long id) {
-        // 例：一般ユーザーロール名が "User" の場合
-        Integer userRoleId = roleRepository.findRoleIdByRoleName("User");
-        employeeRepository.findById(id).ifPresent(user -> {
-            user.setRoleId(userRoleId);
-            employeeRepository.save(user);
-        });
-    }
+
+
 
 
 

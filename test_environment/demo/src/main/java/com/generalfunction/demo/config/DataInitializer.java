@@ -18,44 +18,44 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
-    private final EmployeeRepository employeeRepository;
-    private final PasswordEncoder passwordEncoder;
- 
-    @Override
-    @Transactional
-    public void run(ApplicationArguments args) throws Exception {
-        // adminユーザーが存在するかチェック
-        Employee adminUser = employeeRepository.findByEmployeeName("admin");
-        if (adminUser == null) {
-            // adminユーザーが存在しなければ作成
-            Employee employee = new Employee();
-            employee.setUserId((long) 111111);
-            employee.setUserName("admin");
-            employee.setPassword(passwordEncoder.encode("admin")); // 初期パスワードは適宜変更
-            employee.setRoleId(1);         // 管理者ロールID（例: 1）
-            employee.setDepartmentId(1);   // 部署ID（例: 1。実際の値に合わせてください）
-            employee.setIsActive(true);
-            // createdAt, updatedAt はDBで自動設定される想定
+	   private final EmployeeRepository employeeRepository;
+	    private final PasswordEncoder passwordEncoder;
 
-            employeeRepository.insertEmployee(employee);
-            System.out.println("管理者(Admin)ユーザーを初期作成しました。");
-            
-            }
-        
-        
-        
-        Employee normalUser = employeeRepository.findByEmployeeName("user");
-        if (normalUser == null) {
-            Employee employee_user = new Employee();
-            employee_user.setUserId((long) 000001);
-            employee_user.setUserName("user");
-            employee_user.setPassword(passwordEncoder.encode("user")); // 初期パスワードは適宜変更
-            employee_user.setRoleId(2);         // 一般ロールID（例: 2）
-            employee_user.setDepartmentId(1);   // 部署ID（例: 1）
-            employee_user.setIsActive(true);
+	    @Override
+	    @Transactional
+	    public void run(ApplicationArguments args) throws Exception {
+	        // adminユーザーが存在するかチェック
+	        Employee adminUser = employeeRepository.findByEmployeeName("admin");
+	        if (adminUser == null) {
+	            // adminユーザーが存在しなければ作成
+	            Employee employee = new Employee();
+	            employee.setEmployeeId(111111L);
+	            employee.setEmployeeName("admin");
+	            employee.setPassword(passwordEncoder.encode("admin")); // 初期パスワードは適宜変更
+	            employee.setDepartmentId("S001");   // 例：総務
+	            employee.setIsPassword(true);       // 初期設定フラグ
+	            employee.setPaidHoliday(0);         // 初期有休数
+	            employee.setCompDay(0);             // 初期代休数
+	            employee.setDepartmentHistory(null);
 
-            employeeRepository.insertEmployee(employee_user); 
-            System.out.println("一般(User)ユーザーを初期作成しました。");
-        }
-    }
+	            employeeRepository.insertEmployee(employee);
+	            System.out.println("管理者(Admin)ユーザーを初期作成しました。");
+	        }
+
+	        Employee normalUser = employeeRepository.findByEmployeeName("user");
+	        if (normalUser == null) {
+	            Employee employeeUser = new Employee();
+	            employeeUser.setEmployeeId(100001L);
+	            employeeUser.setEmployeeName("user");
+	            employeeUser.setPassword(passwordEncoder.encode("user")); // 初期パスワードは適宜変更
+	            employeeUser.setDepartmentId("D001");   // 例：開発
+	            employeeUser.setIsPassword(true);
+	            employeeUser.setPaidHoliday(0);
+	            employeeUser.setCompDay(0);
+	            employeeUser.setDepartmentHistory(null);
+
+	            employeeRepository.insertEmployee(employeeUser);
+	            System.out.println("一般(User)ユーザーを初期作成しました。");
+	        }
+	    }
    }
