@@ -39,21 +39,21 @@ public class AdminUserManagement {
 	    /**
 	     * admin権限付与機能
 	     */
-	    @PostMapping("/grant-admin/{id}")
-	    public String grantAdminRole(@PathVariable Long id) {
-	        userService.grantAdminRole(id);
-	        return "redirect:/admin/User-management";
-	    }
+//	    @PostMapping("/grant-admin/{id}")
+//	    public String grantAdminRole(@PathVariable Long id) {
+//	        userService.grantAdminRole(id);
+//	        return "redirect:/admin/User-management";
+//	    }
 	    
 	    /**
 	     * admin権限削除機能
 	     */
-	    @PostMapping("/revoke-admin/{id}")
-	    public String RevokeAdminRole(@PathVariable Long id) {
-	        userService.revokeAdminRole(id);
-	        return "redirect:/admin/User-management";
-	    }
-	    
+//	    @PostMapping("/revoke-admin/{id}")
+//	    public String RevokeAdminRole(@PathVariable Long id) {
+//	        userService.revokeAdminRole(id);
+//	        return "redirect:/admin/User-management";
+//	    }
+//	    
 //	    @GetMapping("/export")
 //	    public void exportUsersCsv(HttpServletResponse response) throws IOException {
 //	        response.setContentType("text/csv; charset=UTF-8");

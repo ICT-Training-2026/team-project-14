@@ -31,13 +31,17 @@ public class EmployeeRepository {
     private static final RowMapper<Employee> USER_ROW_MAPPER = new RowMapper<Employee>() {
         @Override
         public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Employee employee = new Employee();
-            employee.setUserId(rs.getLong("user_id"));
-            employee.setUserName(rs.getString("user_name"));
+        	Employee employee = new Employee();
+            employee.setEmployeeId(rs.getLong("employee_id")); // カラム名に合わせる
+            employee.setEmployeeName(rs.getString("employee_name"));
             employee.setPassword(rs.getString("password"));
-            employee.setRoleId(rs.getInt("role_id"));
-            employee.setDepartmentId(rs.getInt("department_id"));
-            employee.setIsActive(rs.getBoolean("is_active"));
+            employee.setDepartmentId(rs.getString("department_id"));
+            employee.setIsPassword(rs.getBoolean("is_password"));
+            employee.setPaidHoliday(rs.getInt("paid_holiday"));
+            employee.setCompDay(rs.getInt("comp_day"));
+            // department_historyはNULL許容
+            employee.setDepartmentHistory(rs.getString("department_history"));
+            // nullチェック付きでセット
             employee.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
             employee.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
             return employee;
@@ -52,9 +56,9 @@ public class EmployeeRepository {
      * @return Userオブジェクトまたはnull
      */
 
-    public Employee findByEmployeeName(String username) {
-        String sql = "SELECT * FROM employee  WHERE user_name = ?";
-        List<Employee> employees = jdbcTemplate.query(sql, USER_ROW_MAPPER, username);
+    public Employee findByEmployeeName(String employeename) {
+        String sql = "SELECT * FROM employee  WHERE employee_name = ?";
+        List<Employee> employees = jdbcTemplate.query(sql, USER_ROW_MAPPER, employeename);
         return employees.isEmpty() ? null : employees.get(0);
     }
 
@@ -67,13 +71,18 @@ public class EmployeeRepository {
      */
 
     public int insertEmployee(Employee employee) {
-    	  String sql = "INSERT INTO employee (user_name, password, role_id, department_id, is_active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
-          return jdbcTemplate.update(sql,
-              employee.getUserName(),
-              employee.getPassword(),
-              employee.getRoleId(),
-              employee.getDepartmentId(),
-              employee.getIsActive()
+        String sql = "INSERT INTO employee (" +
+                     "employee_id, employee_name, password, department_id, is_password, paid_holiday, comp_day, department_history, created_at, updated_at" +
+                     ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+        return jdbcTemplate.update(sql,
+            employee.getEmployeeId(),
+            employee.getEmployeeName(),
+            employee.getPassword(),
+            employee.getDepartmentId(),
+            employee.getIsPassword() != null ? (employee.getIsPassword() ? 1 : 0) : null,
+            employee.getPaidHoliday(),
+            employee.getCompDay(),
+            employee.getDepartmentHistory()
         );
     }
     /**
@@ -117,34 +126,36 @@ public class EmployeeRepository {
      * @param id ユーザーID
      * @return 更新したレコード数（通常1）
      */
-    public int grantAdminRole(Long id) {
-        String sql = "UPDATE users SET role = 'ADMIN', updated_at = NOW() WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
-    public int updateRole(Long userId, Integer roleId) {
-        String sql = "UPDATE employee SET role_id = ?, updated_at = NOW() WHERE user_id = ?";
-        return jdbcTemplate.update(sql, roleId, userId);
-    }
+
     
     
     public int save(Employee employee) {
-    	if (employee.getUserId() == null) {
+        if (employee.getEmployeeId() == null) {
             // 新規
             return insertEmployee(employee);
         } else {
             // 更新
-            String sql = "UPDATE employee SET user_name = ?, password = ?, role_id = ?, department_id = ?, is_active = ?, updated_at = NOW() WHERE user_id = ?";
+            String sql = "UPDATE employee SET " +
+                         "employee_name = ?, " +
+                         "password = ?, " +
+                         "department_id = ?, " +
+                         "is_password = ?, " +
+                         "paid_holiday = ?, " +
+                         "comp_day = ?, " +
+                         "department_history = ?, " +
+                         "updated_at = NOW() " +
+                         "WHERE employee_id = ?";
             return jdbcTemplate.update(sql,
-                employee.getUserName(),
+                employee.getEmployeeName(),
                 employee.getPassword(),
-                employee.getRoleId(),
                 employee.getDepartmentId(),
-                employee.getIsActive(),
-                employee.getUserId()
+                employee.getIsPassword() != null ? (employee.getIsPassword() ? 1 : 0) : null,
+                employee.getPaidHoliday(),
+                employee.getCompDay(),
+                employee.getDepartmentHistory(),
+                employee.getEmployeeId()
             );
         }
-    	
-    	
     }
     
     

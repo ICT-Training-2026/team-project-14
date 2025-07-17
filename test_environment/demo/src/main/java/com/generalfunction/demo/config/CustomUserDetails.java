@@ -31,7 +31,7 @@ public class CustomUserDetails implements UserDetails {
     }
     
     public long getUserId() {
-    	return employee.getUserId();
+    	return employee.getEmployeeId();
 		
 	}
 
@@ -42,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return employee.getUserName();
+        return employee.getEmployeeName();
     }
 
     @Override
@@ -60,10 +60,7 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return employee.getIsActive() != null && employee.getIsActive();
-    }
+
 
     public Employee getEmployee() {
         return employee;
