@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class UseHome {
-	  @GetMapping("/{username}/top")
+	  @GetMapping("/{userId}/top")
 	    public String getMethodName() {
 	        return "login/index";
 	    }
