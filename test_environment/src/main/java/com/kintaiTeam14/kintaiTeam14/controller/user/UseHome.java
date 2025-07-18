@@ -13,5 +13,4 @@ public class UseHome {
 				model.addAttribute("userId",userId);
 	        return "login/index";
 	    }
-
 }
