@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>トップ画面</title>
+  </head>
+  <body class="task-body">
+    <div class="database-container">
+      <table class="performance-database">
+        <tr>
+          <th>日付</th>
+          <!-- 他のカラムも必要に応じて -->
+        </tr>
+        <tr th:each="performance : ${performances}" class="performance-row" th:data-id="${performance.id}">
+          <td><input type="date" th:value="${performance.date}" class="performance-date-input" /></td>
+          <!-- 他のカラムも必要に応じて -->
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
