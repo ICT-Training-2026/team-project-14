@@ -9,10 +9,13 @@
       <table class="performance-database">
         <tr>
           <th>日付</th>
+          <th>曜日</th>
           <!-- 他のカラムも必要に応じて -->
         </tr>
         <tr th:each="performance : ${performances}" class="performance-row" th:data-id="${performance.id}">
           <td><input type="date" th:value="${performance.date}" class="performance-date-input" /></td>
+          <td><input type="text" th:value="${performance.dayOfWeek}" class="performance-dayofweek-input" /></td>
+
           <!-- 他のカラムも必要に応じて -->
         </tr>
       </table>
