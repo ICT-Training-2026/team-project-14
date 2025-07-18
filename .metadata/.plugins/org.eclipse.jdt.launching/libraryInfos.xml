@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libraryInfos>
     <libraryInfo home="C:\pleiades\2024\java\17" version="17.0.13"/>
+    <libraryInfo home="C:\pleiades\2024-12\java\21" version="21.0.5"/>
     <libraryInfo home="C:\pleiades\2024\java\21" version="21.0.5"/>
     <libraryInfo home="C:\pleiades\2024\java\8" version="1.8.0_432">
         <bootpath>
@@ -22,4 +23,5 @@
         </endorsedDirs>
     </libraryInfo>
     <libraryInfo home="C:\pleiades\2024\java\11" version="11.0.25"/>
+    <libraryInfo home="C:\pleiades\2024-12\java\17" version="17.0.13"/>
 </libraryInfos>
