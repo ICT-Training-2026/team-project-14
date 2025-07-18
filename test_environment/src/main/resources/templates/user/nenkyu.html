@@ -12,7 +12,7 @@
 		<button type="submit">ログアウト</button>
 	</form>
 
-	<form th:action="@{/user/top}" method="get">
+	<form th:action="@{/shinsei_user}" method="post">
 		<button type="submit">戻る</button>
 	</form>
 	
@@ -20,12 +20,13 @@
 
 <body>
 
-	<form th:action="@{/nenkyu}" method="post">
-		<input type="submit" value="年休申請" class="button">
+	<h2>年休申請</h2>
+	<form>
+		<input type="submit" value="入力">
 	</form>
-	<form th:action="@{/hurikyu}" method="post">
-		<input type="submit" value="振休申請" class="button">
+	<p>入力データこのあたりに表示</p>
+	<form>
+		<input type="submit" value="申請">
 	</form>
-	
 </body>
 </html>

@@ -30,6 +30,10 @@ header form {
 	display: inline-block;
 }
 
+.logoutback {
+	display:  block;
+}
+
 header button {
 	background: transparent;
 	border: none;
