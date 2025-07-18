@@ -16,10 +16,10 @@
 	</section>
 	<section name="WorkbenchPreferenceDialog.dialogBounds">
 		<item key="DIALOG_X_ORIGIN" value="573"/>
-		<item key="DIALOG_Y_ORIGIN" value="152"/>
-		<item key="DIALOG_WIDTH" value="796"/>
-		<item key="DIALOG_HEIGHT" value="635"/>
-		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
+		<item key="DIALOG_Y_ORIGIN" value="65"/>
+		<item key="DIALOG_WIDTH" value="713"/>
+		<item key="DIALOG_HEIGHT" value="701"/>
+		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
 	</section>
 	<section name="PreferencesImportWizard">
 		<item key="" value="C:\Users\k250415412\新人研修Udemy\docker\test\京都演習用.epf"/>
