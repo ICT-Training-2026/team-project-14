@@ -3,9 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
-<link rel="stylesheet" th:href="@{/css/loginstyle.css}">
+<link rel="stylesheet" th:href="@{/css/userstyle.css}">
 </head>
+
+<header>
+	<form>
+		<button type="submit">ログアウト</button><br>
+		<button type="submit">戻る</button>
+	</form>
+</header>
+
 <body>
-	<h2>テスト</h2>
+	<div>
+		<form id="syuttaikin" th:action="@{/shinsei}" method="post">
+			<input type="submit" value="有給申請" class="button">
+		</form>
+	</div>
+	
 </body>
 </html>
