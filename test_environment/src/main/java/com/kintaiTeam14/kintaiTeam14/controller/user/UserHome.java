@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserHome {
-	@GetMapping("/{username}/top")
+	@GetMapping("/{employeeId}/top")
 	public String getMethodName() {
 		return "login/index";
 	}
