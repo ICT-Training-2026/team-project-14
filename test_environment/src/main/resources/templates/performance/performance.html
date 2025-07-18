@@ -15,6 +15,7 @@
           <th>休憩時間(h)</th>
           <th>申請</th>
           <th>状況</th>
+          <th>事由</th>
           <th>再申請</th>
           <th>取消</th>
           <!-- 他のカラムも必要に応じて -->
@@ -34,6 +35,7 @@
               <option value="差し戻し" th:selected="${performance.status == '差し戻し'}">差し戻し</option>
             </select>
           </td>
+          <td><input type="text" th:value="${performance.reason}" class="performance-reason-input" /></td>
           <td><input type="button" value="再申請" class="resubmit-button" /></td>
           <td><input type="button" value="取消" class="remove-button" /></td>
           <!-- 他のカラムも必要に応じて -->
