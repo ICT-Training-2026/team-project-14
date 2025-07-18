@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Employee;
 import com.kintaiTeam14.kintaiTeam14.repository.employee.EmployeeRepository;
-import com.kintaiTeam14.kintaiTeam14.repository.employee.RoleRepository;
 
 import lombok.RequiredArgsConstructor;
 /**
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -76,6 +74,25 @@ public class EmployeeService {
   
     public Optional<Employee> findUserById(Long id) {
         return employeeRepository.findById(id);
+    }
+    
+    
+    public void changePassword(long employeeId,String newPass) {
+    	String encodednewPass= passwordEncoder.encode( newPass);
+    		employeeRepository.updatePassword( employeeId,encodednewPass);
+    }
+    
+    public boolean checkPassword(long employeeId,String currentPass) {
+    	
+    	
+    	return employeeRepository.changePassword(employeeId, currentPass);
+    	
+    }
+    public void changeIsPassword(long employeeId) {
+
+    	
+    	employeeRepository.changeIsPassword(employeeId);
+    	
     }
     
     
