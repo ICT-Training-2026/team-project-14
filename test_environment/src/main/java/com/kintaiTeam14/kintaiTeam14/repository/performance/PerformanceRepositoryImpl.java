@@ -24,7 +24,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public List<Performance> findAll() {
-        String sql = "SELECT date,arrival_time,end_time,break_time,status FROM attendance";
+        String sql = "SELECT date,arrival_time,end_time,break_time,status,reason FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id";
         return jdbcTemplate.query(sql, new RowMapper<Performance>() {
             @Override
             public Performance mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -41,6 +41,8 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
                 s.setBreakTime(break_time);
                 String status=rs.getString("status");
                 s.setStatus(status);
+                String reason=rs.getString("reason");
+                s.setReason(reason);
                 return s;
             }
         });

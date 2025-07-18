@@ -14,4 +14,5 @@ public class Performance {
     private LocalTime endTime;       // 終了時刻
     private int breakTime;       // 休憩時間
     private String status;
+    private String reason;
 }
