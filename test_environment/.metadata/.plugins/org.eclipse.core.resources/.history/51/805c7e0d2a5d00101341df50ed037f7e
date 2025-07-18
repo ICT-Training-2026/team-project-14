@@ -1,5 +1,0 @@
-package com.generalfunction.demo.service.login;
-
-public abstract class UserService {
-
-}
