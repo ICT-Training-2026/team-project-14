@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <title>トップ画面</title>
+      <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </head>
+    <body class="task-body">
+      <div class="database-container">
+        <table class="performance-database">
+          <tr>
+            <th>日付</th>
+            <th>曜日</th>
+            <!-- <th>出勤時間</th>
+            <th>退勤時間</th>
+            <th>休憩時間</th>
+            <th>申請</th>
+            <th>状況</th>
+            <th>出社区分</th>
+            <th>事由</th>
+            <th>再申請</th>
+            <th>取消</th> -->
+          </tr>
+          <tr th:each="performance : ${@performances}" class="performance-row" th:data-id="${performance.id}">
+            <td><input type="date" th:value="${performance.Date}" class="performance-date-input" /></td>
+            <td><input type="text" th:value="${performance.dayOfWeek}" class="performance-day-of-week" readonly size="2" /></td>
+          </tr>
+        </table>
+      </div>
+    </body>
+  </html>
+</html>
