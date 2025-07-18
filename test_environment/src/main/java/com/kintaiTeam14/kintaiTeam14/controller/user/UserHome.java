@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserHome {
+
 	
 	@PostMapping("/syukkin_user")
 	public String getStartTime(Model m) {
@@ -31,10 +32,7 @@ public class UserHome {
         return "login/index";
 	}
 	
-	@GetMapping("/{username}/top")
-	public String getMethodName() {
-		return "login/index";
-	}
+
 	
 	@PostMapping("/jisseki_user")
 	public String jissekikanri(){

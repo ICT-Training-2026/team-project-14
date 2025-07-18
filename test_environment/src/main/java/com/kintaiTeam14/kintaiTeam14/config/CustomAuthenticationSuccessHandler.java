@@ -31,9 +31,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         // 認証済みユーザーのユーザ名（principal名）を取得
-        String username = authentication.getName();
+        String employeename = authentication.getName();
+
        
-        System.out.println("username"+username);
+        System.out.println("username"+employeename);
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         System.out.println("authorities"+authorities);
@@ -43,13 +44,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         boolean isAdmin = authorities.stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-        Long userId = null;
+        Long employeeId = null;
+        boolean isPassword=true;
+        
         Object principal = authentication.getPrincipal();
         if (principal instanceof CustomUserDetails) {
-            userId = ((CustomUserDetails) principal).getUserId();
+            isPassword = ((CustomUserDetails) principal).getIsPassword();
+        }
+        
+        
+        if (principal instanceof CustomUserDetails) {
+        	employeeId = ((CustomUserDetails) principal).getUserId();
         }
         String redirectUrl;
-        if (isAdmin && isloginType) {
+        if(isPassword) {
+        	redirectUrl = "/" + employeeId+ "/passChange_form_user";
+        }
+        else if (isAdmin && isloginType) {
             // adminユーザは admin.html にリダイレクト
             redirectUrl = "/admin";
         } else if(!isAdmin && isloginType){
@@ -59,7 +70,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }else
         {
             // それ以外のユーザは username/top へリダイレクト
-            redirectUrl = "/" + userId+ "/top";
+            redirectUrl = "/" + employeeId+ "/top";
         }
 
         // クライアントへリダイレクトを指示（HTTPステータス302）
