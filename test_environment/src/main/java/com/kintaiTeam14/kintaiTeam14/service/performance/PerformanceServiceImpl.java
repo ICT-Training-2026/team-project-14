@@ -16,8 +16,14 @@ public class PerformanceServiceImpl implements PerformanceService {
     private final PerformanceRepository repository;
 
     @Override
-    public List<Performance> getAllPerformances() {
-        List<Performance> list = repository.findAll();
+    public List<Performance> getAllPerformances(Long userId) {
+        List<Performance> list = repository.findAll(userId);
         return list;
     }
+
+	@Override
+	public List<Performance> getAllPerformances1(Long userId) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
 }

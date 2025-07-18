@@ -1,4 +1,5 @@
 package com.kintaiTeam14.kintaiTeam14.entity;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

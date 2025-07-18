@@ -15,7 +15,7 @@ public class PerformanceController {
     private final PerformanceService performanceService;
     @GetMapping("/{userId}/top/performance")
     public String showPerformance(@PathVariable Long userId,Model model) {
-        var all = performanceService.getAllPerformances();
+        var all = performanceService.getAllPerformances(userId);
         model.addAttribute("performances", all);
         model.addAttribute("userId", userId);
         return "performance/performance";

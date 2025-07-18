@@ -5,5 +5,5 @@ import java.util.List;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 
 public interface PerformanceRepository {
-    List<Performance> findAll();
+    List<Performance> findAll(Long userId);
 }
