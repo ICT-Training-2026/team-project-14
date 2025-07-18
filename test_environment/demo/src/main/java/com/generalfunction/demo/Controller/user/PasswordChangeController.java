@@ -1,0 +1,7 @@
+package com.generalfunction.demo.Controller.user;
+
+
+public class PasswordChangeController {
+	
+	
+}

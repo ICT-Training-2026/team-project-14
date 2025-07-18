@@ -20,5 +20,10 @@ public class UserHome {
 	public String passwordChange() {
 		return "user/passwordChange";
 	}
+	
+	@PostMapping("/shinsei_user")
+	public String kakusyusinsei() {
+		return "user/shinsei";
+	}
 
 }
