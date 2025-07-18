@@ -66,6 +66,7 @@
 	</section>
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\k250415213\Desktop\京都研修\Kyoto\team-project-14-1\test_environment\demo"/>
 			<item value="C:\Users\k250415213\Desktop\京都研修\work\team-project-14\test_environment\demo"/>
 			<item value="C:\Users\k250415412\Spring\kintaiTeam15\test_environment"/>
 		</list>
