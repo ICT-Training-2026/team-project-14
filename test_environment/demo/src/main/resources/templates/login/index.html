@@ -7,6 +7,14 @@
 <body>
   <h1>テスト</h1>
 
+  <form th:action="@{/jisseki_user}" method="post">
+    <input type="submit" value="実績管理" class="button">
+  </form>
+
+  <form th:action="@{/passChange_user}" method="post">
+    <input type="submit" value="パスワード変更" class="button">
+  </form>
+
   <form th:action="@{/logout}" method="post">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <button type="submit">ログアウト</button>
