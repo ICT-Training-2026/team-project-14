@@ -22,29 +22,41 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Override
-    public List<Performance> findAll() {
-        String sql = "SELECT date,arrival_time,end_time,break_time,status,reason FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id";
-        return jdbcTemplate.query(sql, new RowMapper<Performance>() {
-            @Override
-            public Performance mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Performance s = new Performance();
-                LocalDate date = rs.getDate("date").toLocalDate();
-                s.setDate(date);
-                String dayOfweek = date.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.JAPANESE);;
-                s.setDayOfWeek(dayOfweek);
-                LocalTime start_time = rs.getTime("arrival_time").toLocalTime();
-                s.setStartTime(start_time);
-                LocalTime end_time = rs.getTime("end_time").toLocalTime();
-                s.setEndTime(end_time);
-                int break_time = rs.getInt("break_time");
-                s.setBreakTime(break_time);
-                String status=rs.getString("status");
-                s.setStatus(status);
-                String reason=rs.getString("reason");
-                s.setReason(reason);
-                return s;
-            }
-        });
-    }
+    @SuppressWarnings("deprecation")
+	@Override
+    public List<Performance> findAll(Long userId) {
+    String sql = "SELECT date, arrival_time, end_time, break_time, status, reason " +
+                 "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
+                 "WHERE a.employee_id = ?";
+
+    return jdbcTemplate.query(sql, new Object[]{userId}, new RowMapper<Performance>() {
+        @Override
+        public Performance mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+            final Performance s = new Performance();
+
+            final LocalDate date = rs.getDate("date").toLocalDate();
+            s.setDate(date);
+
+            final String dayOfweek = date.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.JAPANESE);
+            s.setDayOfWeek(dayOfweek);
+
+            final LocalTime start_time = rs.getTime("arrival_time").toLocalTime();
+            s.setStartTime(start_time);
+
+            final LocalTime end_time = rs.getTime("end_time").toLocalTime();
+            s.setEndTime(end_time);
+
+            final int break_time = rs.getInt("break_time");
+            s.setBreakTime(break_time);
+
+            final String status = rs.getString("status");
+            s.setStatus(status);
+
+            final String reason = rs.getString("reason");
+            s.setReason(reason);
+
+            return s;
+        }
+    });
+}
 }
