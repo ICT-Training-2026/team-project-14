@@ -28,6 +28,17 @@ build/
 *.classpath
 *.settings/
 
+# Eclipse
+*.launch
+.settings/
+.project
+.classpath
+bin/
+tmp/
+.metadata/
+*.log
+*.bak
+
 # OS
 .DS_Store
 Thumbs.db
@@ -68,5 +79,6 @@ lombok.config
 # IntelliJ
 out/
 
-# Eclipse
-bin/
+server/
+.server/
+*.server
