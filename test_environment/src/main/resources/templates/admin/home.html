@@ -3,6 +3,10 @@
 <head>
     <title>管理者ホーム</title>
     <meta charset="UTF-8">
+
+    <!-- CSSファイルを読み込む -->
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+
     <style>
         body {
             background: #f6f8fb;
@@ -184,6 +188,7 @@
             main { margin-top: 85px; }
         }
     </style>
+
 </head>
 <body>
 <!-- タスクバー -->
@@ -219,18 +224,12 @@
     <div class="menu-title">管理者メニュー</div>
     <div class="menu-desc">管理者用の操作を選択してください。</div>
     <div class="menu-buttons">
-        <a th:href="@{/admin/User-management}">
-            <button type="button" class="modern-btn">ユーザー管理</button>
-        </a>
-        <a th:href="@{/admin/achievement}">
-            <button type="button" class="modern-btn">実績</button>
-        </a>
-        <a th:href="@{/admin/approval-correction}">
-            <button type="button" class="modern-btn">承認・訂正依頼</button>
-        </a>
-        <a th:href="@{/admin/company-info}">
-            <button type="button" class="modern-btn">会社情報</button>
-        </a>
+
+        <a th:href="@{/admin/User-management}" class="modern-btn">ユーザー管理</a>
+        <a th:href="@{/admin/achievement}" class="modern-btn">実績</a>
+        <a th:href="@{/admin/approval-correction}" class="modern-btn">承認・訂正依頼</a>
+        <a th:href="@{/admin/company-info}" class="modern-btn">会社情報</a>
+
     </div>
 </main>
 </body>
