@@ -3,7 +3,7 @@
 <head>
     <title>承認・訂正依頼</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/admin-common.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
 <header class="taskbar">
@@ -27,9 +27,21 @@
     </div>
 </header>
 <main>
-    <div class="page-title">承認・訂正依頼</div>
-    <div class="page-desc">ここで承認・訂正依頼の一覧や処理が行えます。</div>
+		<div class="page-title">承認・訂正依頼</div>
+		<div class="page-desc">ここで各種承認・訂正依頼を行います。</div>
+		<!-- ここに実績管理の機能を実装 -->
+		
+		<div class="menu-buttons">
+			<form id="syuttaikin" th:action="@{/approval-achivement}" method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">実績承認</button>
+			</form>
+			<form id="syuttaikin" th:action="@{/approval-kyuuka}" method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">年休・振休承認</button>
+			</form>
+		</div>
+		
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
-</main>
+	</main>
 </body>
 </html>
+ 
