@@ -38,13 +38,21 @@
     <div class="menu-title">ユーザーメニュー</div>
     <div class="menu-desc">操作を選択してください。</div>
     <div class="menu-buttons">
-		<div class="horizontal-buttons">
-			<a th:href="@{/syukkin_user}" class="modern-btn main-action-btn">出勤</a>
-			<a th:href="@{/taikin_user}" class="modern-btn main-action-btn">退勤</a>
-		</div>
-        <a th:href="@{/user/jisseki_user}" class="modern-btn">実績管理</a>
-        <a th:href="@{/user/passChange_user}" class="modern-btn">パスワード変更</a>
-        <a th:href="@{/user/shinsei_user}" class="modern-btn">各種申請</a>
+      <form id="syuttaikin" th:action="@{'/' + ${employeeId} + '/top/syukkin_user'}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">出勤</button>
+      </form>
+      <form id="syuttaikin" th:action="@{  '/' + ${employeeId}  +'/top/taikin_user''}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">退勤</button>
+      </form>
+      <form th:action="@{ '/' + ${employeeId}+ '/top/jisseki_user'}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">実績管理</button>
+      </form>
+      <form th:action="@{  '/' + ${employeeId}+ '/top/passChange_user'}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">パスワード変更</button>
+      </form>
+      <form th:action="@{ /top/shinsei_user}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">各種申請</button>
+      </form>
     </div>
 </main>
 </body>
