@@ -246,3 +246,79 @@ main {
     .taskbar-tab { padding: 5px 4vw; font-size: 0.9rem; }
     main { margin-top: 85px; }
 }
+
+input.button {
+    background-color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 12px 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(26 115 232 / 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 100px;
+    text-align: center;
+    user-select: none;
+    letter-spacing: 0.2px;
+}
+input.button:hover,
+input.button:focus {
+    background-color: #1669c1;
+    box-shadow: 0 4px 8px rgb(22 105 193 / 0.4);
+    outline: none;
+}
+
+form:not(#syuttaikin) {
+    max-width: 600px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+form:not(#syuttaikin) input.button {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
+}
+
+.logoutback {
+    display: block;
+}
+
+@media (max-width: 480px) {
+    input.button {
+        width: 100%;
+    }
+}
+
+html > .logoutback {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  width: 100vw;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  max-width: 600px;
+}
+
+.menu-buttons .horizontal-buttons {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+.menu-buttons .horizontal-buttons .modern-btn {
+    flex: 1 1 0;
+    min-width: 120px;
+}
+
+/* 出勤・退勤ボタンだけ色変更（例：青系） */
+.modern-btn.main-action-btn {
+    background: #696969;       /* 明るめの青 */
+    color: #fff;
+}
+.modern-btn.main-action-btn:hover,
+.modern-btn.main-action-btn:focus {
+    background: #01579b;      /* 濃い青 */
+}
