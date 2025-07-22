@@ -2,7 +2,6 @@ package com.kintaiTeam14.kintaiTeam14.controller.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserHome {
@@ -11,17 +10,17 @@ public class UserHome {
 		return "login/index";
 	}
 	
-	@PostMapping("/jisseki_user")
+	@GetMapping("/user/jisseki_user")
 	public String jissekikanri(){
 		return "user/jissekikanri";
 	}
 	
-	@PostMapping("/passChange_user")
+	@GetMapping("/user/passChange_user")
 	public String passwordChange() {
 		return "user/passwordChange";
 	}
 	
-	@PostMapping("/shinsei_user")
+	@GetMapping("/user/shinsei_user")
 	public String kakusyusinsei() {
 		return "user/shinsei";
 	}
