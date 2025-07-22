@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserHome {
+
 	
 	@PostMapping("/syukkin_user")
 	public String getStartTime(Model m) {
