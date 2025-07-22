@@ -46,14 +46,14 @@ public class PasswordChangeController {
 		
 		if (bindingResult.hasErrors()) {
 	        model.addAttribute("employeeId", employeeId);
-	        return "/{employeeId}/top/passChange_form_user";
+	        return "/user/passwordChange";
 	    }
 
 	    // 新しいパスワードと確認用パスワードが一致するかチェック
 	    if (!form.getNewPass().equals(form.getNewPassRev())) {
 	        bindingResult.rejectValue("newPassRev", "error.newPassRev", "新しいパスワードが一致しません");
 	        model.addAttribute("employeeId", employeeId);
-	        return "/{employeeId}/top/passChange_form_user";
+	        return "/user/passwordChange";
 	    }
 	    System.out.println("form.getCurrentPass():"+form.getCurrentPass());
 
@@ -62,7 +62,7 @@ public class PasswordChangeController {
 	    if (!isCurrentPassValid) {
 	        bindingResult.rejectValue("currentPass", "error.currentPass", "現在のパスワードが正しくありません");
 	        model.addAttribute("employeeId", employeeId);
-	        return "/{employeeId}/top/passChange_form_user";
+	        return "/user/passwordChange";
 	    }
 
 	    // パスワード変更処理
