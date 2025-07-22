@@ -14,6 +14,7 @@ import com.kintaiTeam14.kintaiTeam14.form.ChangePasswordForm;
 
 @Controller
 public class UserHome {
+
 	
 	@PostMapping("/{employeeId}/top/syukkin_user")
 	public String getStartTime(Model m) {
@@ -52,6 +53,7 @@ public class UserHome {
 	public String passwordChange(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
 		m.addAttribute("employeeId", employeeId);
 		m.addAttribute("form", new ChangePasswordForm()); 
+		
 		return "user/passwordChange";
 	}
 	
@@ -69,5 +71,12 @@ public class UserHome {
 
 		return "login/index";
 	}
+	
+	
+	
+	
+	
+	
+	
 
 }
