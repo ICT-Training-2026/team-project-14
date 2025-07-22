@@ -2,55 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+
+
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/userstyle.css">
+
   <title>ユーザトップ</title>
+
 </head>
-
-<header>
-  <form th:action="@{/logout}" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-    <button type="submit">ログアウト</button>
-  </form>
-</header>
-
 <body>
-  <div>
-    <form th:action="@{/syukkin_user}" method="post">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-      <input type="submit" value="出勤" class="button" id="syukkinBtn">
-    </form>
-    <div id="result_s" th:if="${now_s} == null"></div>
-    <div id="result_s" th:if="${now_s} != null">
-      <div th:text="${now_s}"></div>
+
+  <!-- タスクバー -->
+  <header class="taskbar">
+    <div class="taskbar-left">
+      <span class="taskbar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
+          <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
+          <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
+        </svg>
+      </span>
+      <span class="taskbar-title">ユーザトップ</span>
     </div>
-
-
-    <form th:action="@{/taikin_user}" method="post">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-      <input type="submit" value="退勤" class="button" id="taikinBtn">
-    </form>
-    <div id="result_e" th:if="${now_e} == null"></div>
-    <div id="result_e" th:if="${now_e} != null">
-      <div th:text="${now_e}"></div>
+    <div class="taskbar-right">
+      <form th:action="@{/logout}" method="post" style="margin:0;">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit" class="taskbar-logout">ログアウト</button>
+      </form>
     </div>
-  </div>
-  
-  
+  </header>
 
-  <form th:action="@{/jisseki_user}" method="post">
-    <input type="submit" value="実績管理" class="button">
-  </form>
+  <main>
+    <div class="menu-title">ユーザトップ</div>
+    <div class="menu-desc">操作を選択してください。</div>
+    <div class="menu-buttons">
+      <form id="syuttaikin" th:action="@{'/' + ${employeeId} + '/top/syukkin_user'}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">出勤</button>
+      </form>
+      <form id="syuttaikin" th:action="@{  '/' + ${employeeId}  +'/top/taikin_user''}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">退勤</button>
+      </form>
+      <form th:action="@{ '/' + ${employeeId}+ '/top/jisseki_user'}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">実績管理</button>
+      </form>
+      <form th:action="@{  '/' + ${employeeId}+ '/top/passChange_user'}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">パスワード変更</button>
+      </form>
+      <form th:action="@{ /top/shinsei_user}" method="post" style="margin:0;">
+        <button type="submit" class="modern-btn">各種申請</button>
+      </form>
+    </div>
+  </main>
 
-  <form th:action="@{/passChange_user}" method="post">
-    <input type="submit" value="パスワード変更" class="button">
-  </form>
-  
-  <form th:action="@{/shinsei_user}" method="post">
-    <input type="submit" value="各種申請" class="button">
-  </form>
-
-  
-
+ 
 </body>
 </html>

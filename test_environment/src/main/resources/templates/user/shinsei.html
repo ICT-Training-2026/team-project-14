@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" th:href="@{/css/userstyle.css}">
+</head>
+
+<header class="logoutback">
+
+	<form th:action="@{/logout}" method="post">
+		<button type="submit">ログアウト</button>
+	</form>
+
+	<form th:action="@{/user/top}" method="get">
+		<button type="submit">戻る</button>
+	</form>
+	
+</header>
+
+<body>
+
+	<form th:action="@{/nenkyu}" method="post">
+		<input type="submit" value="年休申請" class="button">
+	</form>
+	<form th:action="@{/hurikyu}" method="post">
+		<input type="submit" value="振休申請" class="button">
+	</form>
+	
+</body>
+</html>

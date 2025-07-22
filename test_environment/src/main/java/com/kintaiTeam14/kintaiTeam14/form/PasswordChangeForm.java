@@ -4,7 +4,9 @@ import jakarta.validation.constraints.NotNull;
 
 import lombok.Data;
 
+
 @Data
+
 public class PasswordChangeForm {
 
 	@NotNull(message = "現在のパスワードを入力してください")
