@@ -301,3 +301,24 @@ html > .logoutback {
   gap: 10px;
   max-width: 600px;
 }
+
+.menu-buttons .horizontal-buttons {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+.menu-buttons .horizontal-buttons .modern-btn {
+    flex: 1 1 0;
+    min-width: 120px;
+}
+
+/* 出勤・退勤ボタンだけ色変更（例：青系） */
+.modern-btn.main-action-btn {
+    background: #696969;       /* 明るめの青 */
+    color: #fff;
+}
+.modern-btn.main-action-btn:hover,
+.modern-btn.main-action-btn:focus {
+    background: #01579b;      /* 濃い青 */
+}
