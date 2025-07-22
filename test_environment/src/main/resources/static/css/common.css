@@ -322,3 +322,55 @@ html > .logoutback {
 .modern-btn.main-action-btn:focus {
     background: #01579b;      /* 濃い青 */
 }
+
+/* パスワード変更画面のボタン */
+.password-change-form {
+  max-width: 600px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.password-change-form .form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.password-change-form label {
+  flex: 0 0 180px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.4;
+  display: block;
+  margin-top: 6px;
+}
+
+.password-change-form input[type="password"] {
+  flex: 1 1 auto;
+  padding: 12px;
+  border: 1px solid #1565c0;
+  border-radius: 2px;
+  background: #fff;
+  color: #fff;
+  font-size: 1.1rem;
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+}
+
+.password-change-form input[type="password"]:focus {
+  border-color: #1976d2;
+  background: #1565c0;
+}
+
+.password-change-form .modern-btn {
+	margin-top: 18px;
+	width: auto;
+	min-width: 120px;
+	padding: 10px 28px;
+	border-radius: 8px;
+	font-size: 1rem;
+	display: block;
+	margin-left: auto;
+}
