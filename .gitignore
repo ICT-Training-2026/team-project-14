@@ -79,6 +79,6 @@ lombok.config
 # IntelliJ
 out/
 
-server/
-.server/
-*.server
+# Eclipse
+bin/
+/.metadata/
