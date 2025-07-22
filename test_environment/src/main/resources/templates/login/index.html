@@ -19,13 +19,13 @@
         </span>
         <span class="taskbar-title">ユーザーホーム</span>
 		<nav class="taskbar-tabs">
-		    <a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
-		       th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
-		    <a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
-		       th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
-		    <a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
-		       th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
-		</nav>
+				    <a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+				       th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				    <a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+				       th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+				    <a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+				       th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
+				</nav>
 
     </div>
     <div class="taskbar-right">
@@ -51,7 +51,7 @@
       <form th:action="@{  '/' + ${employeeId}+ '/top/passChange_user'}" method="post" style="margin:0;">
         <button type="submit" class="modern-btn">パスワード変更</button>
       </form>
-      <form th:action="@{ /top/shinsei_user}" method="post" style="margin:0;">
+      <form th:action="@{  '/' + ${employeeId}+' /top/shinsei_user'}" method="post" style="margin:0;">
         <button type="submit" class="modern-btn">各種申請</button>
       </form>
     </div>
