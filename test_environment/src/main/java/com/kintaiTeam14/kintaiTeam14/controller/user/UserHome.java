@@ -37,17 +37,7 @@ public class UserHome {
 	}
 	
 
-	
-//	@PostMapping("/{employeeId}/top/jisseki_user")
-//	public String jissekiUser(
-//	        @PathVariable Long employeeId,
-//	        Model model) {
-//	    // 必要に応じてemployeeIdをモデルに渡す
-//	    model.addAttribute("employeeId", employeeId);
-//
-//	    // "user/jisseki" テンプレート（src/main/resources/templates/user/jisseki.html）を表示
-//	    return "user/jissekikanri";
-//	}
+
 	
 	@PostMapping("/{employeeId}/top/passChange_user")
 	public String passwordChange(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
