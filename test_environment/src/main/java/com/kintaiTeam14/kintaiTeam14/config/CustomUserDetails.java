@@ -65,4 +65,10 @@ public class CustomUserDetails implements UserDetails {
     public Employee getEmployee() {
         return employee;
     }
+    
+    public boolean getIsPassword() {
+    	return employee.getIsPassword();
+    	
+    }
+
 }
