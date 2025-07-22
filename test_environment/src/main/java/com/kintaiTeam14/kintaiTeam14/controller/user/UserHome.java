@@ -27,11 +27,13 @@ public class UserHome {
 		String formatted = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
 		System.out.println(formatted); // 例：2024-06-13-10-23-45
 		m.addAttribute("now_e",formatted);
-        // ここでDB保存などの処理も可能
+        // DB保存
+		
+		
         return "login/index";
 	}
 	
-	@GetMapping("/{username}/top")
+	@GetMapping("/{employee_id}/top")
 	public String getMethodName() {
 		return "login/index";
 	}
