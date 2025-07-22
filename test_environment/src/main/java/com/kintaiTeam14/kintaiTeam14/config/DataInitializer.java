@@ -33,7 +33,7 @@ public class DataInitializer implements ApplicationRunner {
 	            employee.setEmployeeName("admin");
 	            employee.setPassword(passwordEncoder.encode("admin")); // 初期パスワードは適宜変更
 	            employee.setDepartmentId("S001");   // 例：総務
-	            employee.setIsPassword(true);       // 初期設定フラグ
+	            employee.setIsPassword(false);       // 初期設定フラグ
 	            employee.setPaidHoliday(0);         // 初期有休数
 	            employee.setCompDay(0);             // 初期代休数
 	            employee.setDepartmentHistory(null);
@@ -49,7 +49,7 @@ public class DataInitializer implements ApplicationRunner {
 	            employeeUser.setEmployeeName("user");
 	            employeeUser.setPassword(passwordEncoder.encode("user")); // 初期パスワードは適宜変更
 	            employeeUser.setDepartmentId("D001");   // 例：開発
-	            employeeUser.setIsPassword(true);
+	            employeeUser.setIsPassword(false);
 	            employeeUser.setPaidHoliday(0);
 	            employeeUser.setCompDay(0);
 	            employeeUser.setDepartmentHistory(null);
@@ -57,4 +57,7 @@ public class DataInitializer implements ApplicationRunner {
 	            System.out.println("一般(User)ユーザーを初期作成しました。");
 	        }
 	    }
+	    
+	    
+	    
    }
