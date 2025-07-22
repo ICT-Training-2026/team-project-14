@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity // Spring SecurityのWebセキュリティを有効にする
 public class SecurityConfig {
 	private final CustomAccessDeniedHandler accessDeniedHandler;
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 	/**
 	 * パスワードをハッシュ化するためのPasswordEncoder Beanを登録。
@@ -55,7 +56,7 @@ public class SecurityConfig {
 		.formLogin(form ->
 			form
 				.loginPage("/login") // カスタムログインページのURLを指定
-				.successHandler(new CustomAuthenticationSuccessHandler()) // 認証成功時の処理をカスタム
+				.successHandler(customAuthenticationSuccessHandler) // 認証成功時の処理をカスタム
 				.permitAll() // ログインページは認証不要
 		)
 		.logout(logout ->

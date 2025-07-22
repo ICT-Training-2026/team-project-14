@@ -49,6 +49,25 @@ public class UserHome {
 //	    return "user/jissekikanri";
 //	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@PostMapping("/{employeeId}/top/passChange_user")
 	public String passwordChange(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
 		m.addAttribute("employeeId", employeeId);
@@ -57,8 +76,26 @@ public class UserHome {
 		return "user/passwordChange";
 	}
 	
+	@GetMapping("/{employeeId}/top/passChange_user")
+	public String passwordChangeGet(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
+		m.addAttribute("employeeId", employeeId);
+		m.addAttribute("form", new ChangePasswordForm()); 
+		
+		return "user/passwordChange";
+	}
+	
+	
 	@PostMapping("/{employeeId}/top/shinsei_user")
 	public String kakusyusinsei(Model m,@PathVariable Long employeeId) {
+		m.addAttribute("employeeId", employeeId);
+
+		return "user/shinsei";
+	}
+	
+	
+	
+	@GetMapping("/{employeeId}/top/shinsei_user")
+	public String kakusyusinseiget(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 
 		return "user/shinsei";
