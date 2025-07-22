@@ -2,17 +2,235 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>管理者ホーム</title>
+    <meta charset="UTF-8">
+
+    <!-- CSSファイルを読み込む -->
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+
+    <style>
+        body {
+            background: #f6f8fb;
+            font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #222;
+        }
+        /* --- タスクバー --- */
+        .taskbar {
+            width: 100vw;
+            min-width: 0;
+            height: 60px;
+            background: #1565c0; /* 深い青 */
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+        .taskbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+        .taskbar-logo {
+            display: flex;
+            align-items: center;
+        }
+        .taskbar-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .taskbar-tabs {
+            display: flex;
+            gap: 2px;
+            margin-left: 36px;
+            flex: none;
+        }
+        .taskbar-tab {
+            color: #e3ecf7;
+            font-size: 1.07rem;
+            font-weight: 700;
+            padding: 9px 28px 9px 28px;
+            border: none;
+            background: transparent;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            outline: none;
+            text-decoration: none;
+            position: relative;
+            top: 2px;
+            letter-spacing: 0.01em;
+        }
+        .taskbar-tab.active, .taskbar-tab:focus {
+            background: #fff;
+            color: #1565c0;
+            box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
+        }
+        .taskbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .taskbar-logout {
+            background: rgba(255,255,255,0.16);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 28px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            margin-left: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+        }
+        .taskbar-logout:hover,
+        .taskbar-logout:focus {
+            background: #fff;
+            color: #1565c0;
+        }
+        /* --- メイン --- */
+        main {
+            max-width: 620px;
+            margin: 120px auto 0 auto;
+            padding: 0 5vw;
+        }
+        .menu-title {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(25, 118, 210, 0.04);
+        }
+        .menu-desc {
+            color: #7a7a7a;
+            margin-bottom: 36px;
+            font-size: 1.12rem;
+            text-align: center;
+            letter-spacing: 0.01em;
+        }
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+            align-items: stretch;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        /* aタグの下線完全除去 */
+        .menu-buttons a {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+        /* --- ボタン --- */
+        .modern-btn {
+            width: 100%;
+            background: #1565c0;
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 24px 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+            cursor: pointer;
+            text-align: center;
+            margin: 0 auto;
+            display: block;
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+        .modern-btn:after,
+        .modern-btn:before {
+            display: none !important;
+        }
+        .modern-btn * {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+        .modern-btn:hover,
+        .modern-btn:focus {
+            background: #0d47a1;
+            box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
+            transform: translateY(-2px) scale(1.012);
+        }
+        /* --- レスポンシブ --- */
+        @media (max-width: 900px) {
+            main {
+                max-width: 98vw;
+                padding: 0 2vw;
+            }
+            .menu-title { font-size: 1.5rem; }
+            .modern-btn { font-size: 1.0rem; padding: 15px 0; }
+            .taskbar-tabs { margin-left: 10px; }
+            .taskbar-tab { padding: 6px 9px; font-size: 0.95rem; }
+        }
+        @media (max-width: 600px) {
+            .taskbar { padding: 0 4px; }
+            .taskbar-title { font-size: 1.05rem; }
+            .taskbar-tabs { gap: 0; margin-left: 0; }
+            .taskbar-tab { padding: 5px 4vw; font-size: 0.9rem; }
+            main { margin-top: 85px; }
+        }
+    </style>
+
 </head>
 <body>
-    <h1>管理者メニュー</h1>
-    <p>管理者用の操作を選択してください。</p>
+<!-- タスクバー -->
+<header class="taskbar">
+    <div class="taskbar-left">
+        <span class="taskbar-logo">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
+                <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
+                <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
+            </svg>
+        </span>
+        <span class="taskbar-title">管理者ホーム</span>
+        <nav class="taskbar-tabs">
+            <a th:href="@{/admin/User-management}"
+               th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">ユーザー管理</a>
+            <a th:href="@{/admin/achievement}"
+               th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">実績</a>
+            <a th:href="@{/admin/approval-correction}"
+               th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">承認・訂正依頼</a>
+            <a th:href="@{/admin/company-info}"
+               th:classappend="${activeTab} == 'company' ? 'active'" class="taskbar-tab">会社情報</a>
+        </nav>
+    </div>
+    <div class="taskbar-right">
+        <form th:action="@{/logout}" method="post" style="margin:0;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="taskbar-logout">ログアウト</button>
+        </form>
+    </div>
+</header>
+<main>
+    <div class="menu-title">管理者メニュー</div>
+    <div class="menu-desc">管理者用の操作を選択してください。</div>
+    <div class="menu-buttons">
 
-    <a th:href="@{/admin/User-management}"><button>ユーザー管理</button></a>
+        <a th:href="@{/admin/User-management}" class="modern-btn">ユーザー管理</a>
+        <a th:href="@{/admin/achievement}" class="modern-btn">実績</a>
+        <a th:href="@{/admin/approval-correction}" class="modern-btn">承認・訂正依頼</a>
+        <a th:href="@{/admin/company-info}" class="modern-btn">会社情報</a>
 
-    <!-- 他の管理メニューを追加する場合はここに記載 -->
-	<form th:action="@{/logout}" method="post">
-	  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-	  <button type="submit">ログアウト</button>
-	</form>
+    </div>
+</main>
 </body>
 </html>

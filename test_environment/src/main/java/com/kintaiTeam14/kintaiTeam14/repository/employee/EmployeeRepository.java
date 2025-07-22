@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Employee;
@@ -22,6 +23,7 @@ public class EmployeeRepository {
 
     // Spring Bootが自動生成するJdbcTemplateをDIで受け取る
     private final JdbcTemplate jdbcTemplate;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * DBのResultSetからUserオブジェクトへマッピングするためのRowMapper実装
@@ -157,8 +159,34 @@ public class EmployeeRepository {
         }
     }
     
+    /*
+     * パスワード変更メソッド
+     */
+    public int updatePassword(Long employeeId, String newPassword) {
+        String sql = "UPDATE employee SET password = ?, updated_at = NOW() WHERE employee_id = ?";
+        return jdbcTemplate.update(sql, newPassword, employeeId);
+    }
     
+    public String findPassWordByEmployeeId(Long employeeId) {
+        String sql = "SELECT  password FROM employee  WHERE employee_id = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, employeeId);
+    }
+
     
+    public boolean changePassword(Long employeeId,  String CurrentPass) {
+    	String pass=findPassWordByEmployeeId(employeeId);
+    	System.out.println("pass:"+pass);
+    	System.out.println("encodedCurrentPass:"+CurrentPass);
+    	
+    	return passwordEncoder.matches( CurrentPass, pass);
+    	
+    	
+    }
+    
+    public void changeIsPassword(Long employeeId) {
+    	String sql = "UPDATE employee SET  is_password = false, updated_at = NOW() WHERE employee_id = ?";
+    	jdbcTemplate.update(sql, employeeId);
+    }
     
     
     
