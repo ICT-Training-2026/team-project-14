@@ -447,3 +447,215 @@ html > .logoutback {
 .modal-close-btn:hover {
     background: #104a8d;
 }
+
+/* ================================
+   実績管理画面 レイアウト＆テーブル
+==================================== */
+
+/* レイアウト */
+main {
+  max-width: 100vw;
+  padding: 0 2vw;
+}
+
+.database-container {
+  max-width: 100vw;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+/* テーブル本体 */
+.user-table,
+.performance-database {
+  width: 100%;
+  max-width: 100%;
+  min-width: 1150px;    /* ここを900px→1150pxに拡大（必要なら1200pxや1300pxでもOK） */
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(21,118,210,0.06);
+}
+
+/* テーブルヘッダー・セル */
+.user-table th,
+.user-table td,
+.performance-database th,
+.performance-database td {
+  padding: 6px 8px;
+  font-size: 0.95rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e7ee;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+.user-table th,
+.performance-database th {
+  background: #f6f8fb;
+  color: #1976d2;
+  font-weight: 700;
+  height: 38px;
+}
+
+.user-table td,
+.performance-database td {
+  height: 30px;
+}
+
+/* ================================
+   入力欄・セレクト
+==================================== */
+.user-table input[type="text"],
+.user-table input[type="date"],
+.user-table input[type="time"],
+.performance-database input[type="text"],
+.performance-database input[type="date"],
+.performance-database input[type="time"],
+.user-table select,
+.performance-database select {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  padding: 4px 6px;
+  height: 28px;
+  margin: 0;
+}
+
+/* ================================
+   ボタン（申請・再申請・取消）
+==================================== */
+.user-table .modern-btn,
+.user-table .main-action-btn,
+.user-table .delete-btn,
+.performance-database .modern-btn,
+.performance-database .main-action-btn,
+.performance-database .delete-btn {
+  padding: 2px 0;
+  min-width: 54px;
+  font-size: 0.93rem;
+  height: 28px;
+  border-radius: 2px;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+.user-table .modern-btn *,
+.user-table .main-action-btn *,
+.user-table .delete-btn *,
+.performance-database .modern-btn *,
+.performance-database .main-action-btn *,
+.performance-database .delete-btn * {
+  font-size: 0.93rem !important;
+}
+
+/* 取消ボタンの色 */
+.user-table .delete-btn,
+.performance-database .delete-btn {
+  background: #d93025;
+  color: #fff;
+  border: none;
+}
+.user-table .delete-btn:hover,
+.performance-database .delete-btn:hover {
+  background: #b71c1c;
+}
+
+/* 日付列の幅を広げる */
+.performance-database .col-date {
+  width: 140px;      /* お好みで200pxなどに調整可 */
+  min-width: 140px;  /* 必要に応じて調整 */
+  max-width: 220px;
+}
+.performance-database .col-date input[type="date"] {
+  width: 100%;
+}
+
+/* 曜日列の幅を狭くする */
+.performance-database .col-dayofweek {
+  width: 40px;      /* お好みで40px～60pxの範囲で調整できます */
+  min-width: 36px;
+  max-width: 60px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.performance-database .col-dayofweek input[type="text"] {
+  width: 100%;
+  text-align: center;  /* 曜日を中央寄せに */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 出勤・退勤時間列の幅 */
+.performance-database .col-time {
+  width: 130px;      /* 必要に応じて80px～120pxなど調整可 */
+  min-width: 70px;
+  max-width: 130px;
+}
+.performance-database .col-time input[type="time"] {
+  width: 100%;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 休憩時間列の幅 */
+.performance-database .col-break {
+	width: 80px;
+	min-width: 60px;
+	max-width: 120px;
+}
+.performance-database .col-break input[type="date"] {
+	width: 100%;
+}
+
+/* 申請列の幅 */
+.performance-database .col-apply {
+	width: 80px;
+	min-width: 60px;
+	max-width: 120px;
+}
+.performance-database .col-apply input[type="button"] {
+	width: 100%;
+}
+
+/* 状況列の幅 */
+/*
+.performance-database .col-status {
+	width: 90px;
+	min-width: 70px;
+	max-width: 120px;
+}
+.performance-database .col-status {
+	width: 100%;
+}
+*/
+
+/* 事由列の幅 */
+.performance-database .col-reason {
+	width: 320px;
+	min-width: 120px;
+	max-width: 320px;
+}
+.performance-database .col-reason input[type="text"] {
+	width: 100%;
+}
+
+/* 再申請列の幅 */
+.performance-database .col-resubmit {
+	width: 90px;
+	min-width: 70px;
+	max-width: 120px;
+}
+.performance-database .col-resubmit input[type="button"] {
+	width: 100%;
+}
+
+/* 取消列の幅 */
+.performance-database .col-remove {
+	width: 80px;
+	min-width: 60px;
+	max-width: 120px;
+}
+.performance-database .col-remove input[type="button"] {
+	width: 100%;
+}
