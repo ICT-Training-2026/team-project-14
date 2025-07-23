@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return num.toString().padStart(2, '0');
   }
 
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', function (e) {
     // クリックされた要素が .submit-button かどうか判定
     if (e.target && e.target.classList.contains('submit-button')) {
       // ボタンの属する<tr>を取得
@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
       var select = tr.querySelector('.status-select');
       if (select) {
         select.value = '申請済み';
+        const row = e.target.closest('tr');
+        sendUpdate(row);
         // 状態変更を他の処理で使う場合はchangeイベントも発火
         select.dispatchEvent(new Event('change'));
       }
@@ -65,6 +67,32 @@ document.addEventListener('DOMContentLoaded', () => {
     updateYearMonth();
     // 必要に応じてここで他のデータの更新処理を呼ぶ
   });
+  const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+  //サーバーサイドの更新
+  function sendUpdate(row) {
+    const data = gatherData(row);
+    return fetch('/performance-update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', [csrfHeader]: csrfToken },
+      body: JSON.stringify(data),
+    });
+  }
+
+  //表面上のデータの吸い上げ
+  function gatherData(row) {
+    return {
+      id: parseInt(row.dataset.id, 10), // data-id 属性
+      dayOfWeek: row.querySelector('.performance-dayofweek-input').value,
+      date: row.querySelector('.performance-date-input').value, // yyyy-MM-dd 形式
+      startTime: row.querySelector('.performance-start-input').value, // HH:mm
+      endTime: row.querySelector('.performance-end-input').value, // HH:mm
+      breakTime: parseInt(row.querySelector('.performance-break-input').value, 10), // 休憩時間（数値）
+      status: row.querySelector('.status-select').value, // セレクトボックス
+      reason: row.querySelector('.performance-reason-input').value, // 事由
+    };
+  }
 
   // 初期表示
   updateYearMonth();

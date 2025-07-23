@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
@@ -27,10 +28,10 @@ public class PerformanceController {
         return "performance/performance";
     }
 
-//	@PostMapping("/performance-update")
-//    public ResponseEntity<Void> updateSchedule(@RequestBody Performance performance) {
-//		performanceService.updatePerformance(performance);
-//        return ResponseEntity.ok().build();
-//    }
+	@PostMapping("/performance-update")
+    public ResponseEntity<Void> updatePerformance(@RequestBody Performance performance) {
+		performanceService.updatePerformance(performance);
+        return ResponseEntity.ok().build();
+    }
 
 }
