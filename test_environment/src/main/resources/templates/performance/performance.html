@@ -3,8 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <title>トップ画面</title>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
   </head>
-  <body class="task-body">
+  <body class="performance-body">
+    <div id="month-nav" style="display: flex; align-items: center; padding: 10px 0 10px 10px">
+      <button id="prev-month">&lt;&lt;</button>
+      <span id="current-year-month" style="margin: 0 15px; font-size: 1.2em">2025/07</span>
+      <button id="next-month">&gt;&gt;</button>
+    </div>
     <div class="database-container">
       <table class="performance-database">
         <tr>
@@ -21,18 +28,11 @@
           <!-- 他のカラムも必要に応じて -->
         </tr>
         <tr th:each="performance : ${performances}" class="performance-row" th:data-id="${performance.id}">
-
-
           <td>
-  <input type="date" th:value="${performance.date}" class="performance-date-input" disabled />
-  <input type="hidden" th:name="date" th:value="${performance.date}" />
-</td>
-
-<!-- 曜日 -->
-<td>
-  <input type="text" th:value="${performance.dayOfWeek}" class="performance-dayofweek-input" readonly />
-</td>
-
+            <input type="date" th:value="${performance.date}" class="performance-date-input" disabled />
+            <input type="hidden" th:name="date" th:value="${performance.date}" />
+          </td>
+          <td><input type="text" th:value="${performance.dayOfWeek}" class="performance-dayofweek-input" /></td>
           <td><input type="time" th:value="${performance.startTime}" class="performance-start-input" /></td>
           <td><input type="time" th:value="${performance.endTime}" class="performance-end-input" /></td>
           <td>
@@ -57,5 +57,9 @@
         </tr>
       </table>
     </div>
+    <script th:src="@{/js/performance.js}"></script>
+    <script th:inline="javascript">
+      const employeeId = [[${employeeId}]];
+    </script>
   </body>
 </html>
