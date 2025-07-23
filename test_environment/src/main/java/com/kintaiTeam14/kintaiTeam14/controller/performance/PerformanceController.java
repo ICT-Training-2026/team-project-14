@@ -71,6 +71,11 @@ public class PerformanceController {
         model.addAttribute("nextYear", next.getYear());
         model.addAttribute("nextMonth", next.getMonthValue());
 
+        int currentYearup = LocalDate.now().getYear();
+        int currentYeardown=currentYearup-5;
+        model.addAttribute("currentYeardown", currentYeardown);
+        model.addAttribute("currentYearup", currentYearup);
+
         model.addAttribute("scheduledHours", scheduledHours);
         model.addAttribute("actualHours", actualHours);
         model.addAttribute("overtimeHours", overtimeHours);

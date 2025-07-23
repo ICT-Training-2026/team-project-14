@@ -46,33 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  // 表示更新関数＆プッシュして、java側も更新する
-//   function updateYearMonth() {
-//     document.getElementById('current-year-month').textContent = `${currentYear}/${pad(currentMonth)}`;
-//   }
-/*
-  // 前月へ
-  document.getElementById('prev-month').addEventListener('click', function () {
-    currentMonth--;
-    if (currentMonth < 1) {
-      currentMonth = 12;
-      currentYear--;
-    }
-    updateYearMonth();
-    // 必要に応じてここで他のデータの更新処理を呼ぶ
-  });
-
-  // 次月へ
-  document.getElementById('next-month').addEventListener('click', function () {
-    currentMonth++;
-    if (currentMonth > 12) {
-      currentMonth = 1;
-      currentYear++;
-    }
-    updateYearMonth();
-    // 必要に応じてここで他のデータの更新処理を呼ぶ
-  });
-  */
+	//テキストに何か入力されたら
+	  document.querySelectorAll('.performance-reason-input').forEach((el) => {
+	    el.addEventListener('change', () => {
+	      const row = el.closest('tr');
+	      if (row) sendUpdate(row);
+	    });
+	  });
   const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
   const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
@@ -92,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const endTimeValue = row.querySelector('.performance-end-input').value;
     console.log(row.querySelector('.status-select').value);
 	console.log(row.querySelector('.performance-id').value);
+	console.log(row.querySelector('.performance-reason-input').value);
     return {
       id: row.querySelector('.performance-id').value,
       dayOfWeek: row.querySelector('.performance-dayofweek-input').value,
@@ -104,6 +85,4 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-//   // 初期表示
-//   updateYearMonth();
 });
