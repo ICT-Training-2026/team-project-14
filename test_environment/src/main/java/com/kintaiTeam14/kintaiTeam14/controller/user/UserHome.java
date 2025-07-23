@@ -54,25 +54,6 @@ public class UserHome {
 //	    return "user/jisseki_user";
 //	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@PostMapping("/{employeeId}/top/passChange_user")
 	public String passwordChange(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
 		m.addAttribute("employeeId", employeeId);

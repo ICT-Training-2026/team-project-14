@@ -1,3 +1,4 @@
+// PerformanceServiceImpl.java
 package com.kintaiTeam14.kintaiTeam14.service.performance;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Override
     public List<Performance> getAllPerformances1(Long userId) {
-        return null; // 既存メソッドに合わせて実装してください
+        return null; // 既存実装に合わせてください
     }
 
     @Override
@@ -37,4 +38,10 @@ public class PerformanceServiceImpl implements PerformanceService {
     public void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate) {
         repository.createPerformancesForYear(userId, startDate, endDate);
     }
+
+	@Override
+	public void updatePerformance(Performance performance) {
+		repository.updatePerformance(performance);
+
+	}
 }
