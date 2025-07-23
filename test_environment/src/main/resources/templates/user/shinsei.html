@@ -40,11 +40,11 @@
 		<!-- ここに実績管理の機能を実装 -->
 		
 		<div class="menu-buttons">
-			<form id="syuttaikin" th:action="@{/nenkyu}" method="post" style="margin:0;">
-				<button type="submit" class="modern-btn">年休申請</button>
+			<form th:action="@{  '/' + ${employeeId}+ '/top/shinsei_user/nenkyu'}" method="post" style="margin:0;">
+			  <button type="submit" class="modern-btn">年休申請</button>
 			</form>
-			<form id="syuttaikin" th:action="@{/hurikyu}" method="post" style="margin:0;">
-				<button type="submit" class="modern-btn">振休申請</button>
+			<form th:action="@{  '/' + ${employeeId}+'/top/shinsei_user/hurikyu'}" method="post" style="margin:0;">
+			  <button type="submit" class="modern-btn">振休申請</button>
 			</form>
 		</div>
 		
