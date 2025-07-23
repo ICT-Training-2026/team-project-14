@@ -16,4 +16,11 @@ public class Performance {
     private int breakTime;             // 休憩時間
     private String status;             // ステータス
     private String reason;             // 理由
+
+    /**
+     * 2025年7月以外の日付のデータは無効とみなすメソッドを追加（例）
+     */
+    public boolean isInJuly2025() {
+        return date != null && date.getYear() == 2025 && date.getMonthValue() == 7;
+    }
 }

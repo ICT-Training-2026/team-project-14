@@ -15,6 +15,8 @@ public interface PerformanceRepository {
 
     void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate);
 
-    // 追加：attendanceとreasonを同時に作成するメソッド
     void createAttendanceWithReason(Long userId, LocalDate date);
+
+    // 追加
+    List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
 }

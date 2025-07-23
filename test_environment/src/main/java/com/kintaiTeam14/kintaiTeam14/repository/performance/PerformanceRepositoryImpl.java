@@ -104,4 +104,42 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
         String insertReasonSql = "INSERT INTO reason (attend_id, reason, reason_id) VALUES (?, '', 0)";
         jdbcTemplate.update(insertReasonSql, attendId);
     }
+
+    @Override
+    public List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
+        String sql = "SELECT date, arrival_time, end_time, break_time, status, reason " +
+                     "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
+                     "WHERE a.employee_id = ? AND a.date BETWEEN ? AND ? " +
+                     "ORDER BY a.date";
+
+        return jdbcTemplate.query(sql, new Object[]{userId, startDate, endDate}, new RowMapper<Performance>() {
+            @Override
+            public Performance mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+                final Performance s = new Performance();
+
+                final LocalDate date = rs.getDate("date").toLocalDate();
+                s.setDate(date);
+
+                final String dayOfweek = date.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.JAPANESE);
+                s.setDayOfWeek(dayOfweek);
+
+                final LocalTime start_time = rs.getTime("arrival_time") != null ? rs.getTime("arrival_time").toLocalTime() : null;
+                s.setStartTime(start_time);
+
+                final LocalTime end_time = rs.getTime("end_time") != null ? rs.getTime("end_time").toLocalTime() : null;
+                s.setEndTime(end_time);
+
+                final int break_time = rs.getInt("break_time");
+                s.setBreakTime(break_time);
+
+                final String status = rs.getString("status");
+                s.setStatus(status);
+
+                final String reason = rs.getString("reason");
+                s.setReason(reason);
+
+                return s;
+            }
+        });
+    }
 }
