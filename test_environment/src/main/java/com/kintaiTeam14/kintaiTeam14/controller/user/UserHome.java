@@ -1,7 +1,6 @@
 package com.kintaiTeam14.kintaiTeam14.controller.user;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kintaiTeam14.kintaiTeam14.form.ChangePasswordForm;
 import com.kintaiTeam14.kintaiTeam14.service.employee.AttendanceAndDepatureService;
@@ -21,27 +21,34 @@ public class UserHome {
 
 	private final AttendanceAndDepatureService ads;
 	
-	@PostMapping("/{employeeId}/top/syukkin_user")
-	public String getStartTime(Model m,@PathVariable Long employeeId) {
-		LocalDateTime now = LocalDateTime.now();
-		String formatted = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
-		m.addAttribute("now_s",formatted);
-		
-        //db登録
-		ads.attendance(now,employeeId);
-        return "login/index";
+	//リダイレクト用
+	@GetMapping("/login/index")
+	public String uesrTopRedirect(@PathVariable Long employeeId) {
+		return employeeId.toString()+"/top";
 	}
 	
-	@PostMapping("/{employeeId}/top/taikin_user")
-	public String getEndTime(Model m,@PathVariable Long employeeId) {
+	
+	@PostMapping("/{employeeId}/top/syukkin_user")
+	public String getStartTime(Model m,@PathVariable Long employeeId,RedirectAttributes ra) {
+		
 		LocalDateTime now = LocalDateTime.now();
-		String formatted = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
-		m.addAttribute("now_e",formatted);
+		//DB登録
+		String now_s = ads.attendance(now,employeeId);
+		ra.addFlashAttribute("now", now_s);
 		
-        // DB登録
-		ads.depature(now, employeeId);
+	    return "redirect:/"+employeeId.toString()+"/top";
+	}
+	
+	
+	@PostMapping("/{employeeId}/top/taikin_user")
+	public String getEndTime(Model m,@PathVariable Long employeeId,RedirectAttributes ra) {
 		
-        return "login/index";
+		LocalDateTime now = LocalDateTime.now();
+		//DB登録
+		String now_e = ads.depature(now,employeeId);
+		ra.addFlashAttribute("now", now_e);
+		
+	    return "redirect:/"+employeeId.toString()+"/top";
 	}
 	
 //	@PostMapping("/{employeeId}/top/jisseki_user")

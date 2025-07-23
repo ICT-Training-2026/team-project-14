@@ -374,3 +374,18 @@ html > .logoutback {
 	display: block;
 	margin-left: auto;
 }
+
+/* ユーザーホームの出勤・退勤ボタン */
+.menu-buttons .horizontal-buttons {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+.menu-buttons .horizontal-buttons form {
+    flex: 1 1 0;
+    min-width: 120px;
+}
+.menu-buttons .horizontal-buttons form button.modern-btn {
+    width: 100%;
+}

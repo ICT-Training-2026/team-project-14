@@ -15,13 +15,13 @@ public class AttendanceAndDepatureServiceImpl implements AttendanceAndDepatureSe
 	private final AttendanceAndDepatureRepository adr;
 	
 	@Override
-	public void attendance(LocalDateTime time,Long emp_id) {
-		adr.attendance(time,emp_id);
+	public String attendance(LocalDateTime time,Long emp_id) {
+		return adr.attendance(time,emp_id);
 	}
 
 	@Override
-	public void depature(LocalDateTime time,Long emp_id) {
-		adr.depature(time,emp_id);
+	public String depature(LocalDateTime time,Long emp_id) {
+		return adr.depature(time,emp_id);
 	}
 
 }

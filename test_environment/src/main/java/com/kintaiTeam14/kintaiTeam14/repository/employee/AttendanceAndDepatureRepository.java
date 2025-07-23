@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 public interface AttendanceAndDepatureRepository {
 
 	//
-	void attendance(LocalDateTime time,Long emp_id);
+	String attendance(LocalDateTime time,Long emp_id);
 	
-	void depature(LocalDateTime time,Long emp_id);
+	String depature(LocalDateTime time,Long emp_id);
 	
 	void breaktimeAndOvertime(Long emp_id,LocalDate dateOnly);
 }

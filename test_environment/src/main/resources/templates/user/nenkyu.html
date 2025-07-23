@@ -2,16 +2,17 @@
 
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
-	<title>年休申請</title>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<meta name="_csrf" th:content="${_csrf.token}">
 	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 
 	
 </head>
-
 <body>
+
+	</form>
 	<header class="taskbar">
 		<div class="taskbar-left">
 			<span class="taskbar-logo">
@@ -23,12 +24,12 @@
 			</span>
 			<span class="taskbar-title">ユーザーホーム</span>
 			<nav class="taskbar-tabs">
-				<a th:href="@{/user/jisseki_user}" th:classappend="${activeTab} == 'user' ? 'active'"
-					class="taskbar-tab">実績管理</a>
-				<a th:href="@{/user/passChange_user}" th:classappend="${activeTab} == 'achievement' ? 'active'"
-					class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/user/shinsei_user}" th:classappend="${activeTab} == 'approval' ? 'active'"
-					class="taskbar-tab">各種申請</a>
+				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
 			</nav>
 		</div>
 		<div class="taskbar-right">

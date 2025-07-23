@@ -3,6 +3,7 @@ package com.kintaiTeam14.kintaiTeam14.repository.employee;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -19,50 +20,66 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 	
 	//出勤処理
 	@Override
-	public void attendance(LocalDateTime time,Long emp_id) {
+	public String attendance(LocalDateTime time,Long emp_id) {
+		
+		String message="";
 		
 		LocalDate dateOnly = time.toLocalDate();
 		
-		String sql_search ="SELECT employee_id,arrival_time,date FROM attendance "
+		String sql_search ="SELECT employee_id,arrival_time,date,end_time FROM attendance "
 				+ "WHERE employee_id=? AND date=?";
 
 		List<Map<String, Object>> today_arrival = jdbcTemplate.queryForList(sql_search, emp_id,dateOnly);
 		
-		//当日のレコードがなければ新しく作成
-		if(today_arrival.isEmpty()) {
-			String sql_ins="INSERT INTO attendance(employee_id,arrival_time,at_classification,status,date) "
-					+ "VALUES(?,?,?,?,?)";
+		//出退勤未登録時の処理
+		if(today_arrival.get(0).get("arrival_time") == null && today_arrival.get(0).get("end_time") == null) {
 			
-			jdbcTemplate.update(sql_ins,emp_id,time,1,"未申請",dateOnly);
+			String sql_upd="UPDATE attendance SET arrival_time=?,at_classification=? "
+					+ "WHERE employee_id=? and date=?";
 			
+			
+			jdbcTemplate.update(sql_upd,time,1,emp_id,dateOnly);
+			
+			System.out.println("0");
 			System.out.println("社員番号 : "+emp_id.toString());
 			System.out.println("出勤登録 : "+time);
+			
+			message="出勤ボタンが押されました。\n出勤時間： "+formatDate(time);
 		}
 		else {
 			//退勤時間だけ登録されているときの出勤時間登録
-			if(today_arrival.get(0).get("arraival_time") == null) {
+			if(today_arrival.get(0).get("arrival_time") == null) {
 				
 				String sql_upd="UPDATE attendance SET arrival_time=? "
 						+ "WHERE employee_id=? and date=?";
 				
 				jdbcTemplate.update(sql_upd,time,emp_id,dateOnly);
 				
+				System.out.println("1");
 				System.out.println("社員番号 : "+emp_id.toString());
 				System.out.println("出勤登録 : "+time);
 				
 				//休憩・残業時間の計算・登録(一応休憩・残業0で登録)
 				breaktimeAndOvertime(emp_id, dateOnly);
+				
+				message="出勤ボタンが押されました。\n出勤時間： "+formatDate(time);
 			}
 			//すでに出勤時間が登録されているときの処理
 			else {
 				System.out.println("出勤時間登録済み");
+				
+				message="出勤時間は登録済みです";
 			}
 		}
+		
+		return message;
 	}
 
 	//退勤処理
 	@Override
-	public void depature(LocalDateTime time,Long emp_id) {
+	public String depature(LocalDateTime time,Long emp_id) {
+		
+		String message="";
 		
 		LocalDate dateOnly = time.toLocalDate();
 		
@@ -71,20 +88,24 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 
 		List<Map<String, Object>> today_arrival = jdbcTemplate.queryForList(sql_search, emp_id,dateOnly);
 		
-		//今日の出勤が登録されていないときの処理
-		if(today_arrival.isEmpty()) {
-			String sql_ins="INSERT INTO attendance(employee_id,end_time,at_classification,status,date) "
-					+ "VALUES(?,?,?,?,?)";
-			
-			jdbcTemplate.update(sql_ins,emp_id,time,1,"未申請",dateOnly);
-			
+		//出退勤未登録時の処理
+		if(today_arrival.get(0).get("arrival_time") == null && today_arrival.get(0).get("end_time") == null) {
+
+			String sql_upd="UPDATE attendance SET end_time=?,at_classification=? "
+					+ "WHERE employee_id=? and date=?";
+
+
+			jdbcTemplate.update(sql_upd,time,1,emp_id,dateOnly);
+
 			System.out.println("社員番号 : "+emp_id.toString());
 			System.out.println("退勤登録 : "+time);
+			
+			message="退勤ボタンが押されました。\n退勤時間： "+formatDate(time);
 		}
 		//今日の出勤が登録されているときの処理
 		else {
 			//出勤は登録されているが、退勤は登録されていないときの処理
-			if(today_arrival.get(0).get("end_time") == null){
+			if(today_arrival.get(0).get("arrival_time") != null && today_arrival.get(0).get("end_time") == null){
 				
 				//---退勤時間の登録---
 				String sql_upd="UPDATE attendance SET end_time=? "
@@ -98,6 +119,21 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 				
 				//休憩・残業時間の計算・登録
 				breaktimeAndOvertime(emp_id, dateOnly);
+				
+				message="退勤ボタンが押されました。\n退勤時間： "+formatDate(time);
+			}
+			//出勤は押されてないけど、再度退勤が押されたとき
+			else if(today_arrival.get(0).get("arrival_time") == null && today_arrival.get(0).get("end_time") != null) {
+				
+				String sql_upd="UPDATE attendance SET end_time=? "
+						+ "WHERE employee_id=? and date=?";
+				
+				jdbcTemplate.update(sql_upd,time,emp_id,dateOnly);
+				
+				System.out.println("社員番号 : "+emp_id.toString());
+				System.out.println("退勤修正 : "+time);
+				
+				message="退勤ボタンが再度押されました。\n退勤時間： "+formatDate(time);
 			}
 			//出勤も退勤も登録されているときの処理
 			else {
@@ -116,9 +152,13 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 					
 					//休憩・残業時間の計算・登録
 					breaktimeAndOvertime(emp_id, dateOnly);
+					
+					message="退勤ボタンが再度押されました。\n退勤時間： "+formatDate(time);
 				}
 			}
 		}
+		
+		return message;
 	}
 
 	//休憩・残業時間の計算・登録をする関数
@@ -157,6 +197,11 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 		System.out.println("残業時間 : "+overtime);
 	}
 	
-	
-	
+	//LocalDateTime型を年/月/日 時:分:秒の文字列に変換する関数
+	public String formatDate(LocalDateTime t) {
+		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
+		return t.format(formatter);
+	}
 }
