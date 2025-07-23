@@ -1,18 +1,12 @@
 package com.kintaiTeam14.kintaiTeam14.controller.performance;
 
-<<<<<<< HEAD
-import java.time.LocalDate;
-import java.time.Year;
 
-=======
 import org.springframework.http.ResponseEntity;
->>>>>>> 34080a3f122d6a41cb916e71ff8a940cb1d1796a
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
