@@ -1,39 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>会社情報</title>
+    <title>会社休日・国民の祝日 管理</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/admin-common.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        .holiday-company { background: #ffd6c6 !important; }
+        .holiday-national { background: #c6e0ff !important; }
+        .calendar-container { display: flex; flex-wrap: wrap; gap: 32px; }
+        .calendar-table { margin: 8px; min-width: 180px; }
+        .calendar-title { text-align: center; font-weight: bold; margin-bottom: 4px;}
+        #monthTable { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(21,118,210,0.06); width: 100%; }
+        #monthTable th, #monthTable td { padding: 10px 12px; border-bottom: 1px solid #e0e7ee; }
+        #monthTable th { background: #f6f8fb; color: #1976d2; font-size: 1rem; font-weight: 700;}
+        #monthTable tr:last-child td { border-bottom: none; }
+    </style>
 </head>
 <body>
 <header class="taskbar">
-    <div class="taskbar-left">
-        <span class="taskbar-logo">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
-                <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
-                <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
-            </svg>
-        </span>
-        <span class="taskbar-title">管理者ホーム</span>
-        <nav class="taskbar-tabs">
-            <a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
-            <a th:href="@{/admin/achievement}" class="taskbar-tab">実績</a>
-            <a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
-            <a th:href="@{/admin/company-info}" th:classappend="'active'" class="taskbar-tab">会社情報</a>
-        </nav>
-    </div>
-    <div class="taskbar-right">
-        <form th:action="@{/logout}" method="post" style="margin:0;">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit" class="taskbar-logout">ログアウト</button>
-        </form>
-    </div>
+    <!-- 省略：既存ヘッダー -->
 </header>
 <main>
-    <div class="page-title">会社情報</div>
-    <div class="page-desc">ここで会社情報の閲覧・編集が行えます。</div>
-    <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
+    <div class="page-title">会社休日・国民の祝日 管理</div>
+    <div class="page-desc">年月を選んでその月の休日種別を編集・確定できます。下に年間カレンダーも表示されます。</div>
+    <form method="get" th:action="@{/admin/company-info/holidays}" style="text-align:center;">
+        <select name="year">
+            <option th:each="y : ${years}" th:value="${y}" th:text="${y}" th:selected="${y==selectedYear}"></option>
+        </select>年
+        <select name="month">
+            <option th:each="m : ${months}" th:value="${m}" th:text="${m}" th:selected="${m==selectedMonth}"></option>
+        </select>月
+        <button type="submit">表示</button>
+    </form>
+    <form th:action="@{/admin/company-info/holidays/save}" method="post" th:object="${holidayMonthForm}">
+        <input type="hidden" name="year" th:value="${selectedYear}" />
+        <input type="hidden" name="month" th:value="${selectedMonth}" />
+        <table id="monthTable">
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <th>曜日</th>
+                    <th>種別</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="row, stat : ${monthRows}" 
+                    th:classappend="${row.type == '会社休日'} ? 'holiday-company' : (${row.type == '国民の祝日'} ? 'holiday-national' : '')">
+                    <td th:text="${#temporals.format(row.date, 'M/d')}"></td>
+                    <td th:text="${row.dayOfWeek}"></td>
+                    <td>
+                        <select th:name="rows[__${stat.index}__].type" th:value="${row.type}">
+                            <option value="">ーー</option>
+                            <option value="会社休日" th:selected="${row.type=='会社休日'}">会社休日</option>
+                            <option value="国民の祝日" th:selected="${row.type=='国民の祝日'}">国民の祝日</option>
+                        </select>
+                        <input type="hidden" th:name="rows[__${stat.index}__].date" th:value="${row.date}" />
+                        <input type="hidden" th:name="rows[__${stat.index}__].dayOfWeek" th:value="${row.dayOfWeek}" />
+                        <input type="hidden" th:name="rows[__${stat.index}__].name" th:value="${row.name}" />
+                    </td>
+                    <td>
+                        <input type="text" th:name="rows[__${stat.index}__].note" th:value="${row.note}" style="width:90px">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="submit" value="この月で確定" class="modern-btn main-action-btn" />
+    </form>
+    <hr>
+    <h3>休日カレンダー</h3>
+    <div class="calendar-container">
+        <div th:each="m : ${#numbers.sequence(1,12)}" class="calendar-table">
+            <div class="calendar-title" th:text="${m} + '月'"></div>
+            <table>
+                <tr>
+                    <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+                </tr>
+                <tr th:each="w : ${#numbers.sequence(1,6)}">
+                    <td th:each="d : ${#numbers.sequence(1,7)}"
+                        th:with="date=${T(java.time.LocalDate).of(selectedYear, m, 1).plusDays((w-1)*7 + d-1 - T(java.time.LocalDate).of(selectedYear, m, 1).getDayOfWeek().getValue()%7)}"
+                        th:if="${date.month.value == m}"
+                        th:text="${date.dayOfMonth}"
+                        th:classappend="${#lists.contains(yearHolidayList.?[holidayDate==date].![holidayType], '会社休日')} ? 'holiday-company' : (#lists.contains(yearHolidayList.?[holidayDate==date].![holidayType], '国民の祝日') ? 'holiday-national' : '')"
+                    ></td>
+                    <td th:if="${T(java.time.LocalDate).of(selectedYear, m, 1).plusDays((w-1)*7 + d-1 - T(java.time.LocalDate).of(selectedYear, m, 1).getDayOfWeek().getValue()%7).month.value != m}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </main>
 </body>
 </html>

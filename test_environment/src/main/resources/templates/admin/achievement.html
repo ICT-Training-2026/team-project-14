@@ -3,19 +3,21 @@
 <head>
     <title>実績</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/admin-common.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
 <header class="taskbar">
     <div class="taskbar-left">
-        <span class="taskbar-logo">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
-                <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
-                <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
-            </svg>
-        </span>
-        <span class="taskbar-title">管理者ホーム</span>
+		<a th:href="@{/admin}" class="taskbar-home-link" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+		    <span class="taskbar-logo">
+		        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+		            <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
+		            <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
+		            <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
+		        </svg>
+		    </span>
+		    <span class="taskbar-title" style="margin-left:12px;">管理者ホーム</span>
+		</a>
         <nav class="taskbar-tabs">
             <a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
             <a th:href="@{/admin/achievement}" th:classappend="'active'" class="taskbar-tab">実績</a>
