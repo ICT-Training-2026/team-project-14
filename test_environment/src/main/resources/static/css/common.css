@@ -389,3 +389,61 @@ html > .logoutback {
 .menu-buttons .horizontal-buttons form button.modern-btn {
     width: 100%;
 }
+
+/* ユーザーホームの時刻表示欄 */
+/*.time-message {
+  min-height: 1.5em;
+  margin-bottom: 24px;
+  text-align: left;
+  font-size: 18px;
+}*/
+
+/* 出勤・退勤完了ウィンドウの表示 */
+/* モーダルの全体背景 */
+.modal-overlay {
+    position: fixed;
+    left: 0; top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.show .modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* モーダルの中身 */
+.modal-content {
+    background: #fff;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    text-align: center;
+    min-width: 280px;
+    max-width: 90vw;
+	
+	transform: translateY(4px) scale(1);	/* 移動距離、スケール変更 */
+	transition: transform 0.3s, opacity 0.3s;
+	opacity: 0;
+}
+
+/* 閉じるボタン */
+.modal-close-btn {
+    margin-top: 40px;
+    padding: 8px 24px;
+    background: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.modal-close-btn:hover {
+    background: #104a8d;
+}

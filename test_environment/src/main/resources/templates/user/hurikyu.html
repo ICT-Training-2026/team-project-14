@@ -3,23 +3,27 @@
 
 <head>
 	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
-    <title>振休申請</title>
+	<title>振休申請</title>
 </head>
+
 <body>
 
 	</form>
 	<header class="taskbar">
 		<div class="taskbar-left">
-			<span class="taskbar-logo">
-				<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-					<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
-					<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
-					<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
-				</svg>
-			</span>
-			<span class="taskbar-title">ユーザーホーム</span>
+			<a th:href="@{'/' + ${employeeId} + '/top'}" class="taskbar-home-link"
+				style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+				<span class="taskbar-logo">
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+						<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
+						<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
+						<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
+					</svg>
+				</span>
+				<span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
+			</a>
 			<nav class="taskbar-tabs">
 				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
 					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
@@ -40,7 +44,7 @@
 		<div class="page-title">振休申請</div>
 		<div class="page-desc">ここで振休申請が行えます。</div>
 		<!-- ここに年休申請の機能を実装 -->
-		
+
 		<form>
 			<input type="submit" value="入力">
 		</form>
@@ -49,8 +53,8 @@
 			<input type="submit" value="申請">
 		</form>
 
-		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}" th:classappend="${activeTab} == 'approval' ? 'active'"
-			class="back-link">← ユーザートップに戻る</a>
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}"
+			th:classappend="${activeTab} == 'approval' ? 'active'" class="back-link">← ユーザートップに戻る</a>
 	</main>
 </body>
 
