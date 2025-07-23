@@ -68,6 +68,16 @@
 			</form>
 		</div>
 	</main>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    let message = /*[[${now}]]*/ null;
+    if (message) {
+        alert(message);
+    }
+    /*]]>*/
+  </script>
+
 </body>
 
 </html>
