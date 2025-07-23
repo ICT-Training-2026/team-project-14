@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>会社情報</title>
+    <title>祝日管理</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-common.css}">
+    <style>
+        /* 必要に応じて追加のカスタムCSS */
+        .calendar-table { border-collapse: collapse; margin: 10px; }
+        .calendar-table th, .calendar-table td { border: 1px solid #aaa; width: 24px; height: 24px; text-align: center;}
+        .holiday-cell { background: #ffe0b2 !important; }
+        .sunday { color: red; }
+        .saturday { color: blue; }
+    </style>
 </head>
 <body>
 <header class="taskbar">
@@ -20,7 +28,8 @@
             <a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
             <a th:href="@{/admin/achievement}" class="taskbar-tab">実績</a>
             <a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
-            <a th:href="@{/admin/company-info}" th:classappend="'active'" class="taskbar-tab">会社情報</a>
+            <a th:href="@{/admin/company-info}" class="taskbar-tab">会社情報</a>
+            <a th:href="@{/admin/holidays}" class="taskbar-tab active">祝日管理</a>
         </nav>
     </div>
     <div class="taskbar-right">
@@ -31,9 +40,299 @@
     </div>
 </header>
 <main>
-    <div class="page-title">会社情報</div>
-    <div class="page-desc">ここで会社情報の閲覧・編集が行えます。</div>
+    <div class="page-title">祝日管理</div>
+    <div class="page-desc">ここで祝日の閲覧・追加・編集・削除が行えます。</div>
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
+    <div style="margin: 20px 0;">
+        <button class="modern-btn" onclick="openCreateDialog()">新規祝日追加</button>
+    </div>
+    <!-- 年月指定 -->
+    <form id="search-form" onsubmit="return false;" style="margin-bottom:10px;">
+        <select id="year-select"></select> 年
+        <select id="month-select"></select> 月の休日を表示する
+        <button type="button" onclick="loadHolidayTable()">表示</button>
+    </form>
+    <!-- 月間祝日テーブル -->
+    <table class="admin-table" border="1" style="width:100%; border-collapse:collapse;" id="holiday-table">
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>曜日</th>
+                <th>種別</th>
+                <th>備考</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="holiday-tbody">
+            <!-- JSで祝日行を挿入 -->
+        </tbody>
+    </table>
+    <!-- カレンダー -->
+    <div style="margin-top:40px;">
+        <div class="page-title">休日カレンダー</div>
+        <div id="calendar-container" style="display:flex;flex-wrap:wrap;gap:30px;justify-content:center;"></div>
+    </div>
 </main>
+
+<!-- 祝日追加・編集用ダイアログ -->
+<div id="holiday-dialog" style="display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.2);align-items:center;justify-content:center;">
+    <div style="background:#fff;padding:24px;border-radius:8px;min-width:320px;max-width:90vw;">
+        <h2 id="dialog-title">祝日追加/編集</h2>
+        <form id="holiday-form" onsubmit="return false;">
+            <input type="hidden" id="dialog-id">
+            <div>
+                <label>日付:</label>
+                <input type="date" id="dialog-date" required>
+            </div>
+            <div>
+                <label>名称:</label>
+                <input type="text" id="dialog-name" maxlength="50">
+            </div>
+            <div>
+                <label>種別:</label>
+                <input type="text" id="dialog-type" maxlength="20">
+            </div>
+            <div>
+                <label>備考:</label>
+                <input type="text" id="dialog-note" maxlength="100">
+            </div>
+            <div style="margin-top:16px;">
+                <button type="button" onclick="saveHoliday()">保存</button>
+                <button type="button" onclick="closeDialog()">キャンセル</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const API_BASE = '/api/holidays';
+let allHolidays = []; // 全年全月分
+
+// 年月の選択肢生成
+function setupYearMonth() {
+    const yearSel = document.getElementById('year-select');
+    const monthSel = document.getElementById('month-select');
+    const now = new Date();
+    for(let y=now.getFullYear()-1; y<=now.getFullYear()+2; y++) {
+        let opt = document.createElement('option');
+        opt.value = y;
+        opt.text = y;
+        if(y===now.getFullYear()) opt.selected = true;
+        yearSel.appendChild(opt);
+    }
+    for(let m=1; m<=12; m++) {
+        let opt = document.createElement('option');
+        opt.value = m;
+        opt.text = m;
+        if(m===now.getMonth()+1) opt.selected = true;
+        monthSel.appendChild(opt);
+    }
+}
+
+// APIから全祝日データ取得
+async function fetchAllHolidays() {
+    const res = await fetch(API_BASE);
+    if(res.ok) {
+        allHolidays = await res.json();
+    } else {
+        allHolidays = [];
+    }
+}
+
+// 指定年月の祝日テーブルを生成
+function loadHolidayTable() {
+    const year = parseInt(document.getElementById('year-select').value);
+    const month = parseInt(document.getElementById('month-select').value);
+    const tbody = document.getElementById('holiday-tbody');
+    tbody.innerHTML = '';
+    // その月の日付をすべて出す
+    const firstDay = new Date(year, month-1, 1);
+    const lastDay = new Date(year, month, 0);
+    for(let d=1; d<=lastDay.getDate(); d++) {
+        const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const dateObj = new Date(year, month-1, d);
+        const weekDays = ['日','月','火','水','木','金','土'];
+        const week = weekDays[dateObj.getDay()];
+        // DBから該当日を検索
+        const holiday = allHolidays.find(h => h.holidayDate === dateStr);
+        const tr = document.createElement('tr');
+        if(holiday) tr.style.background = '#ffe0b2';
+        tr.innerHTML = `
+            <td>${dateStr}</td>
+            <td${dateObj.getDay()===0?' class="sunday"':''}${dateObj.getDay()===6?' class="saturday"':''}>${week}</td>
+            <td>
+                <select onchange="updateType('${dateStr}', this.value)">
+                    <option value="" ${!holiday || !holiday.holidayType?'selected':''}>ーー</option>
+                    <option value="会社休日" ${holiday&&holiday.holidayType==='会社休日'?'selected':''}>会社休日</option>
+                    <option value="国民の祝日" ${holiday&&holiday.holidayType==='国民の祝日'?'selected':''}>国民の祝日</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" value="${holiday?holiday.holidayNote||'':''}" onchange="updateNote('${dateStr}', this.value)" style="width:95%">
+                ${holiday&&holiday.holidayName?`<div style="color:#b85c00;font-size:0.95em;">${holiday.holidayName}</div>`:''}
+            </td>
+            <td>
+                ${holiday?`
+                    <button onclick="openEditDialog(${holiday.holidayId})">編集</button>
+                    <button onclick="deleteHoliday(${holiday.holidayId})">削除</button>
+                `:`
+                    <button onclick="openCreateDialog('${dateStr}')">追加</button>
+                `}
+            </td>
+        `;
+        tbody.appendChild(tr);
+    }
+}
+
+// カレンダー生成
+function renderCalendar() {
+    const container = document.getElementById('calendar-container');
+    container.innerHTML = '';
+    for(let q=0; q<4; q++) { // 1,4,9,12月など4分割
+        [1,4,9,12][q]
+        for(let m=1+q*3; m<=3+q*3; m++) {
+            const year = parseInt(document.getElementById('year-select').value);
+            const tbl = document.createElement('table');
+            tbl.className = 'calendar-table';
+            tbl.innerHTML = `<caption>${m}月</caption><tr>${['日','月','火','水','木','金','土'].map(w=>`<th>${w}</th>`).join('')}</tr>`;
+            const firstDate = new Date(year, m-1, 1);
+            let row = '<tr>' + '<td></td>'.repeat(firstDate.getDay());
+            let d = 1;
+            for(let i=firstDate.getDay(); d<=new Date(year, m, 0).getDate(); i=(i+1)%7) {
+                const dateStr = `${year}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const holiday = allHolidays.find(h => h.holidayDate === dateStr);
+                row += `<td class="${holiday?'holiday-cell':''}">${d}</td>`;
+                if(i===6) {
+                    tbl.innerHTML += row+'</tr>';
+                    row = '<tr>';
+                }
+                d++;
+            }
+            if(row!=='<tr>') tbl.innerHTML += row+'</tr>';
+            container.appendChild(tbl);
+        }
+    }
+}
+
+// 編集ダイアログ
+function openEditDialog(id) {
+    const h = allHolidays.find(x=>x.holidayId===id);
+    document.getElementById('dialog-title').textContent = '祝日編集';
+    document.getElementById('dialog-id').value = h.holidayId;
+    document.getElementById('dialog-date').value = h.holidayDate;
+    document.getElementById('dialog-name').value = h.holidayName||'';
+    document.getElementById('dialog-type').value = h.holidayType||'';
+    document.getElementById('dialog-note').value = h.holidayNote||'';
+    document.getElementById('holiday-dialog').style.display='flex';
+}
+function openCreateDialog(dateStr) {
+    document.getElementById('dialog-title').textContent = '祝日追加';
+    document.getElementById('dialog-id').value = '';
+    document.getElementById('dialog-date').value = dateStr || '';
+    document.getElementById('dialog-name').value = '';
+    document.getElementById('dialog-type').value = '';
+    document.getElementById('dialog-note').value = '';
+    document.getElementById('holiday-dialog').style.display='flex';
+}
+function closeDialog() {
+    document.getElementById('holiday-dialog').style.display='none';
+}
+
+// 保存（追加・編集共通）
+async function saveHoliday() {
+    const id = document.getElementById('dialog-id').value;
+    const data = {
+        holidayDate: document.getElementById('dialog-date').value,
+        holidayName: document.getElementById('dialog-name').value,
+        holidayType: document.getElementById('dialog-type').value,
+        holidayNote: document.getElementById('dialog-note').value
+    };
+    let res;
+    if(id) {
+        res = await fetch(`${API_BASE}/${id}`, {
+            method:'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(data)
+        });
+    } else {
+        res = await fetch(API_BASE, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(data)
+        });
+    }
+    if(res.ok) {
+        await fetchAllHolidays();
+        loadHolidayTable();
+        renderCalendar();
+        closeDialog();
+    } else {
+        alert('保存に失敗しました');
+    }
+}
+
+// 削除
+async function deleteHoliday(id) {
+    if(!confirm('本当に削除しますか？')) return;
+    const res = await fetch(`${API_BASE}/${id}`, {method:'DELETE'});
+    if(res.ok) {
+        await fetchAllHolidays();
+        loadHolidayTable();
+        renderCalendar();
+    } else {
+        alert('削除に失敗しました');
+    }
+}
+
+// 日付ごとの種別変更
+async function updateType(dateStr, type) {
+    const holiday = allHolidays.find(h => h.holidayDate===dateStr);
+    if(holiday) {
+        // 既存を更新
+        holiday.holidayType = type;
+        await fetch(`${API_BASE}/${holiday.holidayId}`, {
+            method:'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(holiday)
+        });
+    } else if(type) {
+        // 新規追加
+        await fetch(API_BASE, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({holidayDate:dateStr, holidayType:type})
+        });
+    }
+    await fetchAllHolidays();
+    loadHolidayTable();
+    renderCalendar();
+}
+
+// 日付ごとの備考変更
+async function updateNote(dateStr, note) {
+    const holiday = allHolidays.find(h => h.holidayDate===dateStr);
+    if(holiday) {
+        holiday.holidayNote = note;
+        await fetch(`${API_BASE}/${holiday.holidayId}`, {
+            method:'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(holiday)
+        });
+        await fetchAllHolidays();
+        loadHolidayTable();
+        renderCalendar();
+    }
+}
+
+// 初期化
+window.addEventListener('DOMContentLoaded', async function() {
+    setupYearMonth();
+    await fetchAllHolidays();
+    loadHolidayTable();
+    renderCalendar();
+    document.getElementById('year-select').addEventListener('change',()=>{loadHolidayTable();renderCalendar();});
+    document.getElementById('month-select').addEventListener('change',()=>{loadHolidayTable();});
+});
+</script>
 </body>
 </html>

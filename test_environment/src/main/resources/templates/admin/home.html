@@ -20,14 +20,10 @@
         </span>
         <span class="taskbar-title">管理者ホーム</span>
         <nav class="taskbar-tabs">
-            <a th:href="@{/admin/User-management}"
-               th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">ユーザー管理</a>
-            <a th:href="@{/admin/achievement}"
-               th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">実績</a>
-            <a th:href="@{/admin/approval-correction}"
-               th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">承認・訂正依頼</a>
-            <a th:href="@{/admin/company-info}"
-               th:classappend="${activeTab} == 'company' ? 'active'" class="taskbar-tab">会社情報</a>
+            <a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
+            <a th:href="@{/admin/achievement}" th:classappend="'active'" class="taskbar-tab">実績</a>
+            <a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
+            <a th:href="@{/admin/company-info}" class="taskbar-tab">会社情報</a>
         </nav>
     </div>
     <div class="taskbar-right">
@@ -41,13 +37,39 @@
     <div class="menu-title">管理者メニュー</div>
     <div class="menu-desc">管理者用の操作を選択してください。</div>
     <div class="menu-buttons">
-
         <a th:href="@{/admin/User-management}" class="modern-btn">ユーザー管理</a>
         <a th:href="@{/admin/achievement}" class="modern-btn">実績</a>
         <a th:href="@{/admin/approval-correction}" class="modern-btn">承認・訂正依頼</a>
         <a th:href="@{/admin/company-info}" class="modern-btn">会社情報</a>
-
+        <!-- 外部出力だけbuttonに変更 -->
+        <button type="button" class="modern-btn" id="export-btn">外部出力</button>
+    </div>
+    <!-- 完了メッセージ表示用 -->
+    <div id="export-message" style="display:none; color:#1565c0; font-size:1.1rem; text-align:center; margin-top:30px;">
+        外部出力が完了しました。ダウンロードファイルをご確認ください。
     </div>
 </main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const exportBtn = document.getElementById('export-btn');
+    const exportMessage = document.getElementById('export-message');
+    exportBtn.addEventListener('click', function() {
+        if (confirm('外部出力しますか？')) {
+            // ダウンロードURLをサーバーに合わせて調整してください
+            const downloadUrl = /*[[@{/admin/company-info/export}]]*/ '/admin/company-info/export';
+            // ダウンロード開始
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = '';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            // 完了メッセージを表示
+            exportMessage.style.display = 'block';
+            // setTimeout(() => { exportMessage.style.display = 'none'; }, 5000); //自動で消す場合
+        }
+    });
+});
+</script>
 </body>
 </html>
