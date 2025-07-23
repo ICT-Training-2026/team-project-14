@@ -22,6 +22,11 @@ public class PerformanceServiceImpl implements PerformanceService {
     private final HolidayRepository holidayRepository;
 
     @Override
+	public void updatePerformance(Performance performance) {
+		repository.updatePerformance(performance);
+	}
+
+    @Override
     public List<Performance> getAllPerformances(Long userId) {
         return repository.findAll(userId);
     }

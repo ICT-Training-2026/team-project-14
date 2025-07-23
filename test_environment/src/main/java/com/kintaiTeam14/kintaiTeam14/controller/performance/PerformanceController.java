@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Set;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PerformanceController {
     private final PerformanceService performanceService;
+
+    @PostMapping("/performance-update")
+    public ResponseEntity<Void> updatePerformance(@RequestBody Performance performance) {
+        System.out.println("AWS");
+        System.out.println(performance);
+        performanceService.updatePerformance(performance);
+        return ResponseEntity.ok().build();
+    }
 
     // POSTメソッドで年・月をパラメータで受け取る（デフォルトは現在の年月）
     @PostMapping("/{employeeId}/top/jisseki_user")
@@ -46,6 +56,7 @@ public class PerformanceController {
         int compDay = performanceService.getRemainingCompDay(employeeId);
 
         model.addAttribute("performances", performances);
+        System.out.println(performances);
         model.addAttribute("userId", employeeId);
         model.addAttribute("year", y);
         model.addAttribute("month", m);

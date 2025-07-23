@@ -33,4 +33,7 @@ public interface PerformanceService {
 
     // 新規追加：残振休日数取得
     int getRemainingCompDay(Long userId);
+
+    void updatePerformance(Performance performance);
+
 }
