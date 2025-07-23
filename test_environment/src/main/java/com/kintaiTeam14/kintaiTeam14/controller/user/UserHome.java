@@ -11,18 +11,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kintaiTeam14.kintaiTeam14.form.ChangePasswordForm;
+import com.kintaiTeam14.kintaiTeam14.service.employee.AttendanceAndDepatureService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class UserHome {
 
+	private final AttendanceAndDepatureService ads;
 	
 	@PostMapping("/{employeeId}/top/syukkin_user")
-	public String getStartTime(Model m) {
+	public String getStartTime(Model m,@PathVariable Long employeeId) {
 		LocalDateTime now = LocalDateTime.now();
 		String formatted = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
-		System.out.println(formatted); // 例：2024-06-13-10-23-45
 		m.addAttribute("now_s",formatted);
-        // ここでDB保存などの処理も可能
+		
+        //db登録
+		ads.attendance(now,employeeId);
         return "login/index";
 	}
 	
@@ -30,17 +36,12 @@ public class UserHome {
 	public String getEndTime(Model m,@PathVariable Long employeeId) {
 		LocalDateTime now = LocalDateTime.now();
 		String formatted = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
-		System.out.println(formatted); // 例：2024-06-13-10-23-45
 		m.addAttribute("now_e",formatted);
-        // DB保存
 		
+        // DB登録
+		ads.depature(now, employeeId);
 		
         return "login/index";
-	}
-	
-	@GetMapping("/{employee_id}/top")
-	public String getMethodName() {
-		return "login/index";
 	}
 	
 //	@PostMapping("/{employeeId}/top/jisseki_user")
@@ -50,8 +51,7 @@ public class UserHome {
 //	    // 必要に応じてemployeeIdをモデルに渡す
 //	    model.addAttribute("employeeId", employeeId);
 //
-//	    // "user/jisseki" テンプレート（src/main/resources/templates/user/jisseki.html）を表示
-//	    return "user/jissekikanri";
+//	    return "user/jisseki_user";
 //	}
 	
 	@PostMapping("/{employeeId}/top/passChange_user")

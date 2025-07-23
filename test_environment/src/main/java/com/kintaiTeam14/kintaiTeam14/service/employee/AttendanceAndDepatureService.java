@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface AttendanceAndDepatureService {
 
-	void attendance(LocalDateTime time);
+	void attendance(LocalDateTime time,Long emp_id);
 	
-	void depature(LocalDateTime time);
+	void depature(LocalDateTime time,Long emp_id);
 }

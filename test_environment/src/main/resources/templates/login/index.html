@@ -39,7 +39,7 @@
       <form id="syuttaikin" th:action="@{'/' + ${employeeId} + '/top/syukkin_user'}" method="post" style="margin:0;">
         <button type="submit" class="modern-btn">出勤</button>
       </form>
-      <form id="syuttaikin" th:action="@{  '/' + ${employeeId}  +'/top/taikin_user''}" method="post" style="margin:0;">
+      <form id="syuttaikin" th:action="@{'/' + ${employeeId}  +'/top/taikin_user'}" method="post" style="margin:0;">
         <button type="submit" class="modern-btn">退勤</button>
       </form>
       <form th:action="@{ '/' + ${employeeId}+ '/top/jisseki_user'}" method="post" style="margin:0;">
