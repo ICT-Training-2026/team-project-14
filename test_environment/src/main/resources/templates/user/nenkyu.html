@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>年休申請</title>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
+    <title>年休申請</title>
 </head>
-
 <body>
+
+	</form>
 	<header class="taskbar">
 		<div class="taskbar-left">
 			<span class="taskbar-logo">
@@ -19,12 +21,12 @@
 			</span>
 			<span class="taskbar-title">ユーザーホーム</span>
 			<nav class="taskbar-tabs">
-				<a th:href="@{/user/jisseki_user}" th:classappend="${activeTab} == 'user' ? 'active'"
-					class="taskbar-tab">実績管理</a>
-				<a th:href="@{/user/passChange_user}" th:classappend="${activeTab} == 'achievement' ? 'active'"
-					class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/user/shinsei_user}" th:classappend="${activeTab} == 'approval' ? 'active'"
-					class="taskbar-tab">各種申請</a>
+				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
 			</nav>
 		</div>
 		<div class="taskbar-right">
@@ -36,6 +38,7 @@
 	</header>
 	<main>
 		<div class="page-title">年休申請</div>
+		<div class="page-desc">ここで年休申請が行えます。</div>
 		<!-- ここに年休申請の機能を実装 -->
 		
 		<form>
@@ -45,8 +48,9 @@
 		<form>
 			<input type="submit" value="申請">
 		</form>
-		
-		<a th:href="@{/{username}/top}" class="back-link">← ユーザートップに戻る</a>
+
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}" th:classappend="${activeTab} == 'approval' ? 'active'"
+			class="back-link">← ユーザートップに戻る</a>
 	</main>
 </body>
 

@@ -19,12 +19,12 @@
 			</span>
 			<span class="taskbar-title">ユーザーホーム</span>
 			<nav class="taskbar-tabs">
-				<a th:href="@{/user/jisseki_user}" th:classappend="${activeTab} == 'user' ? 'active'"
-					class="taskbar-tab">実績管理</a>
-				<a th:href="@{/user/passChange_user}" th:classappend="${activeTab} == 'achievement' ? 'active'"
-					class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/user/shinsei_user}" th:classappend="${activeTab} == 'approval' ? 'active'"
-					class="taskbar-tab">各種申請</a>
+				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
 			</nav>
 		</div>
 		<div class="taskbar-right">
@@ -38,7 +38,8 @@
 		<div class="page-title">実績管理</div>
 		<div class="page-desc">ここで勤怠実績の管理が行えます。</div>
 		<!-- ここに実績管理の機能を実装 -->
-		<a th:href="@{/{username}/top}" class="back-link">← ユーザートップに戻る</a>
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}" th:classappend="${activeTab} == 'approval' ? 'active'"
+			class="back-link">← ユーザートップに戻る</a>
 	</main>
 </body>
 
