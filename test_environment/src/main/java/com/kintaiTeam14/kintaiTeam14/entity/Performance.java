@@ -8,7 +8,7 @@ import lombok.Data;
  
 @Data
 public class Performance {
-    private int id;                    // ID（DBのattend_idに対応する場合はLong型に変更推奨）
+    private Long id;                    // ID（DBのattend_idに対応する場合はLong型に変更推奨）
     private String dayOfWeek;          // 曜日
     private LocalDate date;            // 日付
     private LocalTime startTime;       // 開始時刻

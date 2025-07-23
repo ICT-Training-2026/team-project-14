@@ -15,4 +15,6 @@ public interface PerformanceRepository {
 
     void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate);
     void updatePerformance(Performance performance);
+
+    List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
 }
