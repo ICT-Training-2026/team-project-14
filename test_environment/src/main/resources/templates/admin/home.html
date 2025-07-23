@@ -8,7 +8,8 @@
 <body>
 <!-- タスクバー -->
 <header class="taskbar">
-    <div class="taskbar-left">
+    <adiv class="taskbar-left">
+		<a th:href="@{/admin}" class="taskbar-home-link" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
         <span class="taskbar-logo">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                 <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
@@ -17,6 +18,7 @@
             </svg>
         </span>
         <span class="taskbar-title">管理者ホーム</span>
+		</a>
         <nav class="taskbar-tabs">
             <a th:href="@{/admin/User-management}"
                th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">ユーザー管理</a>
