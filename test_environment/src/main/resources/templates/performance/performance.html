@@ -55,6 +55,22 @@
       z-index: 2;
       font-size: 0.8em;
     }
+    /* 集計表のスタイル */
+    .summary-table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 800px;
+    }
+    .summary-table th, .summary-table td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    .summary-table thead th {
+      background-color: #c8dafc;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body class="task-body">
@@ -131,5 +147,32 @@
       </tbody>
     </table>
   </div>
+
+  <!-- 集計表 -->
+  <div class="summary-container">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>月</th>
+          <th>月間所定労働時間(h)</th>
+          <th>実労働時間(h)</th>
+          <th>残業時間(h)</th>
+          <th>残年休日数</th>
+          <th>残振休日数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td th:text="${month}">7</td>
+          <td th:text="${scheduledHours}">140</td>
+          <td th:text="${actualHours}">160</td>
+          <td th:text="${overtimeHours}">20</td>
+          <td th:text="${paidHoliday}">5</td>
+          <td th:text="${compDay}">5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </body>
 </html>

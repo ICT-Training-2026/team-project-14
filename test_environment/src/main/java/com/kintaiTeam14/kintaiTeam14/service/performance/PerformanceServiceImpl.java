@@ -22,12 +22,12 @@ public class PerformanceServiceImpl implements PerformanceService {
     private final HolidayRepository holidayRepository;
 
     @Override
-    public List getAllPerformances(Long userId) {
+    public List<Performance> getAllPerformances(Long userId) {
         return repository.findAll(userId);
     }
 
     @Override
-    public List getAllPerformances1(Long userId) {
+    public List<Performance> getAllPerformances1(Long userId) {
         // 必要に応じて実装
         return null;
     }
@@ -44,16 +44,76 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public List findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
+    public List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
         return repository.findByUserIdAndDateRange(userId, startDate, endDate);
     }
 
-    // 追加：祝日をDBから取得するメソッド
+    // 祝日と土日を含めて休日を取得するメソッド
     @Override
-    public Set findHolidaysBetween(LocalDate startDate, LocalDate endDate) {
-        return holidayRepository.findByHolidayDateBetween(startDate, endDate)
+    public Set<LocalDate> findHolidaysBetween(LocalDate startDate, LocalDate endDate) {
+        Set<LocalDate> holidays = holidayRepository.findByHolidayDateBetween(startDate, endDate)
                 .stream()
                 .map(holiday -> holiday.getHolidayDate())
                 .collect(Collectors.toSet());
+
+        LocalDate date = startDate;
+        while (!date.isAfter(endDate)) {
+            switch (date.getDayOfWeek()) {
+                case SATURDAY:
+                case SUNDAY:
+                    holidays.add(date);
+                    break;
+                default:
+                    break;
+            }
+            date = date.plusDays(1);
+        }
+        return holidays;
+    }
+
+    // 月間所定労働時間(h)を計算するメソッド
+    @Override
+    public double calculateScheduledWorkHours(Long userId, LocalDate startDate, LocalDate endDate) {
+        Set<LocalDate> holidays = findHolidaysBetween(startDate, endDate);
+        long totalDays = startDate.datesUntil(endDate.plusDays(1)).count();
+        long workDays = totalDays - holidays.size();
+        return workDays * 7.0;
+    }
+
+    // 実労働時間(h)を計算するメソッド
+    @Override
+    public double calculateActualWorkHours(Long userId, LocalDate startDate, LocalDate endDate) {
+        List<Performance> performances = findByUserIdAndDateRange(userId, startDate, endDate);
+        double totalHours = 0.0;
+        for (Performance p : performances) {
+            if (p.getStartTime() != null && p.getEndTime() != null) {
+                long minutes = java.time.Duration.between(p.getStartTime(), p.getEndTime()).toMinutes();
+                totalHours += minutes / 60.0;
+            }
+        }
+        return totalHours;
+    }
+
+    // 残業時間(h)を計算するメソッド
+    @Override
+    public double calculateOvertimeHours(Long userId, LocalDate startDate, LocalDate endDate) {
+        double actual = calculateActualWorkHours(userId, startDate, endDate);
+        double scheduled = calculateScheduledWorkHours(userId, startDate, endDate);
+        double overtime = actual - scheduled;
+        return Math.max(overtime, 0.0);
+    }
+
+    // 残年休日数をDBから取得するメソッド（仮実装）
+    @Override
+    public int getRemainingPaidHoliday(Long userId) {
+        // TODO: employeeテーブルからpaid_holidayを取得する実装を行う
+        return 0;
+    }
+
+    // 残振休日数をDBから取得するメソッド（仮実装）
+    @Override
+    public int getRemainingCompDay(Long userId) {
+        // TODO: employeeテーブルからcomp_dayを取得する実装を行う
+        return 0;
     }
 }
