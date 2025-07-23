@@ -32,16 +32,15 @@
 		<!-- ここに実績管理の機能を実装 -->
 		
 		<div class="menu-buttons">
-			<form id="syuttaikin" th:action="@{/approval-achivement}" method="post" style="margin:0;">
-				<button type="submit" class="modern-btn">実績承認</button>
-			</form>
-			<form id="syuttaikin" th:action="@{/approval-kyuuka}" method="post" style="margin:0;">
-				<button type="submit" class="modern-btn">年休・振休承認</button>
-			</form>
+		    <form th:action="@{/admin/approval-correction/approval-achievement}" method="get" style="margin:0;">
+		        <button type="submit" class="modern-btn">実績承認</button>
+		    </form>
+		    <form th:action="@{/admin/approval-correction/approval-kyuuka}" method="get" style="margin:0;">
+		        <button type="submit" class="modern-btn">年休・振休承認</button>
+		    </form>
 		</div>
 		
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
 	</main>
 </body>
 </html>
- 
