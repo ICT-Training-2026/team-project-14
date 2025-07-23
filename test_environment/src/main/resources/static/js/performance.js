@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
       var select = tr.querySelector('.status-select');
       if (select) {
         select.value = '申請済み';
+		// ここで reason input を disabled にする
+	      var reasonInput = tr.querySelector('.performance-reason-input');
+	      if (reasonInput) {
+	        reasonInput.disabled = true;
+	      }
         const row = e.target.closest('tr');
         sendUpdate(row);
         // 状態変更を他の処理で使う場合はchangeイベントも発火
@@ -38,6 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var select = tr.querySelector('.status-select');
         if (select) {
           select.value = '未申請';
+		  var reasonInput = tr.querySelector('.performance-reason-input');
+		  	      if (reasonInput) {
+		  	        reasonInput.disabled = false;
+		  	      }
           const row = e.target.closest('tr');
           sendUpdate(row);
           // 状態変更を他の処理で使う場合はchangeイベントも発火
