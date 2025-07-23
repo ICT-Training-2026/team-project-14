@@ -57,4 +57,7 @@ public class DataInitializer implements ApplicationRunner {
 	            System.out.println("一般(User)ユーザーを初期作成しました。");
 	        }
 	    }
+	    
+	    
+	    
    }
