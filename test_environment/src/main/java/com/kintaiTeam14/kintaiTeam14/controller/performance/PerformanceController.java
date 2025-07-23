@@ -1,13 +1,20 @@
 package com.kintaiTeam14.kintaiTeam14.controller.performance;
 
+<<<<<<< HEAD
 import java.time.LocalDate;
 import java.time.Year;
 
+=======
+import org.springframework.http.ResponseEntity;
+>>>>>>> 34080a3f122d6a41cb916e71ff8a940cb1d1796a
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,20 +23,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PerformanceController {
     private final PerformanceService performanceService;
-
-    @PostMapping("/{employeeId}/top/jisseki_user")
-    public String showPerformance(@PathVariable Long employeeId, Model model) {
-        LocalDate startDate = Year.now().atDay(1);
-        LocalDate endDate = Year.now().atMonth(12).atEndOfMonth();
-
-        boolean exists = performanceService.existsPerformancesForYear(employeeId, startDate, endDate);
-        if (!exists) {
-            performanceService.createPerformancesForYear(employeeId, startDate, endDate);
-        }
+	@PostMapping("/{employeeId}/top/jisseki_user")
+    public String showPerformance(@PathVariable Long employeeId,Model model) {
+		// System.out.println("year: " + request.getYear());
+        // System.out.println("month: " + request.getMonth());
 
         var all = performanceService.getAllPerformances(employeeId);
         model.addAttribute("performances", all);
         model.addAttribute("userId", employeeId);
         return "performance/performance";
     }
+
+	@PostMapping("/performance-update")
+    public ResponseEntity<Void> updatePerformance(@RequestBody Performance performance) {
+		performanceService.updatePerformance(performance);
+        return ResponseEntity.ok().build();
+    }
+
 }
