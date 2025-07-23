@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
-import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.HolidayRepository;
+import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +36,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<Performance> getAllPerformances1(Long userId) {
         // 必要に応じて実装
         return null;
-        return null; // 既存実装に合わせてください
+  
     }
 
     @Override
@@ -50,14 +50,14 @@ public class PerformanceServiceImpl implements PerformanceService {
         repository.createPerformancesForYear(userId, startDate, endDate);
     }
 
-	@Override
-	public void updatePerformance(Performance performance) {
-		repository.updatePerformance(performance);
-
-	}
-}
-
-    }
+//	@Override
+//	public void updatePerformance(Performance performance) {
+//		repository.updatePerformance(performance);
+//
+//	}
+//}
+//
+//    }
 
     @Override
     public List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate) {

@@ -1,4 +1,3 @@
-// PerformanceRepositoryImpl.java
 package com.kintaiTeam14.kintaiTeam14.repository.performance;
 
 import java.sql.PreparedStatement;
@@ -30,7 +29,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     public List<Performance> findAll(Long userId) {
         String sql = "SELECT a.attend_id, date, arrival_time, end_time, break_time, status, reason " +
                      "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
-                     "WHERE a.employee_id = ? AND EXTRACT(YEAR FROM a.date) = 2025 AND EXTRACT(MONTH FROM a.date) = 7";
+                     "WHERE a.employee_id = ?";
 
         return jdbcTemplate.query(sql, new Object[]{userId}, new RowMapper<Performance>() {
             @Override
@@ -135,9 +134,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
         LocalDate date = startDate;
         while (!date.isAfter(endDate)) {
             if (!existsByUserIdAndDate(userId, date)) {
-                String insertSql = "INSERT INTO attendance (employee_id, date, status, at_classification, break_time, overtime) " +
-                                   "VALUES (?, ?, '未申請', 0, 0, 0)";
-                jdbcTemplate.update(insertSql, userId, date);
+                createAttendanceWithReason(userId, date);
             }
             date = date.plusDays(1);
         }
@@ -201,26 +198,4 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
             }
         });
     }
-	@Override
-	public void updatePerformance(Performance performance) {
-	    String sql = "UPDATE performances SET " +
-	            "day_of_week = ?, " +
-	            "performance_date = ?, " +
-	            "start_time = ?, " +
-	            "end_time = ?, " +
-	            "break_time = ?, " +
-	            "status = ?, " +
-	            "reason = ? " +
-	            "WHERE id = ?";
-
-	    jdbcTemplate.update(sql,
-	            performance.getDayOfWeek(),
-	            java.sql.Date.valueOf(performance.getDate()),
-	            java.sql.Time.valueOf(performance.getStartTime()),
-	            java.sql.Time.valueOf(performance.getEndTime()),
-	            performance.getBreakTime(),
-	            performance.getStatus(),
-	            performance.getReason(),
-	            performance.getId());
-	}
 }
