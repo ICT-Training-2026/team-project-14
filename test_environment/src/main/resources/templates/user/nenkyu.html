@@ -44,8 +44,8 @@
 
 		
 
-		  <h1>年休申請</h1>
-
+		
+		  <div class="page-title">年休申請</div>
 		  <button class="add-button" type="button" onclick="openModal()">日付検索</button>
 
 		  <table>
@@ -78,9 +78,12 @@
 		  </div>
 
 		  <script th:inline="javascript">
-		    /*<![CDATA[*/
-		     const paidHoliday = [[${employee.paidHoliday}]];
-		    let remainingDays = paidHoliday;
+			/*<![CDATA[*/
+			  const paidHoliday = /*[[${PaidHoliday}]]*/ 0;
+			  console.log(paidHoliday);
+			  let remainingDays = paidHoliday;
+			  // ...（以下略）
+			 
 
 		    const vacationTableBody = document.getElementById('vacationTableBody');
 		    const modalOverlay = document.getElementById('modalOverlay');
@@ -180,6 +183,15 @@
 			    } else {
 			      alert('申請完了');
 			      // 必要なら画面遷移など
+				  const rowCount = vacationTableBody.querySelectorAll('tr').length;
+				     vacationTableBody.innerHTML = '';
+				     // remainingDaysを申請した日数分だけ減らす
+				     // サーバから最新の残年休日数(result.paidHoliday)が返ってくる場合はそちらを優先
+				     if (result.paidHoliday !== undefined) {
+				       remainingDays = result.paidHoliday;
+				     } else {
+				       remainingDays -= rowCount;
+				     }
 			    }
 			  });
 			}

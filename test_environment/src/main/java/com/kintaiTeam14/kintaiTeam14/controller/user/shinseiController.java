@@ -14,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.kintaiTeam14.kintaiTeam14.form.ChangePasswordForm;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +32,7 @@ public class shinseiController {
 	@PostMapping("/{employeeId}/top/shinsei_user")
 	public String kakusyusinsei(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
+	  
 
 		return "user/shinsei";
 	}
@@ -49,6 +48,13 @@ public class shinseiController {
 	@PostMapping("/{employeeId}/top/shinsei_user/nenkyu")
 	public String nenkyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
+		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
+		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
+		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    
+		    System.out.println(appliedDates);
 		 Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
 
 		    // 中身を取り出してセット
@@ -69,8 +75,13 @@ public class shinseiController {
 		    Set<String> dateSet = new HashSet<>();
 		    LocalDate today = LocalDate.now();
 		    // 仮：申請済み日付リスト
-		    List<String> appliedDates = List.of("2024/07/10", "2024/07/11");
-
+		    
+		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
+		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
+		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    
 		    for (Map<String, Object> row : requestList) {
 		    	String dateStr = (String) row.get("date");
 		        LocalDate targetDate = LocalDate.parse(dateStr.replace("/", "-"), formatter);
@@ -140,6 +151,111 @@ public class shinseiController {
 	@PostMapping("/{employeeId}/top/shinsei_user/hurikyu")
 	public String hurikyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
+		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		    int kakusyusinseiPaidHoliday=employeeService.getCompday(employeeId);
+		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
+		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    
+		    System.out.println(appliedDates);
+		 Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
+
+		    // 中身を取り出してセット
+		    Employee employee = employeeOpt.orElse(null);
+		m.addAttribute("employee",employee);
 		return "user/hurikyu";
 	}
+	
+	   @PostMapping("/{employeeId}/top/shinsei_user/hurikyu/apply")
+	   @ResponseBody
+	    public Map<String, Object> applyHurikyu(Model m,@PathVariable Long employeeId,@RequestBody List<Map<String, Object>> requestList) {
+	        // ここでrequestListの内容をDB保存等のロジックに利用
+		   boolean hasError = false;
+		    String errorMsg = "";
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+		    Map<String, Object> result = new HashMap<>();
+
+		    Set<String> dateSet = new HashSet<>();
+		    LocalDate today = LocalDate.now();
+		    // 仮：申請済み日付リスト
+		    
+		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		    int hurikyusinseiCompday=employeeService.getCompday(employeeId);
+		    int  hurikyusinseiAppliedDatesSize =  appliedDates.size();
+		    System.out.println(hurikyusinseiCompday -hurikyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", hurikyusinseiCompday- hurikyusinseiAppliedDatesSize);
+		    
+		    for (Map<String, Object> row : requestList) {
+		    	String dateStr = (String) row.get("date");
+		        LocalDate targetDate = LocalDate.parse(dateStr.replace("/", "-"), formatter);
+		        // 重複チェック
+		        if (!dateSet.add(dateStr)) {
+		            hasError = true;
+		            errorMsg = "日付「" + dateStr + "」が重複しています。";
+		            break;
+		        }
+		        // 過去日付チェック
+		       
+		        if (targetDate.isBefore(today)) {
+		            hasError = true;
+		            errorMsg = "日付「" + dateStr + "」は過去日付です。";
+		            break;
+		        }
+		        // 申請済みチェック
+		        if (appliedDates.contains(dateStr)) {
+		            hasError = true;
+		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
+		            break;
+		        }
+		    }
+		    
+		    
+		    
+		    
+		    
+		    for (Map<String, Object> row : requestList) {
+		        String dateStr = (String) row.get("date");
+		        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
+
+		        // ここでDB更新
+		        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)3);
+
+		        // （オプション）更新件数が0ならエラーなどの判定もできる
+		        if (updated == 0) {
+		            hasError = true;
+		            errorMsg = "該当データがありません（" + dateStr + "）";
+		            break;
+		        }
+		    }
+
+		    if (hasError) {
+		        result.put("success", false);
+		        result.put("errorMsg", errorMsg);
+		        return result;
+		    }
+		    
+		    
+		    
+		    
+		    
+		    // 正常処理...
+		    result.put("success", true);
+		    
+		    
+		    
+		    
+		    return result;
+	    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
