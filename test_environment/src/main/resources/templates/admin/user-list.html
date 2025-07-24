@@ -35,8 +35,8 @@
     <div class="page-title">ユーザー管理</div>
     <div class="page-desc">ここでユーザーの一覧表示・追加・編集・削除などが行えます。</div>
 
-    <form th:action="@{/admin/user-list/search}" method="post">
-        <input type="text" id="searchWord"  name="searchWord">
+    <form th:action="@{/admin/user-list}" method="post" th:object="${form}">
+        <input type="text" th:field="searchWord">
         <input type="button" value="検索">
     </form>
 
