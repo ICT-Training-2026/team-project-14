@@ -14,43 +14,36 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final CustomAccessDeniedHandler accessDeniedHandler;
+	private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                    .requestMatchers("/api/holidays/**").permitAll()         // ← これを追加
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                    .anyRequest().authenticated()
-            )
-            // APIはCSRF無効化
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/holidays/**")               // ← これを追加
-            )
-            .formLogin(form ->
-                form
-                    .loginPage("/login")
-                    .successHandler(new CustomAuthenticationSuccessHandler())
-                    .permitAll()
-            )
-            .logout(logout ->
-                logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login")
-                    .permitAll()
-            )
-            .exceptionHandling(exception ->
-                exception.accessDeniedHandler(accessDeniedHandler)
-            );
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+						.requestMatchers("/admin/company-info/export").permitAll() // 追加
+						.requestMatchers("/api/holidays/export").permitAll()
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+						.requestMatchers("/login", "/css/**", "/js/**").permitAll()
+						.requestMatchers("/api/holidays/**").hasRole("ADMIN")
+						.anyRequest().authenticated())
+				.csrf(csrf -> csrf
+						.ignoringRequestMatchers("/admin/company-info/export") // 追加
+						.ignoringRequestMatchers("/api/holidays/export"))
+				.formLogin(form -> form
+						.loginPage("/login")
+						.successHandler(new CustomAuthenticationSuccessHandler())
+						.permitAll())
+				.logout(logout -> logout
+						.logoutUrl("/logout")
+						.logoutSuccessUrl("/login")
+						.permitAll())
+				.exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler));
 
-        return http.build();
-    }
+		return http.build();
+	}
 }
