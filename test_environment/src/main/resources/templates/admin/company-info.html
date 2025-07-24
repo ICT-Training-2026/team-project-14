@@ -11,10 +11,8 @@
         .holiday-cell { background: #ffe0b2 !important; }
         .sunday { color: red !important; }
         .saturday { color: blue !important; }
-        .holiday-label { color: #b85c00; font-size: 0.95em; }
-        table.admin-table th, table.admin-table td { text-align: center; }
-        table.admin-table input[readonly] { background: #eee; }
         .modern-btn { padding: 6px 18px; }
+        table.admin-table th, table.admin-table td { text-align: center; }
     </style>
 </head>
 <body>
@@ -47,7 +45,7 @@
     <div class="page-desc">ここで休日の閲覧・追加・編集・削除が行えます。</div>
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
     <div style="margin: 20px 0;">
-        <button class="modern-btn" onclick="openCreateDialog()">新規休日追加</button>
+        <button class="modern-btn" onclick="openCreateDialog()">新規会社休日追加</button>
     </div>
     <form id="search-form" onsubmit="return false;" style="margin-bottom:10px;">
         <select id="year-select"></select> 年
@@ -73,10 +71,10 @@
     </div>
 </main>
 
-<!-- 休日追加・編集用ダイアログ -->
+<!-- 会社休日追加・編集用ダイアログ -->
 <div id="holiday-dialog" style="display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.2);align-items:center;justify-content:center;z-index:1000;">
     <div style="background:#fff;padding:24px;border-radius:8px;min-width:320px;max-width:90vw;">
-        <h2 id="dialog-title">休日追加/編集</h2>
+        <h2 id="dialog-title">会社休日追加/編集</h2>
         <form id="holiday-form" onsubmit="return false;">
             <input type="hidden" id="dialog-id">
             <div>
@@ -85,15 +83,7 @@
             </div>
             <div>
                 <label>種別:</label>
-                <select id="dialog-type" maxlength="20" onchange="toggleDialogFields()">
-                    <option value="">ーー</option>
-                    <option value="休日">休日</option>
-                    <option value="祝日">祝日</option>
-                </select>
-            </div>
-            <div>
-                <label>名称（祝日用）:</label>
-                <input type="text" id="dialog-name" maxlength="50">
+                <input type="text" id="dialog-type" value="会社休日" readonly>
             </div>
             <div>
                 <label>備考:</label>
@@ -150,168 +140,87 @@ function loadHolidayTable() {
     const firstDay = new Date(year, month-1, 1);
     const lastDay = new Date(year, month, 0);
     const weekDays = ['日','月','火','水','木','金','土'];
+
     for(let d=1; d<=lastDay.getDate(); d++) {
         const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
         const dateObj = new Date(year, month-1, d);
         const week = weekDays[dateObj.getDay()];
         const holiday = allHolidays.find(h => h.holidayDate === dateStr);
-        const isHoliday = !!holiday;
-        const isNationalHoliday = holiday && holiday.holidayType === "祝日";
+
+        // 土日か？
         const isSunday = dateObj.getDay() === 0;
         const isSaturday = dateObj.getDay() === 6;
+
+        // 行の種別・名称
+        let typeLabel = "";
+        let nameLabel = "";
+        let opButtons = "";
+
+        if(holiday) {
+            if(holiday.holidayType === "祝日") {
+                typeLabel = "祝日";
+                // 必ず祝日名を表示（空文字の場合は"祝日"と表示）
+                nameLabel = holiday.holidayName && holiday.holidayName.trim() !== "" ? holiday.holidayName : "祝日";
+                opButtons = ""; // 祝日は編集・削除・追加ボタン表示しない
+            } else if(holiday.holidayType === "休日") {
+                typeLabel = "会社休日";
+                nameLabel = "";
+                opButtons = `
+                    <button onclick="openEditDialog(${holiday.holidayId})">編集</button>
+                    <button onclick="deleteHoliday(${holiday.holidayId})">削除</button>
+                `;
+            }
+        } else if(!(isSunday || isSaturday)) {
+            // 土日以外で会社休日でも祝日でもない日だけ追加ボタンを表示
+            opButtons = `<button onclick="openCreateDialog('${dateStr}')">追加</button>`;
+        }
+
         const tr = document.createElement('tr');
-        if(isHoliday) tr.classList.add('holiday-cell');
+        if(holiday) tr.classList.add('holiday-cell');
         if(isSunday) tr.classList.add('sunday');
         if(isSaturday) tr.classList.add('saturday');
         tr.innerHTML = `
             <td>${dateStr}</td>
             <td${isSunday?' class="sunday"':''}${isSaturday?' class="saturday"':''}>${week}</td>
-            <td>
-                <select onchange="updateType('${dateStr}', this.value)">
-                    <option value="" ${!holiday || !holiday.holidayType?'selected':''}>ーー</option>
-                    <option value="休日" ${holiday&&holiday.holidayType==='休日'?'selected':''}>休日</option>
-                    <option value="祝日" ${holiday&&holiday.holidayType==='祝日'?'selected':''}>祝日</option>
-                </select>
-            </td>
-            <td>
-                <input type="text" value="${isNationalHoliday?(holiday.holidayName||''):''}" 
-                       ${isNationalHoliday?'':'readonly'}
-                       onchange="updateName('${dateStr}', this.value)" style="width:95%">
-            </td>
-            <td>
-                <input type="text" value="${!isNationalHoliday && isHoliday ? (holiday.holidayNote||'') : ''}" 
-                       ${isNationalHoliday?'readonly':''}
-                       onchange="updateNote('${dateStr}', this.value)" style="width:95%">
-            </td>
-            <td>
-                ${holiday?`
-                    <button onclick="openEditDialog(${holiday.holidayId})">編集</button>
-                    <button onclick="deleteHoliday(${holiday.holidayId})">削除</button>
-                `:`
-                    <button onclick="openCreateDialog('${dateStr}')">追加</button>
-                `}
-            </td>
+            <td>${typeLabel}</td>
+            <td>${nameLabel}</td>
+            <td>${holiday && holiday.holidayType !== "祝日" && holiday.holidayNote ? holiday.holidayNote : ""}</td>
+            <td>${opButtons}</td>
         `;
         tbody.appendChild(tr);
     }
 }
 
-async function updateName(dateStr, name) {
-    const holiday = allHolidays.find(h => h.holidayDate===dateStr);
-    if(holiday && holiday.holidayType==='祝日') {
-        // holidayNoteは必ず空文字で送る
-        let data = {...holiday, holidayName: name, holidayNote: ""};
-        const res = await fetch(`${API_BASE}/${holiday.holidayId}`, {
-            method:'PUT',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(data)
-        });
-        if(!res.ok){
-            let msg = '保存に失敗しました';
-            try { msg += '\n' + await res.text(); } catch(e){}
-            alert(msg);
-        }
-        await fetchAllHolidays();
-        loadHolidayTable();
-        renderCalendar();
-    }
-}
-
-async function updateNote(dateStr, note) {
-    const holiday = allHolidays.find(h => h.holidayDate===dateStr);
-    if(holiday && holiday.holidayType!=='祝日') {
-        // holidayNameは必ず空文字で送る
-        let data = {...holiday, holidayNote: note, holidayName: ""};
-        const res = await fetch(`${API_BASE}/${holiday.holidayId}`, {
-            method:'PUT',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(data)
-        });
-        if(!res.ok){
-            let msg = '保存に失敗しました';
-            try { msg += '\n' + await res.text(); } catch(e){}
-            alert(msg);
-        }
-        await fetchAllHolidays();
-        loadHolidayTable();
-        renderCalendar();
-    }
-}
-
-async function updateType(dateStr, type) {
-    const holiday = allHolidays.find(h => h.holidayDate === dateStr);
-    if(holiday) {
-        let data = {
-            holidayId: holiday.holidayId,
-            holidayDate: dateStr,
-            holidayType: type,
-            holidayName: type === '祝日' ? (holiday.holidayName || "") : "",
-            holidayNote: type === '祝日' ? "" : (holiday.holidayNote || "")
-        };
-        await fetch(`${API_BASE}/${holiday.holidayId}`, {
-            method:'PUT',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(data)
-        });
-    } else if(type) {
-        let data = {
-            holidayDate: dateStr,
-            holidayType: type,
-            holidayName: type === '祝日' ? "" : "",
-            holidayNote: type === '祝日' ? "" : ""
-        };
-        await fetch(API_BASE, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(data)
-        });
-    }
-    await fetchAllHolidays();
-    loadHolidayTable();
-    renderCalendar();
-}
+// 以下の関数は前回通り
 
 function openEditDialog(id) {
     const h = allHolidays.find(x=>x.holidayId===id);
-    document.getElementById('dialog-title').textContent = '休日編集';
+    document.getElementById('dialog-title').textContent = '会社休日編集';
     document.getElementById('dialog-id').value = h.holidayId;
     document.getElementById('dialog-date').value = h.holidayDate;
-    document.getElementById('dialog-type').value = h.holidayType||'';
-    document.getElementById('dialog-name').value = h.holidayType === '祝日' ? (h.holidayName||'') : '';
+    document.getElementById('dialog-type').value = "会社休日";
     document.getElementById('dialog-note').value = h.holidayType !== '祝日' ? (h.holidayNote||'') : '';
-    toggleDialogFields();
     document.getElementById('holiday-dialog').style.display='flex';
 }
 function openCreateDialog(dateStr) {
-    document.getElementById('dialog-title').textContent = '休日追加';
+    document.getElementById('dialog-title').textContent = '会社休日追加';
     document.getElementById('dialog-id').value = '';
     document.getElementById('dialog-date').value = dateStr || '';
-    document.getElementById('dialog-type').value = '';
-    document.getElementById('dialog-name').value = '';
+    document.getElementById('dialog-type').value = '会社休日';
     document.getElementById('dialog-note').value = '';
-    toggleDialogFields();
     document.getElementById('holiday-dialog').style.display='flex';
 }
 function closeDialog() {
     document.getElementById('holiday-dialog').style.display='none';
 }
 
-function toggleDialogFields() {
-    const type = document.getElementById('dialog-type').value;
-    document.getElementById('dialog-name').readOnly = (type !== '祝日');
-    document.getElementById('dialog-note').readOnly = (type === '祝日');
-}
-
 async function saveHoliday() {
     const id = document.getElementById('dialog-id').value;
-    const type = document.getElementById('dialog-type').value;
-    let name = document.getElementById('dialog-name').value;
-    let note = document.getElementById('dialog-note').value;
     let data = {
         holidayDate: document.getElementById('dialog-date').value,
-        holidayType: type,
-        holidayName: type === '祝日' ? name : "",
-        holidayNote: type === '祝日' ? "" : note
+        holidayType: "休日",
+        holidayName: "",
+        holidayNote: document.getElementById('dialog-note').value
     };
     let res;
     if(id) {
@@ -358,7 +267,6 @@ function renderCalendar() {
     container.innerHTML = '';
     const weekDays = ['日','月','火','水','木','金','土'];
     const year = parseInt(document.getElementById('year-select').value);
-    // 4列×3行で12カ月
     for(let row=0; row<3; row++) {
         const rowDiv = document.createElement('div');
         rowDiv.style.display = 'flex';
@@ -397,7 +305,6 @@ window.addEventListener('DOMContentLoaded', async function() {
     renderCalendar();
     document.getElementById('year-select').addEventListener('change',()=>{loadHolidayTable();renderCalendar();});
     document.getElementById('month-select').addEventListener('change',()=>{loadHolidayTable();});
-    document.getElementById('dialog-type').addEventListener('change', toggleDialogFields);
 });
 </script>
 </body>
