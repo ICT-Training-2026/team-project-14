@@ -32,7 +32,7 @@
 					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
 				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
 					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+				<a th:href="@{/{employeeId}/top/shinsei(employeeId=${employeeId})}"
 					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
 			</nav>
 		</div>
