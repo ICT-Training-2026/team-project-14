@@ -7,21 +7,18 @@ import java.time.LocalTime;
 import lombok.Data;
 
 @Data
-public class Performance {
+public class RePerformance {
     private Long id;                    // ID（DBのattend_idに対応する場合はLong型に変更推奨）
-    private String dayOfWeek;          // 曜日
     private LocalDate date;            // 日付
+    private String dayOfWeek;          // 曜日
     private LocalTime startTime;       // 開始時刻
     private LocalTime endTime;         // 終了時刻
-    private int breakTime;             // 休憩時間
     private String status;             // ステータス
+    private int breakTime;
     private String reason;             // 理由
-    private int atClassification;   //0～5
+    private int atClassification;   //0～5、出社区分
+    private String correctReason;  //訂正理由
+    private String diffReason; //差異理由
 
-    /**
-     * 2025年7月以外の日付のデータは無効とみなすメソッドを追加（例）
-     */
-    public boolean isInJuly2025() {
-        return date != null && date.getYear() == 2025 && date.getMonthValue() == 7;
-    }
+
 }

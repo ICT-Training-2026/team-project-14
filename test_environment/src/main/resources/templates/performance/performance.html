@@ -122,6 +122,7 @@
           <th>休憩時間(h)</th>
           <th>申請</th>
           <th>状況</th>
+          <th>出社区分</th>
           <th>事由</th>
           <th>再申請</th>
           <th>取消</th>
@@ -151,9 +152,25 @@
             </select>
             <input type="hidden" th:name="status" th:value="${performance.status}" />
           </td>
+          <td>
+            <select class="work-select" disabled>
+              <option value=0 th:selected="${performance.atClassification == 0}">出勤</option>
+              <option value=1 th:selected="${performance.atClassification == 1}">欠勤</option>
+              <option value=2 th:selected="${performance.atClassification == 2}">振休</option>
+              <option value=3 th:selected="${performance.atClassification == 3}">振出</option>
+              <option value=4 th:selected="${performance.atClassification == 4}">休日</option>
+              <option value=5 th:selected="${performance.atClassification == 5}">年休</option>
+            </select>
+            <input type="hidden" th:name="status" th:value="${performance.status}" />
+          </td>
           <td><input type="text" th:value="${performance.reason}" class="performance-reason-input"  /></td>
           <!-- disabledを外してボタン有効化 -->
-          <td><input type="button" value="再申請" class="resubmit-button" /></td>
+          <td style="width: 3ch;">
+          <form th:action="@{/{employeeId}/top/jisseki_user/reperformance(employeeId=${userId})}" method="post" style="margin: 3px;">
+            <button type="submit" class="resubmit-button" style="white-space: nowrap; min-width: 3ch; padding: 4px 8px;">再申請</button>
+                <input type="hidden" name="reId" th:value="${performance.id}" />
+          </form>
+        </td>
           <td><input type="button" value="取消" class="remove-button" /></td>
           <td><input type="hidden" class="performance-id" th:value="${performance.id}" /></td>
         </tr>
