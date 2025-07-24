@@ -101,7 +101,8 @@
 		    const datePicker = document.getElementById('datePicker');
 		    const modalAddBtn = document.getElementById('modalAddBtn');
 			const employeeId = [[${employeeId}]];
-			const url = `/${employeeId}/top/shinsei_user/nenkyu/apply`;
+			const url = `/${employeeId}/top/shinsei/nenkyu/apply`;
+			console.log(url);
 			document.querySelector('meta[name="_csrf"]').getAttribute('content');
 			
 			const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');

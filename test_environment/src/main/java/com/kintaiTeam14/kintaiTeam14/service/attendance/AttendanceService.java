@@ -31,6 +31,30 @@ public class AttendanceService {
 		List<Attendance> atendList=attendanceRepository.findAteAttendancesbyAtClassification(  atClassification,  atClassification2);
 		return atendList;
 	}
+	public int changeAtClassificationByAttendIdService(Long attendId) {
+		int sccese=0;
+		int AtClassification =attendanceRepository.findAtClassificationbyAttendId(attendId);
+		if(AtClassification==2) {
+			attendanceRepository.changeAtClassificationByAttendId( attendId,4);
+		} else {
+			attendanceRepository.changeAtClassificationByAttendId( attendId,5);
+		}
+		
+		
+		return sccese;
+		
+	}
+	
+	public int changeAtClassificationByAttendIdRejectService(Long attendId) {
+		int sccese=0;
+	
+		attendanceRepository.changeAtClassificationByAttendId( attendId,0);
+
+		
+		
+		return sccese;
+		
+	}
 		
 	
 

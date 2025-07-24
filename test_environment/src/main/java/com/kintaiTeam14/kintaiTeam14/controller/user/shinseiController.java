@@ -49,10 +49,12 @@ public class shinseiController {
 	public String nenkyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		  List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
 		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
+		    int  kakusyusinseiAppliedDatesSize4 =  appliedDates4.size();
 		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
-		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize-kakusyusinseiAppliedDatesSize4);
 		    
 		    System.out.println(appliedDates);
 		 Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
@@ -67,11 +69,12 @@ public class shinseiController {
 	public String nenkyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
 	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
-
+	    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
 	    // 年休残日数を計算
 	    int paidHoliday = employeeService.getPaidHoliday(employeeId);
 	    int appliedDatesSize = appliedDates.size();
-	    int remainingPaidHoliday = paidHoliday - appliedDatesSize;
+	    int appliedDatesSize4 = appliedDates4.size();
+	    int remainingPaidHoliday = paidHoliday - appliedDatesSize-appliedDatesSize4;
 
 	    // 必要なデータをModelにセット
 	    m.addAttribute("PaidHoliday", remainingPaidHoliday);
@@ -97,6 +100,7 @@ public class shinseiController {
 	   @ResponseBody
 	    public Map<String, Object> applyNenkyu(Model m,@PathVariable Long employeeId,@RequestBody List<Map<String, Object>> requestList) {
 	        // ここでrequestListの内容をDB保存等のロジックに利用
+		   System.out.println("/{employeeId}/top/shinsei/nenkyu/apply");
 		   boolean hasError = false;
 		    String errorMsg = "";
 		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
@@ -107,10 +111,12 @@ public class shinseiController {
 		    // 仮：申請済み日付リスト
 		    
 		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
 		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
+		    int  kakusyusinseiAppliedDatesSize4 =  appliedDates4.size();
 		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
-		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize- kakusyusinseiAppliedDatesSize4);
 		    
 		    for (Map<String, Object> row : requestList) {
 		    	String dateStr = (String) row.get("date");
@@ -158,6 +164,8 @@ public class shinseiController {
 		    if (hasError) {
 		        result.put("success", false);
 		        result.put("errorMsg", errorMsg);
+		        System.out.println("送信ミス");
+		        
 		        return result;
 		    }
 		    
@@ -182,10 +190,12 @@ public class shinseiController {
 	public String hurikyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		  List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
 		    int kakusyusinseiPaidHoliday=employeeService.getCompday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
+		    int  kakusyusinseiAppliedDatesSize5 =  appliedDates5.size();
 		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
-		    m.addAttribute("Compday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("Compday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize-kakusyusinseiAppliedDatesSize5);
 		    
 		    System.out.println(appliedDates);
 		 Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
@@ -201,11 +211,15 @@ public class shinseiController {
 	public String hurikyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
 	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+	    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
 
 	    // 年休残日数を計算
 	    int paidHoliday = employeeService.getCompday(employeeId);
+	    
+	    
 	    int appliedDatesSize = appliedDates.size();
-	    int remainingPaidHoliday = paidHoliday - appliedDatesSize;
+	    int appliedDatesSize5 = appliedDates5.size();
+	    int remainingPaidHoliday = paidHoliday - appliedDatesSize-appliedDatesSize5;
 
 	    // 必要なデータをModelにセット
 	    m.addAttribute("Compday", remainingPaidHoliday);
@@ -247,10 +261,12 @@ public class shinseiController {
 		    // 仮：申請済み日付リスト
 		    
 		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
 		    int hurikyusinseiCompday=employeeService.getCompday(employeeId);
 		    int  hurikyusinseiAppliedDatesSize =  appliedDates.size();
+		    int  hurikyusinseiAppliedDatesSize5 =  appliedDates5.size();
 		    System.out.println(hurikyusinseiCompday -hurikyusinseiAppliedDatesSize);
-		    m.addAttribute("PaidHoliday", hurikyusinseiCompday- hurikyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", hurikyusinseiCompday- hurikyusinseiAppliedDatesSize-hurikyusinseiAppliedDatesSize5);
 		    
 		    for (Map<String, Object> row : requestList) {
 		    	String dateStr = (String) row.get("date");

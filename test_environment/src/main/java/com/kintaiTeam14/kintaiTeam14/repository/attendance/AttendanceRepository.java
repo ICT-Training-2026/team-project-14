@@ -26,6 +26,20 @@ public class AttendanceRepository {
         );
     }
 	
+	public int findAtClassificationbyAttendId(Long attendId) {
+		 String sql = "SELECT at_classification FROM attendance WHERE attend_id = ?";
+		    // queryForObjectの第3引数にint.classを指定
+		    return jdbcTemplate.queryForObject(sql, new Object[]{attendId}, int.class);
+		
+		
+	}
+	
+	
+	public void changeAtClassificationByAttendId(Long attendId,int at_classification) {
+		String sql = "UPDATE attendance SET at_classification = ? WHERE attend_id = ?";
+	    jdbcTemplate.update(sql, at_classification, attendId);
+		
+	}
 	
 	public List<Attendance>findAteAttendancesbyAtClassification( int atClassification, int atClassification2){
 		 String sql = "SELECT attend_id, employee_id, arrival_time, end_time, break_time, at_classification, overtime, status, created_at, updated_at, date "
