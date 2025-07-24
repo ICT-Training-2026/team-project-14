@@ -5,12 +5,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.kintaiTeam14.kintaiTeam14.form.UserSearchForm;
+
 @Controller
 public class AdminMenuController {
 
     /** ユーザー管理画面 */
     @GetMapping("/admin/User-management")
-    public String userManagement() {
+    public String userManagement(@ModelAttribute UserSearchForm f) {
         return "admin/user-management"; // templates/admin/user-management.html
     }
 

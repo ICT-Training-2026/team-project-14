@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kintaiTeam14.kintaiTeam14.form.UserRegistForm;
 import com.kintaiTeam14.kintaiTeam14.form.UserSearchForm;
 import com.kintaiTeam14.kintaiTeam14.service.employee.EmployeeService;
 
@@ -18,21 +20,20 @@ import lombok.RequiredArgsConstructor;
 public class AdminUserManagement {
 	private final EmployeeService userService;
 	
+	//ユーザー検索用処理
 	@PostMapping("/admin/user-list")
-	public String searchUser( Model m) {
-//		List<Map<String, Object>> users = userService.findByUsernameAll(form.getSearchWord());
-//		System.out.println("f："+form.getSearchWord());
-//		m.addAttribute("users",users);
-		return "admin/user-list";
+	public String searchUser(@ModelAttribute UserSearchForm f, Model m) {
+		List<Map<String, Object>> users = userService.findByUsernameAll(f.getSearchWord());
+		System.out.println("search-query："+f.getSearchWord());
+		System.out.println(users);
+		m.addAttribute("users",users);
+		return "admin/user-management";
 	}
 	
-	@PostMapping("/admin/user-list/search")
-	public String postMethodName(UserSearchForm form, Model m) {
-		//TODO: process POST request
-		List<Map<String, Object>> users = userService.findByUsernameAll(form.getSearchWord());
-		System.out.println("f："+form.getSearchWord());
-		m.addAttribute("users",users);
-		return "admin/user-list";
+	//ユーザー新規登録処理
+	@PostMapping("/admin/user-regist")
+	public String userRegist(@ModelAttribute UserRegistForm f) {
+		return "/admin/user-regist";
 	}
 	
 	
@@ -41,19 +42,19 @@ public class AdminUserManagement {
 		return "";
 	}
 
+//	/**
+//	 * ユーザー削除機能
+//	 */
+//	@PostMapping("admin/delete")
+//	public String deleteUser(@PathVariable Long empId) {
+//		userService.deleteUserById(empId);
+//		return "redirect:/admin/User-management";
+//	}
+	
 //	@GetMapping
 //	public String listUsers(Model model) {
 //		model.addAttribute("users", userService.getAllUsers());
 //		return "admin/user-management";
-//	}
-
-//	/**
-//	 * ユーザー削除機能
-//	 */
-//	@PostMapping("/delete/{id}")
-//	public String deleteUser(@PathVariable Long id) {
-//		userService.deleteUserById(id);
-//		return "redirect:/admin/User-management";
 //	}
 
 	/**
