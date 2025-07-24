@@ -1,31 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Title</title>
-<link rel="stylesheet" th:href="@{/css/userstyle.css}">
+	<title>各種申請</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 
-<header class="logoutback">
-
-	<form th:action="@{/logout}" method="post">
-		<button type="submit">ログアウト</button>
-	</form>
-
-	<form th:action="@{/user/top}" method="get">
-		<button type="submit">戻る</button>
-	</form>
-	
-</header>
-
 <body>
+	<header class="taskbar">
+		<div class="taskbar-left">
+			<a th:href="@{'/' + ${employeeId} + '/top'}" class="taskbar-home-link"
+				style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+				<span class="taskbar-logo">
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+						<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
+						<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
+						<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
+					</svg>
+				</span>
+				<span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
+			</a>
+			<nav class="taskbar-tabs">
+				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
+			</nav>
+		</div>
+		<div class="taskbar-right">
+			<form th:action="@{/logout}" method="post" style="margin:0;">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<button type="submit" class="taskbar-logout">ログアウト</button>
+			</form>
+		</div>
+	</header>
+	<main>
+		<div class="page-title">各種申請</div>
+		<div class="page-desc">ここで各種申請を行います。</div>
+		<!-- ここに実績管理の機能を実装 -->
 
-	<form th:action="@{/nenkyu}" method="post">
-		<input type="submit" value="年休申請" class="button">
-	</form>
-	<form th:action="@{/hurikyu}" method="post">
-		<input type="submit" value="振休申請" class="button">
-	</form>
-	
+		<div class="menu-buttons">
+			<form id="syuttaikin" th:action="@{/{employeeId}/top/shinsei/nenkyu(employeeId=${employeeId})}"
+				method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">年休申請</button>
+			</form>
+			<form id="syuttaikin" th:action="@{/{employeeId}/top/shinsei/hurikyu(employeeId=${employeeId})}"
+				method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">振休申請</button>
+			</form>
+		</div>
+
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}"
+			th:classappend="${activeTab} == 'approval' ? 'active'" class="back-link">← ユーザートップに戻る</a>
+	</main>
 </body>
+
 </html>

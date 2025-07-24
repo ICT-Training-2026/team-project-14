@@ -15,28 +15,28 @@ public class Login {
     public String login() {
         return "login/login";  // login.htmlを表示
     }
-    
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //いらない、ユーザ追加するときの参考に
 //    @GetMapping("/register")
 //    public String showRegistrationForm(Model model) {
@@ -56,7 +56,7 @@ public class Login {
 //        // ユーザー名の重複チェック
 //        if (userService.findByUsername(form.getUsername()) != null) {
 //            bindingResult.rejectValue("username", "error.form", "既に登録済みのユーザー名です");
-//            return "/login"; 
+//            return "/login";
 //        }
 //
 //        // ユーザー登録処理
@@ -68,13 +68,13 @@ public class Login {
 
     /**
      * ユーザー登録フォームのデータを格納するクラス。
-     * 
+     *
      * - username: ユーザー名（必須入力）
      * - password: パスワード（必須入力）
-     * 
+     *
      * バリデーションとして @NotBlank を付与しており、
      * 空文字やnullが入力された場合はエラーとなる。
-     * 
+     *
      * Lombokの @Data アノテーションにより、
      * 以下のメソッドが自動生成される。
      * - ゲッター / セッター

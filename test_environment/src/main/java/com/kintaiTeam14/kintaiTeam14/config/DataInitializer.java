@@ -42,14 +42,14 @@ public class DataInitializer implements ApplicationRunner {
 	            System.out.println("管理者(Admin)ユーザーを初期作成しました。");
 	        }
 
-	        Employee normalUser = employeeRepository.findByEmployeeName("user");
+	        Employee normalUser = employeeRepository.findByEmployeeName("user2");
 	        if (normalUser == null) {
 	            Employee employeeUser = new Employee();
-	            employeeUser.setEmployeeId(100001L);
-	            employeeUser.setEmployeeName("user");
-	            employeeUser.setPassword(passwordEncoder.encode("user")); // 初期パスワードは適宜変更
+	            employeeUser.setEmployeeId(100002L);
+	            employeeUser.setEmployeeName("user2");
+	            employeeUser.setPassword(passwordEncoder.encode("user2")); // 初期パスワードは適宜変更
 	            employeeUser.setDepartmentId("D001");   // 例：開発
-	            employeeUser.setIsPassword(true);
+	            employeeUser.setIsPassword(false);
 	            employeeUser.setPaidHoliday(0);
 	            employeeUser.setCompDay(0);
 	            employeeUser.setDepartmentHistory(null);
@@ -57,4 +57,7 @@ public class DataInitializer implements ApplicationRunner {
 	            System.out.println("一般(User)ユーザーを初期作成しました。");
 	        }
 	    }
+	    
+	    
+	    
    }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>実績</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+
+	<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+</head>
+
+<body>
+<header class="taskbar">
+    <div class="taskbar-left">
+        <span class="taskbar-logo">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
+                <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
+                <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
+            </svg>
+        </span>
+        <span class="taskbar-title">管理者ホーム</span>
+        <nav class="taskbar-tabs">
+            <a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
+            <a th:href="@{/admin/achievement}" th:classappend="'active'" class="taskbar-tab">実績</a>
+            <a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
+            <a th:href="@{/admin/company-info}" class="taskbar-tab">会社情報</a>
+        </nav>
+    </div>
+    <div class="taskbar-right">
+        <form th:action="@{/logout}" method="post" style="margin:0;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="taskbar-logout">ログアウト</button>
+        </form>
+    </div>
+</header>
+<main>
+	<span class="taskbar-title">休暇申請一覧</span>
+	<table border="1">
+	    <thead>
+	        <tr>
+	            <th>社員ID</th>
+	            <th>日付</th>
+	            <th>出勤区分</th>
+	            <th>操作</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="attendance : ${attendances}"
+	            th:attr="data-attendid=${attendance.attendId}">
+	            <td th:text="${attendance.employeeId}">社員ID</td>
+	            <td th:text="${attendance.date}">日付</td>
+	            <td th:switch="${attendance.atClassification}">
+	                <span th:case="2">有給申請</span>
+	                <span th:case="3">振休申請</span>
+	                <span th:case="*">その他</span>
+	            </td>
+	            <td>
+	                <button type="button" class="approve-btn"
+	                    th:attr="data-attendid=${attendance.attendId}">許可</button>
+	                <button type="button" class="reject-btn"
+	                    th:attr="data-attendid=${attendance.attendId}">不許可</button>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	<script>
+		document.querySelector('meta[name="_csrf"]').getAttribute('content');
+						
+		const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+		const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+	document.addEventListener('DOMContentLoaded', function () {
+	    // 許可ボタン
+	    document.querySelectorAll('.approve-btn').forEach(btn => {
+	        btn.addEventListener('click', function () {
+	            const attendId = this.getAttribute('data-attendid');
+	            fetch(`/admin/approval-correction/approval-kyuuka/approve/${attendId}`, {
+	                method: 'POST',
+	                headers: {
+	                     [csrfHeader]: csrfToken
+	                    // 必要ならCSRFトークンもここに追加
+	                }
+	            })
+	            .then(response => {
+	                if (response.ok) {
+	                    // 行を削除
+	                    const tr = this.closest('tr');
+	                    tr.remove();
+	                } else {
+	                    alert('許可に失敗しました');
+	                }
+	            });
+	        });
+	    });
+
+	    // 不許可ボタン
+	    document.querySelectorAll('.reject-btn').forEach(btn => {
+	        btn.addEventListener('click', function () {
+	            const attendId = this.getAttribute('data-attendid');
+	            fetch(`/admin/approval-correction/approval-kyuuka/reject/${attendId}`, {
+	                method: 'POST',
+	                headers: {
+	                     [csrfHeader]: csrfToken
+	                    // 必要ならCSRFトークンもここに追加
+	                }
+	            })
+	            .then(response => {
+	                if (response.ok) {
+	                    // 行を削除
+	                    const tr = this.closest('tr');
+	                    tr.remove();
+	                } else {
+	                    alert('不許可に失敗しました');
+	                }
+	            });
+	        });
+	    });
+	});
+	</script>
+</main>
+</body>
+
+</html>

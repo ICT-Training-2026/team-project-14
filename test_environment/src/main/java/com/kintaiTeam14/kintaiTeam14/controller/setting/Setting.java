@@ -32,7 +32,7 @@ public class Setting {
 		model.addAttribute("employeeId", employeeId);
 	
 		    model.addAttribute("form", new ChangePasswordForm()); 
-		return "/user/passwordChange" ;
+		return "/user/passwordChange_fast" ;
 	}
 	@PostMapping("/{employeeId}/passChange_form_user")
 	public String passwordSetting(
@@ -45,14 +45,14 @@ public class Setting {
 		
 		if (bindingResult.hasErrors()) {
 	        model.addAttribute("employeeId", employeeId);
-	        return "/user/passwordChange";
+	        return "/user/passwordChange_fast";
 	    }
 
 	    // 新しいパスワードと確認用パスワードが一致するかチェック
 	    if (!form.getNewPass().equals(form.getNewPassRev())) {
 	        bindingResult.rejectValue("newPassRev", "error.newPassRev", "新しいパスワードが一致しません");
 	        model.addAttribute("employeeId", employeeId);
-	        return "/user/passwordChange";
+	        return "/user/passwordChange_fast";
 	    }
 	    System.out.println("form.getCurrentPass():"+form.getCurrentPass());
 
@@ -61,7 +61,7 @@ public class Setting {
 	    if (!isCurrentPassValid) {
 	        bindingResult.rejectValue("currentPass", "error.currentPass", "現在のパスワードが正しくありません");
 	        model.addAttribute("employeeId", employeeId);
-	        return "/user/passwordChange";
+	        return "/user/passwordChange_fast";
 	    }
 
 	    // パスワード変更処理

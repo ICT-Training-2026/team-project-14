@@ -10,25 +10,17 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
 
-/*
- * Spring Securityの設定クラス。
- * Webセキュリティ機能を有効化し、認証やアクセス制御のルールを定義する。
- */
 @RequiredArgsConstructor
-@Configuration // Springの設定クラスであることを示す
-@EnableWebSecurity // Spring SecurityのWebセキュリティを有効にする
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	private final CustomAccessDeniedHandler accessDeniedHandler;
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-	/**
-	 * パスワードをハッシュ化するためのPasswordEncoder Beanを登録。
-	 * BCryptアルゴリズムを使い、安全にパスワードを管理する。
-	 * @return BCryptPasswordEncoderのインスタンス
-	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 	/**
 	 * セキュリティフィルタチェーンのBeanを登録。
@@ -55,7 +47,7 @@ public class SecurityConfig {
 		.formLogin(form ->
 			form
 				.loginPage("/login") // カスタムログインページのURLを指定
-				.successHandler(new CustomAuthenticationSuccessHandler()) // 認証成功時の処理をカスタム
+				.successHandler(customAuthenticationSuccessHandler) // 認証成功時の処理をカスタム
 				.permitAll() // ログインページは認証不要
 		)
 		.logout(logout ->
@@ -66,7 +58,6 @@ public class SecurityConfig {
         exception.accessDeniedHandler(accessDeniedHandler)
     );
 
-		return http.build();
-	}
-
+        return http.build();
+    }
 }
