@@ -185,7 +185,7 @@ public class shinseiController {
 		    int kakusyusinseiPaidHoliday=employeeService.getCompday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
 		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
-		    m.addAttribute("CompHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("Compday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
 		    
 		    System.out.println(appliedDates);
 		 Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
@@ -200,10 +200,10 @@ public class shinseiController {
 	@GetMapping("/{employeeId}/top/shinsei_user/hurikyu")
 	public String hurikyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
-	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
 
 	    // 年休残日数を計算
-	    int paidHoliday = employeeService.getPaidHoliday(employeeId);
+	    int paidHoliday = employeeService.getCompday(employeeId);
 	    int appliedDatesSize = appliedDates.size();
 	    int remainingPaidHoliday = paidHoliday - appliedDatesSize;
 

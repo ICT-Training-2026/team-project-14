@@ -55,6 +55,9 @@
 			
 
 			  <div class="page-title">振休申請</div>
+			  <div class="paid-holiday-info">
+			    残振休日数：<span id="paidHolidayDisplay"></span>日
+			  </div>
 
 			  <button class="add-button" type="button" onclick="openModal()">日付検索</button>
 
@@ -93,9 +96,10 @@
 				  const paidHoliday = /*[[${Compday}]]*/ 0;
 				  console.log(paidHoliday);
 				  let remainingDays = paidHoliday;
+				  
 				  // ...（以下略）
 				 
-
+				document.getElementById('paidHolidayDisplay').textContent = remainingDays;
 			    const vacationTableBody = document.getElementById('vacationTableBody');
 			    const modalOverlay = document.getElementById('modalOverlay');
 			    const datePicker = document.getElementById('datePicker');
@@ -151,7 +155,7 @@
 			        <td>${remainingDays}</td>
 			        <td>${usedDaysAfter}</td>
 					<td><button type="button" class="delete-btn">削除</button></td>
-					<td><button type="button" class="delete-btn">削除</button></td>
+			
 			      `;
 
 			      vacationTableBody.appendChild(newRow);
@@ -210,9 +214,13 @@
 					     // サーバから最新の残年休日数(result.paidHoliday)が返ってくる場合はそちらを優先
 					     if (result.paidHoliday !== undefined) {
 					       remainingDays = result.paidHoliday;
+						 
 					     } else {
 					       remainingDays -= rowCount;
 					     }
+						 
+						 document.getElementById('paidHolidayDisplay').textContent = remainingDays;
+						 
 				    }
 				  });
 				}

@@ -46,6 +46,12 @@
 
 		
 		  <div class="page-title">年休申請</div>
+		  
+		  <div class="paid-holiday-info">
+		  			    残年休日数：<span id="paidHolidayDisplay"></span>日
+		  	</div>
+		  
+		  
 		  <button class="add-button" type="button" onclick="openModal()">日付検索</button>
 
 		  <table>
@@ -85,7 +91,7 @@
 			  let remainingDays = paidHoliday;
 			  // ...（以下略）
 			 
-
+			 document.getElementById('paidHolidayDisplay').textContent = remainingDays;
 		    const vacationTableBody = document.getElementById('vacationTableBody');
 		    const modalOverlay = document.getElementById('modalOverlay');
 		    const datePicker = document.getElementById('datePicker');
@@ -198,6 +204,7 @@
 				     // サーバから最新の残年休日数(result.paidHoliday)が返ってくる場合はそちらを優先
 				     if (result.paidHoliday !== undefined) {
 				       remainingDays = result.paidHoliday;
+					   document.getElementById('paidHolidayDisplay').textContent = remainingDays;
 				     } else {
 				       remainingDays -= rowCount;
 				     }
