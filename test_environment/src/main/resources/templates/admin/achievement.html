@@ -78,7 +78,7 @@
                     ${record.atClassification == 1} ? '出勤' :
                     (${record.atClassification == 2} ? '年休申請中' :
                     (${record.atClassification == 3} ? '振休申請中' : ''))">出勤</td>
-                <td th:text="${record.reason != null ? record.reason.reason : ''}">体調不良のため</td>
+                <td th:text="${record.reason != null ? record.reason : ''}">体調不良のため</td>
                 <td>
                     <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
                 </td>

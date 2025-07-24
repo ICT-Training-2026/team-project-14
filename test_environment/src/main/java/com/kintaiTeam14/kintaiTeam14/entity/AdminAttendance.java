@@ -44,8 +44,9 @@ public class AdminAttendance {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attend_id", referencedColumnName = "attend_id", insertable = false, updatable = false)
+    // AdminReasonとの関連を所有側にして、insertable/updatableはtrueに設定
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "attend_id", referencedColumnName = "attend_id", insertable = true, updatable = true)
     private AdminReason reason;
 
     // --- Getter/Setter ---

@@ -11,8 +11,9 @@ public class AdminReason {
     @Column(name = "reason_id")
     private Integer reasonId;
 
-    @Column(name = "attend_id", nullable = false)
-    private Long attendId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attend_id", referencedColumnName = "attend_id")
+    private AdminAttendance attendance;
 
     @Column(name = "reason", length = 100)
     private String reason;
@@ -27,12 +28,12 @@ public class AdminReason {
         this.reasonId = reasonId;
     }
 
-    public Long getAttendId() {
-        return attendId;
+    public AdminAttendance getAttendance() {
+        return attendance;
     }
 
-    public void setAttendId(Long attendId) {
-        this.attendId = attendId;
+    public void setAttendance(AdminAttendance attendance) {
+        this.attendance = attendance;
     }
 
     public String getReason() {

@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.kintaiTeam14.kintaiTeam14.entity.AdminAttendance;
 import com.kintaiTeam14.kintaiTeam14.service.adminperformance.AdminPerformanceService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +31,10 @@ public class AdminPerformanceController {
 
         logger.info("Received parameters: employeeId={}, year={}, month={}", employeeId, year, month);
 
-        List<AdminAttendance> attendanceList = Collections.emptyList();
+        List attendanceList = Collections.emptyList();
 
         if (employeeId != null && year != null && month != null) {
-            attendanceList = attendanceService.getAttendanceList(employeeId, year, month);
+            attendanceList = attendanceService.getAttendanceWithReasonList(employeeId, year, month);
             logger.info("Retrieved {} attendance records", attendanceList.size());
         } else {
             logger.info("Parameters incomplete, returning empty attendance list");
