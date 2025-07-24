@@ -22,7 +22,7 @@
 			height: 24px;
 			text-align: center;
 		}
-		
+				
 		.calendar-table td.sunday,
 		.calendar-table td.saturday,
 		.holiday-cell {
@@ -44,9 +44,17 @@
 		}*/
 
 		.modern-btn {
-			padding: 6px 18px;
+		    padding: 6px 18px;
 		}
 
+		.small-width-btn {
+		    padding: 6px 18px;
+		    font-size: 20px;
+		    min-width: 200px;
+		    width: 300px;  /* 好みで数値調整してください */
+		    box-sizing: 200px;
+		}
+		
 		table.admin-table th,
 		table.admin-table td {
 			text-align: center;
@@ -86,9 +94,10 @@
 	<main>
 		<div class="page-title">休日管理</div>
 		<div class="page-desc">ここで休日の閲覧・追加・編集・削除が行えます。</div>
-		<a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
+		
+		
 		<div style="margin: 20px 0;">
-			<button class="modern-btn" onclick="openCreateDialog()">新規会社休日追加</button>
+<button class="modern-btn small-width-btn" onclick="openCreateDialog()">新規会社休日追加</button>
 		</div>
 		<form id="search-form" onsubmit="return false;" style="margin-bottom:10px;">
 			<select id="year-select"></select> 年
@@ -108,6 +117,9 @@
 			</thead>
 			<tbody id="holiday-tbody"></tbody>
 		</table>
+		
+		<a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
+		
 		<div style="margin-top:40px;">
 			<div class="page-title">休日カレンダー</div>
 			<div id="calendar-container" style="display:flex;flex-wrap:wrap;gap:30px;justify-content:center;"></div>
