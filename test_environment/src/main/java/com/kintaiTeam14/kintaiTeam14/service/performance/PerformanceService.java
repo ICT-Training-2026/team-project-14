@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
+import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
 public interface PerformanceService {
     List getAllPerformances(Long userId);
@@ -15,6 +16,8 @@ public interface PerformanceService {
 
     // 追加
     List findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
+
+    List findByreId(int reId);
 
     // 祝日取得
     Set findHolidaysBetween(LocalDate startDate, LocalDate endDate);
@@ -35,5 +38,6 @@ public interface PerformanceService {
     int getRemainingCompDay(Long userId);
 
     void updatePerformance(Performance performance);
+    void updateRePerformance(RePerformance reperformance);
 
 }

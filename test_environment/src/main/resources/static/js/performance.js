@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentYear = 2025;
   let currentMonth = 7;
 
-
+  const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
   // 年月を2桁に整形する関数
   function pad(num) {
@@ -20,11 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
       var select = tr.querySelector('.status-select');
       if (select) {
         select.value = '申請済み';
-		// ここで reason input を disabled にする
-	      var reasonInput = tr.querySelector('.performance-reason-input');
-	      if (reasonInput) {
-	        reasonInput.disabled = true;
-	      }
+        // ここで reason input を disabled にする
+        var reasonInput = tr.querySelector('.performance-reason-input');
+        if (reasonInput) {
+          reasonInput.disabled = true;
+        }
         const row = e.target.closest('tr');
         sendUpdate(row);
         // 状態変更を他の処理で使う場合はchangeイベントも発火
@@ -34,40 +35,39 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('click', function (e) {
-      // クリックされた要素が .submit-button かどうか判定
-      if (e.target && e.target.classList.contains('remove-button')) {
-        // ボタンの属する<tr>を取得
-        var tr = e.target.closest('tr');
-        if (!tr) return;
-        // その<tr>内の.status-selectを取得
-        var select = tr.querySelector('.status-select');
-        if (select) {
-          select.value = '未申請';
-		  var reasonInput = tr.querySelector('.performance-reason-input');
-		  	      if (reasonInput) {
-		  	        reasonInput.disabled = false;
-		  	      }
-          const row = e.target.closest('tr');
-          sendUpdate(row);
-          // 状態変更を他の処理で使う場合はchangeイベントも発火
-          select.dispatchEvent(new Event('change'));
+    // クリックされた要素が .submit-button かどうか判定
+    if (e.target && e.target.classList.contains('remove-button')) {
+      // ボタンの属する<tr>を取得
+      var tr = e.target.closest('tr');
+      if (!tr) return;
+      // その<tr>内の.status-selectを取得
+      var select = tr.querySelector('.status-select');
+      if (select) {
+        select.value = '未申請';
+        var reasonInput = tr.querySelector('.performance-reason-input');
+        if (reasonInput) {
+          reasonInput.disabled = false;
         }
+        const row = e.target.closest('tr');
+        sendUpdate(row);
+        // 状態変更を他の処理で使う場合はchangeイベントも発火
+        select.dispatchEvent(new Event('change'));
       }
-    });
+    }
+  });
 
-	//テキストに何か入力されたら
-	  document.querySelectorAll('.performance-reason-input').forEach((el) => {
-	    el.addEventListener('change', () => {
-	      const row = el.closest('tr');
-	      if (row) sendUpdate(row);
-	    });
-	  });
-  const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-  const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+  //テキストに何か入力されたら
+  document.querySelectorAll('.performance-reason-input').forEach((el) => {
+    el.addEventListener('change', () => {
+      const row = el.closest('tr');
+      if (row) sendUpdate(row);
+    });
+  });
 
   //サーバーサイドの更新
   function sendUpdate(row) {
     const data = gatherData(row);
+    console.log(data);
     return fetch('/performance-update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', [csrfHeader]: csrfToken },
@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const startTimeValue = row.querySelector('.performance-start-input').value;
     const endTimeValue = row.querySelector('.performance-end-input').value;
     console.log(row.querySelector('.status-select').value);
-	console.log(row.querySelector('.performance-id').value);
-	console.log(row.querySelector('.performance-reason-input').value);
+    console.log(row.querySelector('.performance-id').value);
+    console.log(row.querySelector('.performance-reason-input').value);
     return {
       id: row.querySelector('.performance-id').value,
       dayOfWeek: row.querySelector('.performance-dayofweek-input').value,
@@ -93,5 +93,4 @@ document.addEventListener('DOMContentLoaded', () => {
       reason: row.querySelector('.performance-reason-input').value,
     };
   }
-
 });

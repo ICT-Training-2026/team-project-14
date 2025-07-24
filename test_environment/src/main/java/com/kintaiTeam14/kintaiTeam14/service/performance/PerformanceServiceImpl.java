@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
+import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 import com.kintaiTeam14.kintaiTeam14.repository.PerformanceHolidayRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceRepository;
 
@@ -25,6 +26,11 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
 	public void updatePerformance(Performance performance) {
 		repository.updatePerformance(performance);
+	}
+
+    @Override
+	public void updateRePerformance(RePerformance reperformance) {
+		repository.updateRePerformance(reperformance);
 	}
 
     @Override
@@ -132,4 +138,9 @@ public class PerformanceServiceImpl implements PerformanceService {
         // TODO: employeeテーブルからcomp_dayを取得する実装を行う
         return 0;
     }
+
+	@Override
+	public List<RePerformance> findByreId(int reId) {
+		return repository.findByreId(reId);
+	}
 }
