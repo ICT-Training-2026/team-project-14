@@ -78,21 +78,21 @@ public class UserHome {
 	}
 	
 	
-	@PostMapping("/{employeeId}/top/shinsei_user")
-	public String kakusyusinsei(Model m,@PathVariable Long employeeId) {
-		m.addAttribute("employeeId", employeeId);
-
-		return "user/shinsei";
-	}
-	
-	
-	
-	@GetMapping("/{employeeId}/top/shinsei_user")
-	public String kakusyusinseiget(Model m,@PathVariable Long employeeId) {
-		m.addAttribute("employeeId", employeeId);
-
-		return "user/shinsei";
-	}
+//	@PostMapping("/{employeeId}/top/shinsei_user")
+//	public String kakusyusinsei(Model m,@PathVariable Long employeeId) {
+//		m.addAttribute("employeeId", employeeId);
+//
+//		return "user/shinsei";
+//	}
+//	
+//	
+//	
+//	@GetMapping("/{employeeId}/top/shinsei_user")
+//	public String kakusyusinseiget(Model m,@PathVariable Long employeeId) {
+//		m.addAttribute("employeeId", employeeId);
+//
+//		return "user/shinsei";
+//	}
 	
 	@GetMapping("/{employeeId}/top")
 	public String getMethodName(Model m,@PathVariable Long employeeId) {

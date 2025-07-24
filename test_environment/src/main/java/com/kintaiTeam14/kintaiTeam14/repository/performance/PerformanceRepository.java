@@ -14,5 +14,10 @@ public interface PerformanceRepository {
     boolean existsByUserIdAndDate(Long userId, LocalDate date);
 
     void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate);
+
+    void createAttendanceWithReason(Long userId, LocalDate date);
+
+    // 追加
+    List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
     void updatePerformance(Performance performance);
 }
