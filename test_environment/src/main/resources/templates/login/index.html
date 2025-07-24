@@ -1,59 +1,121 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-
-
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/userstyle.css">
-
-  <title>ユーザトップ</title>
-
+	<title>ユーザーホーム</title>
+	<meta charset="UTF-8">
+	<!-- CSSファイルを読み込む -->
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
+
 <body>
+	<!-- タスクバー -->
+	<header class="taskbar">
+		<div class="taskbar-left">
+			<a th:href="@{'/' + ${employeeId} + '/top'}" class="taskbar-home-link"
+				style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+				<span class="taskbar-logo">
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+						<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
+						<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
+						<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
+					</svg>
+				</span>
+				<span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
+			</a>
+			<nav class="taskbar-tabs">
+				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
+			</nav>
 
-  <!-- タスクバー -->
-  <header class="taskbar">
-    <div class="taskbar-left">
-      <span class="taskbar-logo">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
-          <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
-          <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
-        </svg>
-      </span>
-      <span class="taskbar-title">ユーザトップ</span>
-    </div>
-    <div class="taskbar-right">
-      <form th:action="@{/logout}" method="post" style="margin:0;">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <button type="submit" class="taskbar-logout">ログアウト</button>
-      </form>
-    </div>
-  </header>
+		</div>
+		<div class="taskbar-right">
+			<form th:action="@{/logout}" method="post" style="margin:0;">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<button type="submit" class="taskbar-logout">ログアウト</button>
+			</form>
+		</div>
+	</header>
+	<main>
+		<div class="menu-title">ユーザーメニュー</div>
+		<div class="menu-desc">操作を選択してください。</div>
+		<div class="menu-buttons">
+			<div class="horizontal-buttons">
+				<form id="syuttaikin" th:action="@{'/' + ${employeeId} + '/top/syukkin_user'}" method="post"
+					style="margin:0;">
+					<button type="submit" class="modern-btn main-action-btn">出勤</button>
+				</form>
+				<form id="taikin" th:action="@{'/' + ${employeeId} + '/top/taikin_user'}" method="post"
+					style="margin:0;">
+					<button type="submit" class="modern-btn main-action-btn">退勤</button>
+				</form>
+			</div>
 
-  <main>
-    <div class="menu-title">ユーザトップ</div>
-    <div class="menu-desc">操作を選択してください。</div>
-    <div class="menu-buttons">
-      <form id="syuttaikin" th:action="@{'/' + ${employeeId} + '/top/syukkin_user'}" method="post" style="margin:0;">
-        <button type="submit" class="modern-btn">出勤</button>
-      </form>
-      <form id="syuttaikin" th:action="@{'/' + ${employeeId}  +'/top/taikin_user''}" method="post" style="margin:0;">
-        <button type="submit" class="modern-btn">退勤</button>
-      </form>
-      <form th:action="@{ '/' + ${employeeId}+ '/top/jisseki_user'}" method="post" style="margin:0;">
-        <button type="submit" class="modern-btn">実績管理</button>
-      </form>
-      <form th:action="@{  '/' + ${employeeId}+ '/top/passChange_user'}" method="post" style="margin:0;">
-        <button type="submit" class="modern-btn">パスワード変更</button>
-      </form>
-      <form th:action="@{ /top/shinsei_user}" method="post" style="margin:0;">
-        <button type="submit" class="modern-btn">各種申請</button>
-      </form>
-    </div>
-  </main>
+			<form th:action="@{ '/' + ${employeeId}+ '/top/jisseki_user'}" method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">実績管理</button>
+			</form>
+			<form th:action="@{  '/' + ${employeeId}+ '/top/passChange_user'}" method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">パスワード変更</button>
+			</form>
+			<form th:action="@{  '/' + ${employeeId}+' /top/shinsei_user'}" method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">各種申請</button>
+			</form>
+		</div>
+	</main>
 
- 
+	<!-- モーダル（最初は非表示） -->
+	<div id="timeModal" class="modal-overlay" style="display: none;">
+		<div class="modal-content">
+			<div id="timeModalContent"></div>
+			<button onclick="closeTimeModal()" class="modal-close-btn">閉じる</button>
+		</div>
+	</div>
+
+	<!-- 出勤ボタン押下時 -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		// ${now}がnullの場合はnull、値がある場合は文字列としてセット
+		let message = /*[[${now}]]*/ null;
+		if (message) {
+			var modal = document.getElementById('timeModal');
+			modal.style.display = 'flex';
+			setTimeout(function () {
+				modal.classList.add('show');
+			}, 10);
+			document.getElementById('timeModalContent').innerHTML = message.replace(/\n/g, '<br>');
+		}
+		function closeTimeModal() {
+		    var modal = document.getElementById('timeModal');
+		    modal.classList.remove('show');
+		    setTimeout(function () {
+		        modal.style.display = 'none';
+		    }, 400);
+		}
+		/*]]>*/
+	</script>
+	<!--	<script th:if="${now != null}">
+		window.onload = function () {
+			// display:flexにしてから、classを付与してフェードイン
+			var modal = document.getElementById('timeModal');
+			modal.style.display = 'flex';
+			setTimeout(function () {
+				modal.classList.add('show');
+			}, 10); // わずかな遅延でtransitionを発動させる
+			document.getElementById('timeModalContent').innerHTML = '[[${now}]]';
+		};
+		function closeTimeModal() {
+			var modal = document.getElementById('timeModal');
+			modal.classList.remove('show');
+			setTimeout(function () {
+				modal.style.display = 'none';
+			}, 400); // transitionの時間と合わせる
+		}
+	</script>-->
+
 </body>
+
 </html>

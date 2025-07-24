@@ -105,7 +105,7 @@ public class EmployeeRepository {
      * @return Userオブジェクトまたはnull
      */
     public Optional<Employee> findById(Long id) {
-        String sql = "SELECT * FROM users WHERE id = ?";
+        String sql = "SELECT * FROM employee WHERE employee_id = ?";
         List<Employee> employees = jdbcTemplate.query(sql, USER_ROW_MAPPER, id);
         return employees.isEmpty() ? Optional.empty() : Optional.of(employees.get(0));
     }

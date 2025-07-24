@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 public class SecurityConfig {
 	private final CustomAccessDeniedHandler accessDeniedHandler;
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -23,26 +24,26 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-						.requestMatchers("/admin/company-info/export").permitAll() // 追加
-						.requestMatchers("/api/holidays/export").permitAll()
-						.requestMatchers("/admin/**").hasRole("ADMIN")
-						.requestMatchers("/login", "/css/**", "/js/**").permitAll()
-						.requestMatchers("/api/holidays/**").hasRole("ADMIN")
-						.anyRequest().authenticated())
-				.csrf(csrf -> csrf
-						.ignoringRequestMatchers("/admin/company-info/export") // 追加
-						.ignoringRequestMatchers("/api/holidays/export"))
-				.formLogin(form -> form
-						.loginPage("/login")
-						.successHandler(new CustomAuthenticationSuccessHandler())
-						.permitAll())
-				.logout(logout -> logout
-						.logoutUrl("/logout")
-						.logoutSuccessUrl("/login")
-						.permitAll())
-				.exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler));
+		http.authorizeHttpRequests(authorizeRequests ->
+			authorizeRequests
+			 	.requestMatchers("/admin/**").hasRole("ADMIN")
+				.requestMatchers("/login", "/css/**", "/js/**").permitAll() // 認証不要パス
+				.anyRequest().authenticated() // それ以外は認証必須
+
+				)
+		.formLogin(form ->
+			form
+				.loginPage("/login") // カスタムログインページのURLを指定
+				.successHandler(customAuthenticationSuccessHandler) // 認証成功時の処理をカスタム
+				.permitAll() // ログインページは認証不要
+		)
+		.logout(logout ->
+			logout. logoutUrl("/logout") // デフォルトは/logout
+	        .logoutSuccessUrl("/login") // ログアウト後のリダイレクト先
+	        .permitAll()
+		) .exceptionHandling(exception ->
+        exception.accessDeniedHandler(accessDeniedHandler)
+    );
 
 		return http.build();
 	}

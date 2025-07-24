@@ -1,3 +1,6 @@
+/* ===== 統一管理画面CSS ===== */
+
+/* --- ベース --- */
 body {
     background: #f6f8fb;
     font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
@@ -6,10 +9,10 @@ body {
     min-height: 100vh;
     color: #222;
 }
+
 /* --- タスクバー --- */
 .taskbar {
     width: 100vw;
-    min-width: 0;
     height: 60px;
     background: #1565c0;
     color: #fff;
@@ -23,6 +26,7 @@ body {
     left: 0;
     z-index: 100;
     box-sizing: border-box;
+    min-width: 0;
 }
 .taskbar-left {
     display: flex;
@@ -51,7 +55,7 @@ body {
     color: #e3ecf7;
     font-size: 1.07rem;
     font-weight: 700;
-    padding: 9px 28px 9px 28px;
+    padding: 9px 28px;
     border: none;
     background: transparent;
     border-radius: 8px 8px 0 0;
@@ -86,11 +90,11 @@ body {
     margin-left: 0;
     box-shadow: 0 2px 6px rgba(0,0,0,0.07);
 }
-.taskbar-logout:hover,
-.taskbar-logout:focus {
+.taskbar-logout:hover, .taskbar-logout:focus {
     background: #fff;
     color: #1565c0;
 }
+
 /* --- メイン --- */
 main {
     max-width: 620px;
@@ -125,6 +129,7 @@ main {
     text-decoration: none !important;
     border-bottom: none !important;
 }
+
 /* --- ボタン --- */
 .modern-btn {
     width: 100%;
@@ -159,6 +164,70 @@ main {
     box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
     transform: translateY(-2px) scale(1.012);
 }
+
+/* --- 汎用ページタイトル・説明・戻るリンク --- */
+.page-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin-bottom: 18px;
+    text-align: center;
+    color: #1565c0;
+}
+.page-desc {
+    color: #7a7a7a;
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+.back-link {
+    display: block;
+    margin: 40px auto 0 auto;
+    color: #1976d2;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: underline;
+}
+.back-link:hover { color: #0d47a1; }
+
+/* --- ユーザー一覧テーブル用 --- */
+.user-table {
+    margin: 0 auto 32px auto;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(21,118,210,0.06);
+    width: 100%;
+    max-width: 800px;
+}
+.user-table th, .user-table td {
+    padding: 12px 18px;
+    border-bottom: 1px solid #e0e7ee;
+    text-align: center;
+}
+.user-table th {
+    background: #f6f8fb;
+    color: #1976d2;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.user-table tr:last-child td {
+    border-bottom: none;
+}
+.delete-btn {
+    color: #fff;
+    background: #d93025;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+.delete-btn:hover {
+    background: #b71c1c;
+}
+
 /* --- レスポンシブ --- */
 @media (max-width: 900px) {
     main {
