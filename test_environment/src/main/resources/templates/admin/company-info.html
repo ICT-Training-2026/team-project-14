@@ -35,26 +35,24 @@
 			background: #ffe0b2 !important;
 		}
 
-		/*.sunday {
-			color: red !important;
-		}
-
-		.saturday {
-			color: blue !important;
-		}*/
-
 		.modern-btn {
 		    padding: 6px 18px;
 		}
 
-		.small-width-btn {
-		    padding: 6px 18px;
-		    font-size: 20px;
-		    min-width: 200px;
-		    width: 300px;  /* 好みで数値調整してください */
-		    box-sizing: 200px;
+		.admin-table {
+		    width: 1200px;
+		    max-width: 130%;
+		    margin: 0 auto;
 		}
 		
+		.small-width-btn {
+		    padding: 6px 18px;
+		    font-size: 24px;
+		    min-width: 150px;
+		    width: 300px;
+		    box-sizing: border-box;
+		}
+
 		table.admin-table th,
 		table.admin-table td {
 			text-align: center;
@@ -97,12 +95,11 @@
 		
 		
 		<div style="margin: 20px 0;">
-<button class="modern-btn small-width-btn" onclick="openCreateDialog()">新規会社休日追加</button>
+			<button class="modern-btn small-width-btn" onclick="openCreateDialog()">新規会社休日追加</button>
 		</div>
 		<form id="search-form" onsubmit="return false;" style="margin-bottom:10px;">
 			<select id="year-select"></select> 年
 			<select id="month-select"></select> 月の休日を表示
-		
 		</form>
 		<table class="admin-table" border="1" style="width:100%; border-collapse:collapse;" id="holiday-table">
 			<thead>
@@ -126,11 +123,11 @@
 		</div>
 	</main>
 
-	<!-- 会社休日追加・編集用ダイアログ -->
+	<!-- 会社休日/祝日追加・編集用ダイアログ -->
 	<div id="holiday-dialog"
 		style="display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.2);align-items:center;justify-content:center;z-index:1000;">
 		<div style="background:#fff;padding:24px;border-radius:8px;min-width:320px;max-width:90vw;">
-			<h2 id="dialog-title">会社休日追加/編集</h2>
+			<h2 id="dialog-title">休日追加/編集</h2>
 			<form id="holiday-form" onsubmit="return false;">
 				<input type="hidden" id="dialog-id">
 				<div>
@@ -139,7 +136,14 @@
 				</div>
 				<div>
 					<label>種別:</label>
-					<input type="text" id="dialog-type" value="会社休日" readonly>
+					<select id="dialog-type" required onchange="toggleNameInput()">
+						<option value="休日">会社休日</option>
+						<option value="祝日">祝日</option>
+					</select>
+				</div>
+				<div id="div-holiday-name" style="display:none;">
+					<label>名称:</label>
+					<input type="text" id="dialog-name" maxlength="50" placeholder="祝日の名称">
 				</div>
 				<div>
 					<label>備考:</label>
@@ -215,16 +219,19 @@
 				if (holiday) {
 					if (holiday.holidayType === "祝日") {
 						typeLabel = "祝日";
-						// 必ず祝日名を表示（空文字の場合は"祝日"と表示）
 						nameLabel = holiday.holidayName && holiday.holidayName.trim() !== "" ? holiday.holidayName : "祝日";
-						opButtons = ""; // 祝日は編集・削除・追加ボタン表示しない
+						// 祝日も編集・削除できるように
+						opButtons = `
+							<button onclick="openEditDialog(${holiday.holidayId})">編集</button>
+							<button onclick="deleteHoliday(${holiday.holidayId})">削除</button>
+						`;
 					} else if (holiday.holidayType === "休日") {
 						typeLabel = "会社休日";
 						nameLabel = "";
 						opButtons = `
-                    <button onclick="openEditDialog(${holiday.holidayId})">編集</button>
-                    <button onclick="deleteHoliday(${holiday.holidayId})">削除</button>
-                `;
+							<button onclick="openEditDialog(${holiday.holidayId})">編集</button>
+							<button onclick="deleteHoliday(${holiday.holidayId})">削除</button>
+						`;
 					}
 				} else if (!(isSunday || isSaturday)) {
 					// 土日以外で会社休日でも祝日でもない日だけ追加ボタンを表示
@@ -236,46 +243,54 @@
 				if (isSunday) tr.classList.add('sunday');
 				if (isSaturday) tr.classList.add('saturday');
 				tr.innerHTML = `
-            <td>${dateStr}</td>
-            <td${isSunday ? ' class="sunday"' : ''}${isSaturday ? ' class="saturday"' : ''}>${week}</td>
-            <td>${typeLabel}</td>
-            <td>${nameLabel}</td>
-            <td>${holiday && holiday.holidayType !== "祝日" && holiday.holidayNote ? holiday.holidayNote : ""}</td>
-            <td>${opButtons}</td>
-        `;
+					<td>${dateStr}</td>
+					<td${isSunday ? ' class="sunday"' : ''}${isSaturday ? ' class="saturday"' : ''}>${week}</td>
+					<td>${typeLabel}</td>
+					<td>${nameLabel}</td>
+					<td>${holiday && holiday.holidayNote ? holiday.holidayNote : ""}</td>
+					<td>${opButtons}</td>
+				`;
 				tbody.appendChild(tr);
 			}
 		}
 
-		// 以下の関数は前回通り
-
 		function openEditDialog(id) {
 			const h = allHolidays.find(x => x.holidayId === id);
-			document.getElementById('dialog-title').textContent = '会社休日編集';
+			document.getElementById('dialog-title').textContent = '休日編集';
 			document.getElementById('dialog-id').value = h.holidayId;
 			document.getElementById('dialog-date').value = h.holidayDate;
-			document.getElementById('dialog-type').value = "会社休日";
-			document.getElementById('dialog-note').value = h.holidayType !== '祝日' ? (h.holidayNote || '') : '';
+			document.getElementById('dialog-type').value = h.holidayType;
+			document.getElementById('dialog-note').value = h.holidayNote || '';
+			document.getElementById('dialog-name').value = h.holidayType === "祝日" ? (h.holidayName || "") : "";
+			toggleNameInput();
 			document.getElementById('holiday-dialog').style.display = 'flex';
 		}
 		function openCreateDialog(dateStr) {
-			document.getElementById('dialog-title').textContent = '会社休日追加';
+			document.getElementById('dialog-title').textContent = '休日追加';
 			document.getElementById('dialog-id').value = '';
 			document.getElementById('dialog-date').value = dateStr || '';
-			document.getElementById('dialog-type').value = '会社休日';
+			document.getElementById('dialog-type').value = '休日';
 			document.getElementById('dialog-note').value = '';
+			document.getElementById('dialog-name').value = '';
+			toggleNameInput();
 			document.getElementById('holiday-dialog').style.display = 'flex';
 		}
 		function closeDialog() {
 			document.getElementById('holiday-dialog').style.display = 'none';
 		}
 
+		function toggleNameInput() {
+			const type = document.getElementById('dialog-type').value;
+			document.getElementById('div-holiday-name').style.display = (type === "祝日") ? "" : "none";
+		}
+
 		async function saveHoliday() {
 			const id = document.getElementById('dialog-id').value;
+			const type = document.getElementById('dialog-type').value;
 			let data = {
 				holidayDate: document.getElementById('dialog-date').value,
-				holidayType: "休日",
-				holidayName: "",
+				holidayType: type,
+				holidayName: type === "祝日" ? document.getElementById('dialog-name').value : "",
 				holidayNote: document.getElementById('dialog-note').value
 			};
 			let res;
