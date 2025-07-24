@@ -26,18 +26,18 @@ public class AdminApprovalkyuukaController {
 		return "admin/approval-kyuuka";
 	}
 	
-	
-	@PostMapping("/admin/approval-correction/approval-kyuuka/reject/${attendId}")
-	public String approvalKyuukaReject(Model m) 
-		return "redirect:/approval-kyuuka";
-	}
-
-	@PostMapping("/admin/approval-correction/approval-kyuuka/approve/${attendId}")
-	public String approvalKyuukaApprove(Model m) {
-		
-		
-		return "redirect:/approval-kyuuka";
-	}
+//	
+//	@PostMapping("/admin/approval-correction/approval-kyuuka/reject/${attendId}")
+//	public String approvalKyuukaReject(Model m) 
+//		return "redirect:/approval-kyuuka";
+//	}
+//
+//	@PostMapping("/admin/approval-correction/approval-kyuuka/approve/${attendId}")
+//	public String approvalKyuukaApprove(Model m) {
+//		
+//		
+//		return "redirect:/approval-kyuuka";
+//	}
 	
 	
 
