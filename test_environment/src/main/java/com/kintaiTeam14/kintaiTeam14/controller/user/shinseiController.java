@@ -29,14 +29,14 @@ import lombok.RequiredArgsConstructor;
 public class shinseiController {
 	 private final EmployeeService employeeService;
 	 private final AttendanceService attendanceService;
-	@PostMapping("/{employeeId}/top/shinsei_user")
+	@PostMapping("/{employeeId}/top/shinsei")
 	public String kakusyusinsei(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 	  
 
-		return "redirect:/" + employeeId + "/top/shinsei_user";
+		return "redirect:/" + employeeId + "/top/shinsei";
 	}
-	@GetMapping("/{employeeId}/top/shinsei_user")
+	@GetMapping("/{employeeId}/top/shinsei")
 	public String kakusyusinseiget(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 
@@ -45,7 +45,7 @@ public class shinseiController {
 	
 	
 	
-	@PostMapping("/{employeeId}/top/shinsei_user/nenkyu")
+	@PostMapping("/{employeeId}/top/shinsei/nenkyu")
 	public String nenkyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
@@ -60,10 +60,10 @@ public class shinseiController {
 		    // 中身を取り出してセット
 		    Employee employee = employeeOpt.orElse(null);
 		m.addAttribute("employee",employee);
-		return "redirect:/{employeeId}/top/shinsei_user/nenkyu";
+		return "redirect:/{employeeId}/top/shinsei/nenkyu";
 	}
 	
-	@GetMapping("/{employeeId}/top/shinsei_user/nenkyu")
+	@GetMapping("/{employeeId}/top/shinsei/nenkyu")
 	public String nenkyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
 	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
@@ -93,7 +93,7 @@ public class shinseiController {
 	
 	
 	
-	   @PostMapping("/{employeeId}/top/shinsei_user/nenkyu/apply")
+	   @PostMapping("/{employeeId}/top/shinsei/nenkyu/apply")
 	   @ResponseBody
 	    public Map<String, Object> applyNenkyu(Model m,@PathVariable Long employeeId,@RequestBody List<Map<String, Object>> requestList) {
 	        // ここでrequestListの内容をDB保存等のロジックに利用
@@ -178,7 +178,7 @@ public class shinseiController {
 	
 	
 	
-	@PostMapping("/{employeeId}/top/shinsei_user/hurikyu")
+	@PostMapping("/{employeeId}/top/shinsei/hurikyu")
 	public String hurikyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
@@ -193,11 +193,11 @@ public class shinseiController {
 		    // 中身を取り出してセット
 		    Employee employee = employeeOpt.orElse(null);
 		m.addAttribute("employee",employee);
-		return "redirect:/{employeeId}/top/shinsei_user/hurikyu";
+		return "redirect:/{employeeId}/top/shinsei/hurikyu";
 	}
 	
 	
-	@GetMapping("/{employeeId}/top/shinsei_user/hurikyu")
+	@GetMapping("/{employeeId}/top/shinsei/hurikyu")
 	public String hurikyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
 	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);

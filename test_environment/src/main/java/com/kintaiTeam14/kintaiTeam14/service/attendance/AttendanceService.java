@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.kintaiTeam14.kintaiTeam14.entity.Attendance;
 import com.kintaiTeam14.kintaiTeam14.repository.attendance.AttendanceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,11 @@ public class AttendanceService {
 		            .map(date -> date.format(formatter)) // "2024/07/10" のような形式に変換
 		            .collect(Collectors.toList());
 	}
+	public List<Attendance> findAttendancesbyAtClassificationService( int atClassification, int atClassification2){
+		List<Attendance> atendList=attendanceRepository.findAteAttendancesbyAtClassification(  atClassification,  atClassification2);
+		return atendList;
+	}
+		
+	
 
 }
