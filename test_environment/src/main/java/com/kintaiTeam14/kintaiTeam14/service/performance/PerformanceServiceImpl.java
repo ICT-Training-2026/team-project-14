@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
-import com.kintaiTeam14.kintaiTeam14.repository.HolidayRepository;
+import com.kintaiTeam14.kintaiTeam14.repository.PerformanceHolidayRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class PerformanceServiceImpl implements PerformanceService {
 
     private final PerformanceRepository repository;
-    private final HolidayRepository holidayRepository;
+    private final PerformanceHolidayRepository holidayRepository;
 
     @Override
 	public void updatePerformance(Performance performance) {
@@ -36,7 +36,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<Performance> getAllPerformances1(Long userId) {
         // 必要に応じて実装
         return null;
-  
+
     }
 
     @Override

@@ -101,18 +101,18 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 	            performance.getId());
 
 //        // 2) reasonテーブルのUPDATEまたはINSERT
-//        String sqlReasonCheck = "SELECT COUNT(1) FROM reason WHERE attend_id = ?";
-//        Integer count = jdbcTemplate.queryForObject(sqlReasonCheck, Integer.class, performance.getId());
-//
-//        if (count != null && count > 0) {
-//            // レコードが存在するならUPDATE
-//            String sqlReasonUpdate = "UPDATE reason SET reason = ? WHERE attend_id = ?";
-//            jdbcTemplate.update(sqlReasonUpdate, performance.getReason(), performance.getId());
-//        } else {
-//            // レコードがなければINSERT
-//            String sqlReasonInsert = "INSERT INTO reason (attend_id, reason) VALUES (?, ?)";
-//            jdbcTemplate.update(sqlReasonInsert, performance.getId(), performance.getReason());
-//        }
+        String sqlReasonCheck = "SELECT COUNT(1) FROM reason WHERE attend_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sqlReasonCheck, Integer.class, performance.getId());
+
+        if (count != null && count > 0) {
+            // レコードが存在するならUPDATE
+            String sqlReasonUpdate = "UPDATE reason SET reason = ? WHERE attend_id = ?";
+            jdbcTemplate.update(sqlReasonUpdate, performance.getReason(), performance.getId());
+        } else {
+            // レコードがなければINSERT
+            String sqlReasonInsert = "INSERT INTO reason (reason_id, attend_id, reason) VALUES (0,?, ?)";
+            jdbcTemplate.update(sqlReasonInsert, performance.getId(), performance.getReason());
+        }
     }
 
     @Override

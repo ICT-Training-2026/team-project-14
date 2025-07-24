@@ -85,7 +85,7 @@
   <form class="search-form" th:action="@{/{employeeId}/top/jisseki_user(employeeId=${userId})}" method="get">
     <label for="year-select">年:</label>
     <select id="year-select" name="year" required>
-      <option th:each="y : ${#numbers.sequence(2020, 2030)}" th:value="${y}" th:text="${y}" th:selected="${y == year}"></option>
+      <option th:each="y : ${#numbers.sequence(currentYeardown, currentYearup)}" th:value="${y}" th:text="${y}" th:selected="${y == year}"></option>
     </select>
     <label for="month-select">月:</label>
     <select id="month-select" name="month" required>
@@ -111,11 +111,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
   </head>
   <body class="performance-body">
-    <div id="month-nav" style="display: flex; align-items: center; padding: 10px 0 10px 10px">
-      <button id="prev-month">&lt;&lt;</button>
-      <span id="current-year-month" style="margin: 0 15px; font-size: 1.2em">2025/07</span>
-      <button id="next-month">&gt;&gt;</button>
-    </div>
+
     <div class="database-container">
       <table class="performance-database">
         <tr>
