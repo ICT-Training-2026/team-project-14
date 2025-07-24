@@ -44,6 +44,10 @@ public class AdminAttendance {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attend_id", referencedColumnName = "attend_id", insertable = false, updatable = false)
+    private AdminReason reason;
+
     // --- Getter/Setter ---
 
     public Long getAttendId() {
@@ -135,5 +139,13 @@ public class AdminAttendance {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public AdminReason getReason() {
+        return reason;
+    }
+
+    public void setReason(AdminReason reason) {
+        this.reason = reason;
     }
 }

@@ -35,18 +35,18 @@
     <div class="page-desc">ここで勤怠実績の閲覧・検索・ダウンロードなどが行えます。</div>
 
     <!-- 検索フォーム -->
-    <form th:action="@{/admin/achievement}" method="get" class="search-form">
+    <form th:action="@{/admin/achievement/list}" method="get" class="search-form">
         <label>
             社員番号:
-            <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" required />
+            <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" />
         </label>
         <label>
             年:
-            <input type="number" name="year" th:value="${year}" min="2000" max="2100" required />
+            <input type="number" name="year" th:value="${year}" min="2000" max="2100" />
         </label>
         <label>
             月:
-            <input type="number" name="month" th:value="${month}" min="1" max="12" required />
+            <input type="number" name="month" th:value="${month}" min="1" max="12" />
         </label>
         <button type="submit">検索</button>
     </form>
@@ -67,15 +67,18 @@
         </thead>
         <tbody>
             <tr th:each="record : ${attendanceList}" th:classappend="${record.status == '申請済み'} ? 'highlight' : ''">
-                <td th:text="${#dates.format(record.date, 'M/d')}">7/1</td>
-                <td th:text="${#temporals.format(record.date, 'E', 'ja')}">火</td>
+                <td th:text="${#temporals.format(record.date, 'M/d')}">7/1</td>
+                <td th:text="${#temporals.format(record.date, 'E', T(java.util.Locale).JAPAN)}">火</td>
                 <td th:text="${(record.arrivalTime == null and record.endTime == null) ? '--' :
                     (record.arrivalTime != null ? #temporals.format(record.arrivalTime, 'H:mm') : '--') + '～' +
                     (record.endTime != null ? #temporals.format(record.endTime, 'H:mm') : '')}">8:35～17:30</td>
                 <td th:text="${record.breakTime != null ? record.breakTime + ':00' : '--'}">1:00</td>
                 <td th:text="${record.status}">承認済み</td>
-                <td th:text="${record.atClassification ? '出勤' : '年休'}">出勤</td>
-                <td th:text="${record.reason}">体調不良のため</td>
+                <td th:text="
+                    ${record.atClassification == 1} ? '出勤' :
+                    (${record.atClassification == 2} ? '年休申請中' :
+                    (${record.atClassification == 3} ? '振休申請中' : ''))">出勤</td>
+                <td th:text="${record.reason != null ? record.reason.reason : ''}">体調不良のため</td>
                 <td>
                     <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
                 </td>
