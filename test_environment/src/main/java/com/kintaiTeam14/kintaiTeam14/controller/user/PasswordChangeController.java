@@ -46,12 +46,14 @@ public class PasswordChangeController {
 		
 		if (bindingResult.hasErrors()) {
 	        model.addAttribute("employeeId", employeeId);
+	        model.addAttribute("errorMessage", "英数字記号を含む８文字以上にしてください");
 	        return "/user/passwordChange";
 	    }
 
 	    // 新しいパスワードと確認用パスワードが一致するかチェック
 	    if (!form.getNewPass().equals(form.getNewPassRev())) {
 	        bindingResult.rejectValue("newPassRev", "error.newPassRev", "新しいパスワードが一致しません");
+	        model.addAttribute("errorMessage", "新しいパスワードが一致しません");
 	        model.addAttribute("employeeId", employeeId);
 	        return "/user/passwordChange";
 	    }
@@ -61,6 +63,7 @@ public class PasswordChangeController {
 	    boolean isCurrentPassValid = employeeService.checkPassword(employeeId, form.getCurrentPass());
 	    if (!isCurrentPassValid) {
 	        bindingResult.rejectValue("currentPass", "error.currentPass", "現在のパスワードが正しくありません");
+	        model.addAttribute("errorMessage", "現在のパスワードが正しくありません");
 	        model.addAttribute("employeeId", employeeId);
 	        return "/user/passwordChange";
 	    }
