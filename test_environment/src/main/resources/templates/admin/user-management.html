@@ -51,7 +51,8 @@
                 <th>ID</th>
                 <th>ユーザー名</th>
                 <th>部署ID</th>
-                <th>操作</th>
+                <th>編集</th>
+                <th>削除</th>
             </tr>
         </thead>
         <tbody>
@@ -59,6 +60,15 @@
                 <td th:text="${user.employee_Id}"></td>
                 <td th:text="${user.employee_Name}"></td>
                 <td th:text="${user.department_Id}"></td>
+                <td>
+                    <form th:action="@{|/admin/edit/${user.employee_Id}|}" method="post" style="display:inline;" th:object="${userEditForm}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="hidden" name="name" th:value="${user.employee_Name}">
+                        <input type="hidden" name="employeeId" th:value="${user.employee_Id}">
+                        <input type="hidden" name="departmentId" th:value="${user.department_Id}">
+                        <button type="submit" class="delete-btn">編集</button>
+                    </form>
+                </td>
                 <td>
                     <form th:action="@{|/admin/delete/${user.employee_Id}|}" method="post" style="display:inline;">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

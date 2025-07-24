@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UserRegistForm {
+public class UserEditForm {
 	
 	@NotNull
 	private String name;
@@ -13,5 +13,7 @@ public class UserRegistForm {
 	private String departmentId;
 	@NotNull
 	private String employeeId;
+	
+	private String activateDate;
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kintaiTeam14.kintaiTeam14.form.UserRegistForm;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class UserRegistRepository {
 
 	private final JdbcTemplate jdbcTemplate;
+	private final PasswordEncoder passwordEncoder;
 	
 	public boolean userRegist(UserRegistForm f) {
 		
@@ -34,7 +36,7 @@ public class UserRegistRepository {
 					+ "VALUES(?,?,?,?,?,?,?)";
 			
 			jdbcTemplate.update(sql_ins, emp_id, f.getDepartmentId(),
-					f.getName(),f.getEmployeeId(),1,0,0);
+					f.getName(),passwordEncoder.encode(f.getEmployeeId()),1,0,0);
 			System.out.println("社員番号：" + emp_id + " 社員名："+f.getName());
 			System.out.println("登録しました");
 			result=true;
@@ -44,7 +46,6 @@ public class UserRegistRepository {
 			System.out.println("すでにこのIDは登録されています");
 		}
 			
-		
 		return result;
 	}
 }

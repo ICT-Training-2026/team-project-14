@@ -6,8 +6,10 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.kintaiTeam14.kintaiTeam14.form.UserEditForm;
 import com.kintaiTeam14.kintaiTeam14.form.UserRegistForm;
 import com.kintaiTeam14.kintaiTeam14.form.UserSearchForm;
 import com.kintaiTeam14.kintaiTeam14.service.employee.EmployeeService;
@@ -36,20 +38,21 @@ public class AdminUserManagement {
 		return "/admin/user-regist";
 	}
 	
-	
-	//マッピングの設定
-	public String editUser() {
-		return "";
+	//ユーザー情報編集処理
+	@PostMapping("admin/edit/{empId}")
+	public String editUser(@ModelAttribute UserEditForm f,@PathVariable Long empId,Model model) {
+		model.addAttribute("form", f);
+		return "/admin/user-edit";
 	}
 
-//	/**
-//	 * ユーザー削除機能
-//	 */
-//	@PostMapping("admin/delete")
-//	public String deleteUser(@PathVariable Long empId) {
-//		userService.deleteUserById(empId);
-//		return "redirect:/admin/User-management";
-//	}
+	/**
+	 * ユーザー削除機能
+	 */
+	@PostMapping("admin/delete/{empId}")
+	public String deleteUser(@PathVariable Long empId) {
+		userService.deleteUserById(empId);
+		return "redirect:/admin/User-management";
+	}
 	
 //	@GetMapping
 //	public String listUsers(Model model) {
