@@ -84,7 +84,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="performance : ${performances}" class="performance-row" th:data-id="${performance.id}">
+					<tr th:each="performance : ${performances}"
+						th:classappend="${holidays.contains(performance.date)} ? 'holiday-row' : ''"
+						class="performance-row" th:data-id="${performance.id}">
 						<td class="col-date"
 							th:classappend="${holidays.contains(performance.date)} ? 'holiday-cell' : ''">
 							<div class="date-holiday-flex">
