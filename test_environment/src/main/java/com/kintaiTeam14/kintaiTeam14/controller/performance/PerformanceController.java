@@ -7,7 +7,11 @@ import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
@@ -131,6 +135,12 @@ public class PerformanceController {
         model.addAttribute("overtimeHours", overtimeHours);
         model.addAttribute("paidHoliday", paidHoliday);
         model.addAttribute("compDay", compDay);
+        int currentYearup = LocalDate.now().getYear();
+        int currentYeardown=currentYearup-5;
+        model.addAttribute("currentYeardown", currentYeardown);
+        model.addAttribute("currentYearup", currentYearup);
+
+       
 
         return "performance/performance";
     }
