@@ -33,7 +33,60 @@
 <main>
     <div class="page-title">実績</div>
     <div class="page-desc">ここで勤怠実績の閲覧・検索・ダウンロードなどが行えます。</div>
-    <!-- ここに実績管理の機能を実装 -->
+
+    <!-- 検索フォーム -->
+    <form th:action="@{/admin/achievement}" method="get" class="search-form">
+        <label>
+            社員番号:
+            <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" required />
+        </label>
+        <label>
+            年:
+            <input type="number" name="year" th:value="${year}" min="2000" max="2100" required />
+        </label>
+        <label>
+            月:
+            <input type="number" name="month" th:value="${month}" min="1" max="12" required />
+        </label>
+        <button type="submit">検索</button>
+    </form>
+
+    <!-- 勤怠一覧テーブル -->
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>曜日</th>
+                <th>打刻時間</th>
+                <th>休憩時間</th>
+                <th>状況</th>
+                <th>出社区分</th>
+                <th>事由</th>
+                <th>編集</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="record : ${attendanceList}" th:classappend="${record.status == '申請済み'} ? 'highlight' : ''">
+                <td th:text="${#dates.format(record.date, 'M/d')}">7/1</td>
+                <td th:text="${#temporals.format(record.date, 'E', 'ja')}">火</td>
+                <td th:text="${(record.arrivalTime == null and record.endTime == null) ? '--' :
+                    (record.arrivalTime != null ? #temporals.format(record.arrivalTime, 'H:mm') : '--') + '～' +
+                    (record.endTime != null ? #temporals.format(record.endTime, 'H:mm') : '')}">8:35～17:30</td>
+                <td th:text="${record.breakTime != null ? record.breakTime + ':00' : '--'}">1:00</td>
+                <td th:text="${record.status}">承認済み</td>
+                <td th:text="${record.atClassification ? '出勤' : '年休'}">出勤</td>
+                <td th:text="${record.reason}">体調不良のため</td>
+                <td>
+                    <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
+                </td>
+            </tr>
+            <tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
+                <td colspan="8">該当するデータがありません。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 戻るリンク -->
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
 </main>
 </body>
