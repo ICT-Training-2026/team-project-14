@@ -1,4 +1,4 @@
-/* ===== 年休申請画面専用CSS (整理版) ===== */
+/* ===== 振休申請画面専用CSS ===== */
 
 /* --- ベース --- */
 body {
@@ -131,8 +131,8 @@ main {
   color: #0d47a1;
 }
 
-/* --- 年休残数表示 --- */
-.paid-holiday-info {
+/* --- 振休残数表示 --- */
+.compday-info {
 	color: #1976d2;
 	background: #e3ecf7;
 	display: inline-block;
@@ -144,8 +144,8 @@ main {
 	margin-left: 60px;
 }
 
-/* --- 年休申請ブロック・テーブル --- */
-.annual-table-block {
+/* --- 振休申請ブロック・テーブル --- */
+.compday-table-block {
 	max-width: 1000px;
 	margin: 40px auto 0 auto;
 	display: flex;
@@ -153,7 +153,7 @@ main {
 	align-items: center;
 	width: 100%;
 }
-.annual-date-btn-area {
+.compday-date-btn-area {
 	width: 100%;
 	text-align: left;
 	margin-bottom: 8px;
@@ -161,7 +161,7 @@ main {
 	justify-content: flex-start;
 	max-width: 1000px;
 }
-.user-table {
+.compday-table {
 	table-layout: fixed;
 	width: 100%;
 	max-width: 1000px;
@@ -172,23 +172,23 @@ main {
 	border-radius: 10px;
 	font-size: 1.0rem;
 }
-.user-table th,
-.user-table td {
+.compday-table th,
+.compday-table td {
 	font-size: 1.0rem;
 	padding: 12px 18px;
 	text-align: center;
 	border-bottom: 1px solid #e0e7ee;
 	vertical-align: middle;
 }
-.user-table th {
+.compday-table th {
 	background: #f6f8fb;
 	color: #1976d2;
 	font-weight: 700;
 }
-.user-table td {
+.compday-table td {
 	background: #fff;
 }
-.user-table .col-date {
+.compday-table .col-date {
 	width: 90px;
 	min-width: 70px;
 	max-width: 120px;
@@ -350,9 +350,9 @@ button.modern-btn[disabled] {
 		padding: 6px 9px;
 		font-size: 0.95rem;
 	}
-	.annual-table-block,
-	.annual-date-btn-area,
-	.user-table {
+	.compday-table-block,
+	.compday-date-btn-area,
+	.compday-table {
 		max-width: 98vw;
 	}
 }

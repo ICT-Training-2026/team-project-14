@@ -68,6 +68,8 @@
 		<div>
 			<button class="modern-btn submit-btn" type="button" onclick="submitApplication()">申請</button>
 		</div>
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}"
+			th:classappend="${activeTab} == 'approval' ? 'active'" class="back-link">← ユーザートップに戻る</a>
 		<!-- モーダル -->
 		<div class="modal-overlay" id="modalOverlay" style="display:none;">
 			<div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -79,6 +81,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<script th:inline="javascript">
 			/*<![CDATA[*/
 			const paidHoliday = /*[[${PaidHoliday}]]*/ 0;
