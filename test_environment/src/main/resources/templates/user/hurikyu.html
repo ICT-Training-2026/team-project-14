@@ -65,6 +65,7 @@
 			        <th>曜日</th>
 			        <th>残年休日数</th>
 			        <th>使用後年休日数</th>
+					<th>削除</th> <!-- 追加 -->
 			      </tr>
 			    </thead>
 			    <tbody id="vacationTableBody">
@@ -149,9 +150,19 @@
 			        <td>${weekday}</td>
 			        <td>${remainingDays}</td>
 			        <td>${usedDaysAfter}</td>
+					<td><button type="button" class="delete-btn">削除</button></td>
+					<td><button type="button" class="delete-btn">削除</button></td>
 			      `;
 
 			      vacationTableBody.appendChild(newRow);
+
+				  // 削除ボタンのイベントリスナー
+				  newRow.querySelector('.delete-btn').addEventListener('click', function() {
+				    // 削除時にremainingDaysを戻す
+				    remainingDays += 1;
+				    newRow.remove();
+				  });
+
 
 			      // 残年休日数を1減らす
 			      remainingDays -= 1;

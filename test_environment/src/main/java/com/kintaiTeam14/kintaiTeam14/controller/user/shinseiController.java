@@ -34,7 +34,7 @@ public class shinseiController {
 		m.addAttribute("employeeId", employeeId);
 	  
 
-		return "user/shinsei";
+		return "redirect:/" + employeeId + "/top/shinsei_user";
 	}
 	@GetMapping("/{employeeId}/top/shinsei_user")
 	public String kakusyusinseiget(Model m,@PathVariable Long employeeId) {
@@ -60,8 +60,38 @@ public class shinseiController {
 		    // 中身を取り出してセット
 		    Employee employee = employeeOpt.orElse(null);
 		m.addAttribute("employee",employee);
-		return "user/nenkyu";
+		return "redirect:/{employeeId}/top/shinsei_user/nenkyu";
 	}
+	
+	@GetMapping("/{employeeId}/top/shinsei_user/nenkyu")
+	public String nenkyuGet(Model m, @PathVariable Long employeeId) {
+	    // 申請済み日付リストを取得
+	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+
+	    // 年休残日数を計算
+	    int paidHoliday = employeeService.getPaidHoliday(employeeId);
+	    int appliedDatesSize = appliedDates.size();
+	    int remainingPaidHoliday = paidHoliday - appliedDatesSize;
+
+	    // 必要なデータをModelにセット
+	    m.addAttribute("PaidHoliday", remainingPaidHoliday);
+	    m.addAttribute("appliedDates", appliedDates); // もし画面で使うなら
+
+	    // 社員情報も必要なら
+	    Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
+	    Employee employee = employeeOpt.orElse(null);
+	    m.addAttribute("employee", employee);
+
+	    m.addAttribute("employeeId", employeeId);
+
+	    return "user/nenkyu";
+	}
+	
+	
+	
+	
+	
+	
 	
 	   @PostMapping("/{employeeId}/top/shinsei_user/nenkyu/apply")
 	   @ResponseBody
@@ -155,7 +185,7 @@ public class shinseiController {
 		    int kakusyusinseiPaidHoliday=employeeService.getCompday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
 		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
-		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
+		    m.addAttribute("CompHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
 		    
 		    System.out.println(appliedDates);
 		 Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
@@ -163,8 +193,45 @@ public class shinseiController {
 		    // 中身を取り出してセット
 		    Employee employee = employeeOpt.orElse(null);
 		m.addAttribute("employee",employee);
-		return "user/hurikyu";
+		return "redirect:/{employeeId}/top/shinsei_user/hurikyu";
 	}
+	
+	
+	@GetMapping("/{employeeId}/top/shinsei_user/hurikyu")
+	public String hurikyuGet(Model m, @PathVariable Long employeeId) {
+	    // 申請済み日付リストを取得
+	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+
+	    // 年休残日数を計算
+	    int paidHoliday = employeeService.getPaidHoliday(employeeId);
+	    int appliedDatesSize = appliedDates.size();
+	    int remainingPaidHoliday = paidHoliday - appliedDatesSize;
+
+	    // 必要なデータをModelにセット
+	    m.addAttribute("Compday", remainingPaidHoliday);
+	    m.addAttribute("appliedDates", appliedDates); // もし画面で使うなら
+
+	    // 社員情報も必要なら
+	    Optional<Employee> employeeOpt = employeeService.findUserById(employeeId);
+	    Employee employee = employeeOpt.orElse(null);
+	    m.addAttribute("employee", employee);
+
+	    m.addAttribute("employeeId", employeeId);
+
+	    return "user/hurikyu";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	   @PostMapping("/{employeeId}/top/shinsei_user/hurikyu/apply")
 	   @ResponseBody
