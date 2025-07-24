@@ -331,7 +331,6 @@
 					    if (isHoliday) tdClass.push("holiday-cell");
 					    if (isSunday) tdClass.push("sunday");
 					    if (isSaturday) tdClass.push("saturday");
-					    // ↓ tdClassは必ず配列でjoin
 					    rowHtml += `<td class="${tdClass.join(' ')}">${d}</td>`;
 					    if (i === 6) {
 					        tbl.innerHTML += rowHtml + '</tr>';
