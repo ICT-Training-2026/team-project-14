@@ -22,7 +22,7 @@ public class Attendance {
 
     private Byte breakTime;            // break_time (休憩時間)
 
-    private Boolean atClassification;  // at_classification (出勤区分)
+    private int atClassification;  // at_classification (出勤区分)
     // tinyint(1)はBooleanでマッピングするのが一般的です
 
     private Byte overtime;             // overtime (残業時間)
