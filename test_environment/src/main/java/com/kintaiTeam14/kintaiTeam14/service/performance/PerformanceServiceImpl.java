@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 import com.kintaiTeam14.kintaiTeam14.repository.PerformanceHolidayRepository;
@@ -31,6 +32,11 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
 	public void updateRePerformance(RePerformance reperformance) {
 		repository.updateRePerformance(reperformance);
+	}
+
+    @Override
+	public void updateAdminPerformance(AdminPerformance adminperformance) {
+		repository.updateAdminPerformance(adminperformance);
 	}
 
     @Override
@@ -102,19 +108,25 @@ public class PerformanceServiceImpl implements PerformanceService {
         return workDays * 7.0;
     }
 
-    // 実労働時間(h)を計算するメソッド
-    @Override
+ // 実労働時間(h)を計算するメソッド
+    //7/25編集。実労働時間で休憩時間を引けていなかったことを修正。
     public double calculateActualWorkHours(Long userId, LocalDate startDate, LocalDate endDate) {
         List<Performance> performances = findByUserIdAndDateRange(userId, startDate, endDate);
         double totalHours = 0.0;
         for (Performance p : performances) {
             if (p.getStartTime() != null && p.getEndTime() != null) {
                 long minutes = java.time.Duration.between(p.getStartTime(), p.getEndTime()).toMinutes();
-                totalHours += minutes / 60.0;
+                double breakHours = p.getBreakTime(); // DBの値（1なら1時間）
+                double workHours = (minutes / 60.0) - breakHours;
+                if (workHours > 0) {
+                    totalHours += workHours;
+                }
             }
         }
         return totalHours;
     }
+
+
 
     // 残業時間(h)を計算するメソッド
     @Override

@@ -23,9 +23,13 @@ public interface PerformanceRepository {
 
 
 
+
+
     // 追加
     List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
     List<RePerformance> findByreId(int reId);
     void updatePerformance(Performance performance);
     void updateRePerformance(RePerformance reperformance);
+    void updateAdminPerformance(AdminPerformance adminperformance);
+
 }

@@ -54,6 +54,7 @@
             <th>事由</th>
             <th>訂正理由</th>
             <th>差異理由</th>
+            <th>承認・訂正</th>
         </tr>
         </thead>
         <tbody>
@@ -67,12 +68,12 @@
             <td>
             <input type="text" th:value="${performance.dayOfWeek}" class="performance-dayofweek-input" disabled />
             </td>
-            <td><input type="time" th:value="${performance.startTime}" class="performance-start-input"  disabled/></td>
-            <td><input type="time" th:value="${performance.endTime}" class="performance-end-input" disabled /></td>
-            <td><input type="text" th:value="${performance.breakTime}" class="performance-break-input" disabled /></td>
+            <td><input type="time" th:value="${performance.startTime}" class="performance-start-input"  /></td>
+            <td><input type="time" th:value="${performance.endTime}" class="performance-end-input" /></td>
+            <td><input type="text" th:value="${performance.breakTime}" class="performance-break-input" /></td>
             <!-- disabledを外してボタン有効化 -->
             <td>
-                <select class="work-select" disabled>
+                <select class="work-select" >
                 <option value=0 th:selected="${performance.atClassification == 0}">出勤</option>
                 <option value=1 th:selected="${performance.atClassification == 1}">休日</option>
                 <option value=2 th:selected="${performance.atClassification == 2}">年休申請中</option>
@@ -88,33 +89,33 @@
             <!-- 事由の入力欄を条件付きでdisabledにする -->
             <td>
             <input type="text" th:value="${performance.reason}" class="performance-reason-input"
-                    th:disabled="${performance.status == '申請済み' or performance.status == '確定済み'}" />
+                    disabled />
             </td>
 
             <td>
             <input type="text" th:value="${performance.correctReason}" class="performance-correctReason-input"
-                    th:disabled="${performance.status == '申請済み' or performance.status == '確定済み'}" />
+                />
             </td>
 
             <td>
             <input type="text" th:value="${performance.diffReason}" class="performance-diffReason-input"
-                    th:disabled="${performance.status == '申請済み' or performance.status == '確定済み'}" />
+                   disabled />
             </td>
+
+            <td>
+                <select class="approval-select" >
+                <option value=0 >承認</option>
+                <option value=1 >訂正</option>
+                </select>
+          </td>
         </tr>
         </tbody>
     </table>
     </div>
 
 
-
-
-
-
-
-
-
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
 </main>
-<script th:src="@{/js/performance.js}"></script>
+<script th:src="@{/js/adminperformance.js}"></script>/
 </body>
 </html>

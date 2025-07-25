@@ -347,9 +347,52 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
             ap.setDiffReason(rs.getString("diffReason"));
 
             ap.setAtClassification(rs.getInt("at_classification"));
-
-
     	    return ap;
     	});
     }
+
+    @Override
+    public void updateAdminPerformance(AdminPerformance adminperformance) {
+        String sqlAttendance = "UPDATE attendance SET " +
+                "arrival_time = ?, " +
+                "end_time = ?, " +
+                "break_time = ?, " +
+                "status = ? " +   // 最後のカラムの後にカンマは不要
+                "WHERE attend_id = ?";
+
+        java.sql.Timestamp startTimestamp = null;
+        java.sql.Timestamp endTimestamp = null;
+
+        if (adminperformance.getDate() != null && adminperformance.getStartTime() != null) {
+            startTimestamp = java.sql.Timestamp.valueOf(
+            		adminperformance.getDate().atTime(adminperformance.getStartTime()));
+        }
+
+        if (adminperformance.getDate() != null && adminperformance.getEndTime() != null) {
+            endTimestamp = java.sql.Timestamp.valueOf(
+            		adminperformance.getDate().atTime(adminperformance.getEndTime()));
+        }
+
+        jdbcTemplate.update(sqlAttendance,
+                startTimestamp,
+                endTimestamp,
+                adminperformance.getBreakTime(),
+                adminperformance.getStatus(),
+                adminperformance.getId());
+
+        String sqlReason = "UPDATE reason SET " +
+                "reason = ?, " +
+                "correctReason = ?, " +
+                "diffReason = ? " +  // ここも最後のカラムなのでカンマは不要
+                "WHERE attend_id = ?";
+
+
+        jdbcTemplate.update(sqlReason,
+        		adminperformance.getReason(),
+        		adminperformance.getCorrectReason(),
+        		adminperformance.getDiffReason(),
+        		adminperformance.getId());
+    }
+
+
 }
