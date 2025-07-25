@@ -72,6 +72,7 @@ public class AdminExportController {
                         // 出力（年月は yyyy-MM 形式で表示）
                         lines.add(String.format("%d,%d-%02d,%s,%s,%s,%s,%d,%d,%d",
                                 empCode, year, month, startH, startM, endH, endM, workMin, breakMin, overtime));
+//                        lines.add("DEBUG 所定労働日数" + stdDays);
                     }
                     String fileName = empCode + "_" + ym + ".csv";
                     zos.putNextEntry(new ZipEntry(fileName));
