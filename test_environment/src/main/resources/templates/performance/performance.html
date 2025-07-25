@@ -163,11 +163,12 @@
 					</tr>
 				</thead>
 				<tbody>
+				<!-- 7/25ここの2~4行目を変更しました。 -->
 					<tr>
 						<td class="col-sum-month" th:text="${month}">7</td>
-						<td class="col-sum-scheduled" th:text="${scheduledHours}">140</td>
-						<td class="col-sum-actual" th:text="${actualHours}">160</td>
-						<td class="col-sum-overtime" th:text="${overtimeHours}">20</td>
+						<td class="col-sum-scheduled" th:text="${#numbers.formatDecimal(scheduledHours, 1, 1)}">140</td>
+						<td class="col-sum-actual" th:text="${#numbers.formatDecimal(actualHours, 1, 1)}">160</td>
+						<td class="col-sum-overtime" th:text="${#numbers.formatDecimal(overtimeHours, 1, 1)}">20</td>
 						<td class="col-sum-paid" th:text="${paidHoliday}">5</td>
 						<td class="col-sum-comp" th:text="${compDay}">5</td>
 					</tr>
