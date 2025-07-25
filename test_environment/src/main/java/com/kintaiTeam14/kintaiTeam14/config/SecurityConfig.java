@@ -10,64 +10,52 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
 
-/*
- * Spring Securityの設定クラス。
- * Webセキュリティ機能を有効化し、認証やアクセス制御のルールを定義する。
- */
 @RequiredArgsConstructor
-@Configuration // Springの設定クラスであることを示す
-@EnableWebSecurity // Spring SecurityのWebセキュリティを有効にする
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	private final CustomAccessDeniedHandler accessDeniedHandler;
 	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-	/**
-	 * パスワードをハッシュ化するためのPasswordEncoder Beanを登録。
-	 * BCryptアルゴリズムを使い、安全にパスワードを管理する。
-	 * @return BCryptPasswordEncoderのインスタンス
-	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	/**
-	 * セキュリティフィルタチェーンのBeanを登録。
-	 * HTTPリクエストの認可設定やログイン・ログアウトの挙動を定義する。
-	 *
-	 * ・"/login", "/register", 静的リソース(css/js)は認証不要（permitAll）
-	 * ・その他のリクエストは認証必須
-	 * ・ログインページは"/login"に設定し、認証成功時はカスタムハンドラを利用
-	 * ・ログアウトは全ユーザー許可
-	 *
-	 * @param http HttpSecurityオブジェクト
-	 * @return SecurityFilterChainインスタンス
-	 * @throws Exception セキュリティ設定例外
-	 */
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(authorizeRequests ->
-			authorizeRequests
-			 	.requestMatchers("/admin/**").hasRole("ADMIN")
-				.requestMatchers("/login", "/css/**", "/js/**").permitAll() // 認証不要パス
-				.anyRequest().authenticated() // それ以外は認証必須
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                // 勤怠CSV出力エンドポイントをpermitAll
+                .requestMatchers("/admin/export-attendance").permitAll()
+                // 祝日CSV出力エンドポイントもpermitAll
+                .requestMatchers("/admin/company-info/export").permitAll()
+                .requestMatchers("/api/holidays/export").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/api/holidays/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .csrf(csrf -> csrf
+            	.ignoringRequestMatchers("/api/holidays/**")   
+                // 勤怠CSV出力エンドポイントをCSRF除外
+                .ignoringRequestMatchers("/admin/export-attendance")
+                // 祝日CSV出力エンドポイントもCSRF除外
+                .ignoringRequestMatchers("/admin/company-info/export")
+                .ignoringRequestMatchers("/api/holidays/export")
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .successHandler(customAuthenticationSuccessHandler)
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll()
+            )
+            .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler));
 
-				)
-		.formLogin(form ->
-			form
-				.loginPage("/login") // カスタムログインページのURLを指定
-				.successHandler(customAuthenticationSuccessHandler) // 認証成功時の処理をカスタム
-				.permitAll() // ログインページは認証不要
-		)
-		.logout(logout ->
-			logout. logoutUrl("/logout") // デフォルトは/logout
-	        .logoutSuccessUrl("/login") // ログアウト後のリダイレクト先
-	        .permitAll()
-		) .exceptionHandling(exception ->
-        exception.accessDeniedHandler(accessDeniedHandler)
-    );
-
-		return http.build();
-	}
-
+        return http.build();
+    }
 }

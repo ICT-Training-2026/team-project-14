@@ -4,26 +4,29 @@
 <head>
 	<title>各種申請</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/shinsei.css}">
 </head>
 
 <body>
 	<header class="taskbar">
 		<div class="taskbar-left">
-			<span class="taskbar-logo">
-				<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-					<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
-					<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
-					<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
-				</svg>
-			</span>
-			<span class="taskbar-title">ユーザーホーム</span>
+			<a th:href="@{'/' + ${employeeId} + '/top'}" class="taskbar-home-link"
+				style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+				<span class="taskbar-logo">
+					<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+						<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
+						<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
+						<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
+					</svg>
+				</span>
+				<span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
+			</a>
 			<nav class="taskbar-tabs">
 				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
 					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
 				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
 					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/{employeeId}/top/shinsei_user(employeeId=${employeeId})}"
+				<a th:href="@{/{employeeId}/top/shinsei(employeeId=${employeeId})}"
 					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
 			</nav>
 		</div>
@@ -38,18 +41,20 @@
 		<div class="page-title">各種申請</div>
 		<div class="page-desc">ここで各種申請を行います。</div>
 		<!-- ここに実績管理の機能を実装 -->
-		
+
 		<div class="menu-buttons">
-			<form th:action="@{  '/' + ${employeeId}+ '/top/shinsei_user/nenkyu'}" method="post" style="margin:0;">
-			  <button type="submit" class="modern-btn">年休申請</button>
+			<form id="syuttaikin" th:action="@{/{employeeId}/top/shinsei/nenkyu(employeeId=${employeeId})}"
+				method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">年休申請</button>
 			</form>
-			<form th:action="@{  '/' + ${employeeId}+'/top/shinsei_user/hurikyu'}" method="post" style="margin:0;">
-			  <button type="submit" class="modern-btn">振休申請</button>
+			<form id="syuttaikin" th:action="@{/{employeeId}/top/shinsei/hurikyu(employeeId=${employeeId})}"
+				method="post" style="margin:0;">
+				<button type="submit" class="modern-btn">振休申請</button>
 			</form>
 		</div>
-		
-		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}" th:classappend="${activeTab} == 'approval' ? 'active'"
-			class="back-link">← ユーザートップに戻る</a>
+
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}"
+			th:classappend="${activeTab} == 'approval' ? 'active'" class="back-link">← ユーザートップに戻る</a>
 	</main>
 </body>
 

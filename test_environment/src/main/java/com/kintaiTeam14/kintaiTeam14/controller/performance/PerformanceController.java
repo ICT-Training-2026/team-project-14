@@ -2,14 +2,22 @@ package com.kintaiTeam14.kintaiTeam14.controller.performance;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
+import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,11 +27,41 @@ import lombok.RequiredArgsConstructor;
 public class PerformanceController {
     private final PerformanceService performanceService;
 
+
+
+    @PostMapping("/{employeeId}/top/jisseki_user/reperformance")
+    public String showReperformancePage(@PathVariable("employeeId") String employeeId, Model model, @RequestParam("reId") Integer reId) {
+        // 必要に応じてモデルに属性を追加
+        model.addAttribute("employeeId", employeeId);
+        model.addAttribute("reId", reId);
+        System.out.print("reid");
+        System.out.println(reId);
+        var rePerformance=performanceService.findByreId(reId);
+
+        model.addAttribute("userId", employeeId);
+
+
+        System.out.print("rePerformance");
+        System.out.println(rePerformance);
+        model.addAttribute("rePerformances", rePerformance);
+
+        return "performance/reperformance";
+    }
+
+
     @PostMapping("/performance-update")
     public ResponseEntity<Void> updatePerformance(@RequestBody Performance performance) {
         System.out.println("AWS");
         System.out.println(performance);
         performanceService.updatePerformance(performance);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reperformance-update")
+    public ResponseEntity<Void> updateRePerformance(@RequestBody RePerformance reperformance) {
+        System.out.println("AWS2");
+        System.out.println(reperformance);
+        performanceService.updateRePerformance(reperformance);
         return ResponseEntity.ok().build();
     }
 
@@ -131,6 +169,12 @@ public class PerformanceController {
         model.addAttribute("overtimeHours", overtimeHours);
         model.addAttribute("paidHoliday", paidHoliday);
         model.addAttribute("compDay", compDay);
+        int currentYearup = LocalDate.now().getYear();
+        int currentYeardown=currentYearup-5;
+        model.addAttribute("currentYeardown", currentYeardown);
+        model.addAttribute("currentYearup", currentYearup);
+
+       
 
         return "performance/performance";
     }

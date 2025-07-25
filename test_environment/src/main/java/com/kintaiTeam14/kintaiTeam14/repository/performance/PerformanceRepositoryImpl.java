@@ -16,6 +16,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
+import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
 import lombok.RequiredArgsConstructor;
 
@@ -72,6 +73,8 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 		System.out.println(performance.getDayOfWeek());
 		System.out.println(performance.getBreakTime());
 		System.out.println(performance.getStatus());
+		System.out.println(performance.getReason());
+
 
 		String sqlAttendance = "UPDATE attendance SET " +
 	            "arrival_time = ?, " +
@@ -197,5 +200,104 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
                 return s;
             }
         });
+    }
+
+	@Override
+    public List<RePerformance> findByreId(int reId) {
+        String sql = "SELECT a.attend_id, a.date, a.break_time, a.at_classification, a.arrival_time, a.end_time, a.status, r.reason, r.correctReason, r.diffReason " +
+             "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
+             "WHERE a.attend_id = ?";
+
+
+        // jdbcTemplateを使ってSQLを実行し、結果をRePerformanceオブジェクトにマッピングしてリストで返す
+        return jdbcTemplate.query(sql, new Object[]{reId}, (rs, rowNum) -> {
+            RePerformance rp = new RePerformance();
+
+            // attend_idをLong型でセット
+            rp.setId(rs.getLong("attend_id"));
+
+            // dateカラムをLocalDateに変換してセット
+            java.sql.Date sqlDate = rs.getDate("date");
+            if (sqlDate != null) {
+                rp.setDate(sqlDate.toLocalDate());
+
+                // 曜日を取得してセット（日本語の狭い形式）
+                String dayOfWeek = sqlDate.toLocalDate()
+                    .getDayOfWeek()
+                    .getDisplayName(java.time.format.TextStyle.NARROW, java.util.Locale.JAPANESE);
+                rp.setDayOfWeek(dayOfWeek);
+            }
+
+            // arrival_timeをLocalTimeに変換してセット
+            java.sql.Time sqlStartTime = rs.getTime("arrival_time");
+            rp.setStartTime(sqlStartTime != null ? sqlStartTime.toLocalTime() : null);
+
+            // end_timeをLocalTimeに変換してセット
+            java.sql.Time sqlEndTime = rs.getTime("end_time");
+            rp.setEndTime(sqlEndTime != null ? sqlEndTime.toLocalTime() : null);
+            rp.setBreakTime(rs.getInt("break_time"));
+
+            // statusをセット
+            rp.setStatus(rs.getString("status"));
+            rp.setAtClassification(rs.getInt("at_classification"));
+            rp.setReason(rs.getString("reason"));
+            rp.setCorrectReason(rs.getString("correctReason"));
+            rp.setDiffReason(rs.getString("diffReason"));
+            // // at_classificationをセット
+            // rp.setAtClassification(rs.getInt("at_classification"));
+
+            // // correct_reasonをセット
+            // rp.setCorrectReason(rs.getString("correct_reason"));
+
+            // // diff_reasonをセット
+            // rp.setDiffReason(rs.getString("diff_reason"));
+
+            return rp;
+        });
+
+    }
+
+
+    @Override
+    public void updateRePerformance(RePerformance reperformance) {
+        String sqlAttendance = "UPDATE attendance SET " +
+                "arrival_time = ?, " +
+                "end_time = ?, " +
+                "break_time = ?, " +
+                "status = ? " +   // 最後のカラムの後にカンマは不要
+                "WHERE attend_id = ?";
+
+        java.sql.Timestamp startTimestamp = null;
+        java.sql.Timestamp endTimestamp = null;
+
+        if (reperformance.getDate() != null && reperformance.getStartTime() != null) {
+            startTimestamp = java.sql.Timestamp.valueOf(
+                    reperformance.getDate().atTime(reperformance.getStartTime()));
+        }
+
+        if (reperformance.getDate() != null && reperformance.getEndTime() != null) {
+            endTimestamp = java.sql.Timestamp.valueOf(
+                    reperformance.getDate().atTime(reperformance.getEndTime()));
+        }
+
+        jdbcTemplate.update(sqlAttendance,
+                startTimestamp,
+                endTimestamp,
+                reperformance.getBreakTime(),
+                reperformance.getStatus(),
+                reperformance.getId());
+
+        String sqlReason = "UPDATE reason SET " +
+                "reason = ?, " +
+                "correctReason = ?, " +
+                "diffReason = ? " +  // ここも最後のカラムなのでカンマは不要
+                "WHERE attend_id = ?";
+
+
+        jdbcTemplate.update(sqlReason,
+                reperformance.getReason(),
+                reperformance.getCorrectReason(),
+                reperformance.getDiffReason(),
+                reperformance.getId());
     }
 }
