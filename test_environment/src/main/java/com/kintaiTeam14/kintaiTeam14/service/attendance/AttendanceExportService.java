@@ -2,6 +2,7 @@ package com.kintaiTeam14.kintaiTeam14.service.attendance;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,25 @@ public class AttendanceExportService {
         }
         return result;
     }
+    
+    public Map<Integer, Map<String, List<Attendance>>> getAttendanceByUserAndMonthPrevMonthOnly() {
+        List<Attendance> all = attendanceService.findAll();
+        Map<Integer, Map<String, List<Attendance>>> result = new HashMap<>();
+        DateTimeFormatter ymFmt = DateTimeFormatter.ofPattern("yyyyMM");
+        YearMonth prev = YearMonth.now().minusMonths(1);
+        String prevYmStr = prev.format(ymFmt);
 
+        for (Attendance att : all) {
+            if (att.getEmployeeId() == null || att.getDate() == null) continue;
+            String ym = att.getDate().format(ymFmt);
+            if (!ym.equals(prevYmStr)) continue; // 前月以外はスキップ
+            int emp = att.getEmployeeId();
+            result.computeIfAbsent(emp, k -> new HashMap<>())
+                  .computeIfAbsent(ym, k -> new ArrayList<>())
+                  .add(att);
+        }
+        return result;
+    }
     // 指定年月の所定労働日数（土日・休日・振休を除外）
     public int calcStandardWorkingDays(int year, int month) {
         LocalDate first = LocalDate.of(year, month, 1);
