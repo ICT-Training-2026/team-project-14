@@ -1,223 +1,254 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/common.css}">
-	<meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
 
-	
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>年休申請</title>
+    <link rel="stylesheet" th:href="@{/css/nenkyu.css}">
 </head>
 
 <body>
-
-	</form>
-	<header class="taskbar">
-		<div class="taskbar-left">
-			<a th:href="@{'/' + ${employeeId} + '/top'}" class="taskbar-home-link"
-				style="display:flex;align-items:center;text-decoration:none;color:inherit;">
-				<span class="taskbar-logo">
-					<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-						<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
-						<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
-						<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
-					</svg>
-				</span>
-				<span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
-			</a>
-			<nav class="taskbar-tabs">
-				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
-					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
-				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
-					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/{employeeId}/top/shinsei(employeeId=${employeeId})}"
-					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
-			</nav>
-		</div>
-		<div class="taskbar-right">
-			<form th:action="@{/logout}" method="post" style="margin:0;">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-				<button type="submit" class="taskbar-logout">ログアウト</button>
-			</form>
-		</div>
-	</header>
-	<main>
-		
-
-		
-
-		
-		  <div class="page-title">年休申請</div>
-		  
-		  <div class="paid-holiday-info">
-		  			    残年休日数：<span id="paidHolidayDisplay"></span>日
-		  	</div>
-		  
-		  
-		  <button class="add-button" type="button" onclick="openModal()">日付検索</button>
-
-		  <table>
-		    <thead>
-		      <tr>
-		        <th>対象日</th>
-		        <th>曜日</th>
-		        <th>残年休日数</th>
-		        <th>使用後年休日数</th>
-				<th>削除</th> <!-- 追加 -->
-		      </tr>
-		    </thead>
-		    <tbody id="vacationTableBody">
-		      <!-- 初期は空 -->
-		    </tbody>
-		  </table>
-
-		  <!-- 申請ボタン -->
-		  <button class="submit-button" type="button" onclick="submitApplication()">申請</button>
-
-		  <!-- モーダル -->
-		  <div class="modal-overlay" id="modalOverlay" style="display:none;">
-		    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-		      <h2 id="modalTitle">日付を選択してください</h2>
-		      <input type="date" id="datePicker" />
-		      <div class="modal-buttons">
-		        <button type="button" class="cancel-btn" onclick="closeModal()">キャンセル</button>
-		        <button type="button" class="ok-btn" id="modalAddBtn" disabled onclick="addSelectedDate()">追加</button>
-		      </div>
-		    </div>
+    <header class="taskbar">
+        <div class="taskbar-left">
+            <a th:href="@{'/' + ${employeeId} + '/top'}" class="taskbar-home-link"
+                style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+                <span class="taskbar-logo">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
+                        <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
+                        <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
+                    </svg>
+                </span>
+                <span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
+            </a>
+            <nav class="taskbar-tabs">
+                <a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
+                    th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+                <a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
+                    th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
+                <a th:href="@{/{employeeId}/top/shinsei(employeeId=${employeeId})}"
+                    th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
+            </nav>
+        </div>
+        <div class="taskbar-right">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="taskbar-logout">ログアウト</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <div class="page-title">年休申請</div>
+        <div class="page-desc">ここで年休の申請が行えます。</div>
+        <div class="paid-holiday-info">
+            残年休日数：<span id="paidHolidayDisplay"></span>日
+        </div>
+        <div class="annual-table-block">
+            <div class="annual-date-btn-area">
+                <button class="date-search-btn" type="button" onclick="openModal()">日付検索</button>
+            </div>
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th class="col-date">対象日</th>
+                        <th class="col-dayofweek">曜日</th>
+                        <th class="col-before-date">残年休日数</th>
+                        <th class="col-after-date">使用後年休日数</th>
+                        <th class="col-remove">削除</th>
+                    </tr>
+                </thead>
+                <tbody id="vacationTableBody">
+                    <!-- JSで行を追加 -->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button class="modern-btn submit-btn" type="button" onclick="submitApplication()">申請</button>
+        </div>
+        <a th:href="@{/{employeeId}/top(employeeId=${employeeId})}"
+            th:classappend="${activeTab} == 'approval' ? 'active'" class="back-link">← ユーザートップに戻る</a>
+        <!-- 日付検索モーダル -->
+        <div class="modal-overlay" id="modalOverlay" style="display:none;">
+            <div class="modal-content">
+                <h2 id="modalTitle">日付を選択してください</h2>
+                <input type="date" id="datePicker" />
+                <div style="margin-top:18px;">
+                    <button type="button" class="modern-btn modal-cancel-btn" onclick="closeModal()">キャンセル</button>
+                    <button type="button" class="modern-btn modal-add-btn" id="modalAddBtn" disabled onclick="addSelectedDate()">追加</button>
+                </div>
+            </div>
+        </div>
+        <!-- 申請完了モーダル -->
+        <div id="applyModal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <div id="applyModalContent"></div>
+                <button onclick="closeApplyModal()" class="modal-close-btn">閉じる</button>
+            </div>
+        </div>
+		<!-- 申請するデータがありません モーダル -->
+		<div id="errorModal" class="modal-overlay" style="display: none;">
+		  <div class="modal-content">
+		    <div id="errorModalContent"></div>
+		    <button onclick="closeErrorModal()" class="modal-close-btn">閉じる</button>
 		  </div>
+		</div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const paidHoliday = /*[[${PaidHoliday}]]*/ 0;
+            let remainingDays = paidHoliday;
+            document.getElementById('paidHolidayDisplay').textContent = remainingDays;
+            const vacationTableBody = document.getElementById('vacationTableBody');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const datePicker = document.getElementById('datePicker');
+            const modalAddBtn = document.getElementById('modalAddBtn');
+            const employeeId = [[${employeeId}]];
+            const url = `/${employeeId}/top/shinsei/nenkyu/apply`;
 
-		  <script th:inline="javascript">
-			/*<![CDATA[*/
-			  const paidHoliday = /*[[${PaidHoliday}]]*/ 0;
-			  console.log(paidHoliday);
-			  let remainingDays = paidHoliday;
-			  // ...（以下略）
-			 
-			 document.getElementById('paidHolidayDisplay').textContent = remainingDays;
-		    const vacationTableBody = document.getElementById('vacationTableBody');
-		    const modalOverlay = document.getElementById('modalOverlay');
-		    const datePicker = document.getElementById('datePicker');
-		    const modalAddBtn = document.getElementById('modalAddBtn');
-			const employeeId = [[${employeeId}]];
-			const url = `/${employeeId}/top/shinsei/nenkyu/apply`;
-			console.log(url);
-			document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+            function getJapaneseWeekday(date) {
+                const days = ['日', '月', '火', '水', '木', '金', '土'];
+                return days[date.getDay()];
+            }
+
+            // モーダル表示(showクラス方式に統一)
+            function openModal() {
+                modalOverlay.style.display = 'flex';
+                setTimeout(function () {
+                    modalOverlay.classList.add('show');
+                }, 10);
+                datePicker.value = '';
+                modalAddBtn.disabled = true;
+                datePicker.focus();
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('show');
+                setTimeout(function () {
+                    modalOverlay.style.display = 'none';
+                }, 400);
+            }
+
+            datePicker.addEventListener('input', () => {
+                modalAddBtn.disabled = !datePicker.value;
+            });
+
+            function addSelectedDate() {
+                if (!datePicker.value) return;
+
+                if (remainingDays <= 0) {
+                    alert('残年休日数がありません。これ以上追加できません。');
+                    closeModal();
+                    return;
+                }
+
+                const selectedDate = new Date(datePicker.value);
+                const formattedDate = `${selectedDate.getFullYear()}/${selectedDate.getMonth() + 1}/${selectedDate.getDate()}`;
+                const weekday = getJapaneseWeekday(selectedDate);
+
+                const usedDaysAfter = remainingDays - 1;
+
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                <td>${formattedDate}</td>
+                <td>${weekday}</td>
+                <td>${remainingDays}</td>
+                <td>${usedDaysAfter}</td>
+                <td><button type="button" class="delete-btn">削除</button></td>
+                `;
+
+                vacationTableBody.appendChild(newRow);
+
+                newRow.querySelector('.delete-btn').addEventListener('click', function () {
+                    remainingDays += 1;
+                    newRow.remove();
+                    document.getElementById('paidHolidayDisplay').textContent = remainingDays;
+                });
+
+                remainingDays -= 1;
+                document.getElementById('paidHolidayDisplay').textContent = remainingDays;
+                closeModal();
+            }
+
+            // 申請完了モーダル
+            function openApplyModal(message) {
+                var modal = document.getElementById('applyModal');
+                modal.style.display = 'flex';
+                setTimeout(function () {
+                    modal.classList.add('show');
+                }, 10);
+                document.getElementById('applyModalContent').innerHTML = message.replace(/\n/g, '<br>');
+            }
+            function closeApplyModal() {
+                var modal = document.getElementById('applyModal');
+                modal.classList.remove('show');
+                setTimeout(function () {
+                    modal.style.display = 'none';
+                }, 400);
+            }
+
+            function submitApplication() {
+                const vacationTableBody = document.getElementById('vacationTableBody');
+                const data = [];
+                vacationTableBody.querySelectorAll('tr').forEach(tr => {
+                    const tds = tr.querySelectorAll('td');
+                    data.push({
+                        date: tds[0].textContent,
+                        weekday: tds[1].textContent,
+                        before: Number(tds[2].textContent),
+                        after: Number(tds[3].textContent)
+                    });
+                });
+
+                if (data.length === 0) {
+                    openErrorModal('申請するデータがありません');
+                    return;
+                }
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        [csrfHeader]: csrfToken
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (!result.success) {
+                            alert(result.errorMsg);
+                        } else {
+                            openApplyModal('申請が完了しました。');
+                            const rowCount = vacationTableBody.querySelectorAll('tr').length;
+                            vacationTableBody.innerHTML = '';
+                            if (result.paidHoliday !== undefined) {
+                                remainingDays = result.paidHoliday;
+                            }
+                            document.getElementById('paidHolidayDisplay').textContent = remainingDays;
+                        }
+                    });
+            }
 			
-			const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-			const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
-
-		    function getJapaneseWeekday(date) {
-		      const days = ['日', '月', '火', '水', '木', '金', '土'];
-		      return days[date.getDay()];
-		    }
-
-		    function openModal() {
-		      modalOverlay.style.display = 'flex';
-		      datePicker.value = '';
-		      modalAddBtn.disabled = true;
-		      datePicker.focus();
-		    }
-
-		    function closeModal() {
-		      modalOverlay.style.display = 'none';
-		    }
-
-		    datePicker.addEventListener('input', () => {
-		      modalAddBtn.disabled = !datePicker.value;
-		    });
-
-		    function addSelectedDate() {
-		      if (!datePicker.value) return;
-
-		      if (remainingDays <= 0) {
-		        alert('残年休日数がありません。これ以上追加できません。');
-		        closeModal();
-		        return;
-		      }
-
-		      const selectedDate = new Date(datePicker.value);
-		      const formattedDate = `${selectedDate.getFullYear()}/${selectedDate.getMonth() + 1}/${selectedDate.getDate()}`;
-		      const weekday = getJapaneseWeekday(selectedDate);
-
-		      // 使用後年休日数は「残年休日数 - 使用日数(1日分ずつ減る)」
-		      const usedDaysAfter = remainingDays - 1;
-
-		      // 新しい行を作成
-		      const newRow = document.createElement('tr');
-		      newRow.innerHTML = `
-		        <td>${formattedDate}</td>
-		        <td>${weekday}</td>
-		        <td>${remainingDays}</td>
-		        <td>${usedDaysAfter}</td>
-				<td><button type="button" class="delete-btn">削除</button></td>
-							      `;
-
-							      vacationTableBody.appendChild(newRow);
-
-								  // 削除ボタンのイベントリスナー
-								  newRow.querySelector('.delete-btn').addEventListener('click', function() {
-								    // 削除時にremainingDaysを戻す
-								    remainingDays += 1;
-								    newRow.remove();
-								  });
-
-		      // 残年休日数を1減らす
-		      remainingDays -= 1;
-
-		      closeModal();
-		    }
-
-
-			function submitApplication() {
-			  const vacationTableBody = document.getElementById('vacationTableBody');
-			  const data = [];
-			  vacationTableBody.querySelectorAll('tr').forEach(tr => {
-			    const tds = tr.querySelectorAll('td');
-			    data.push({
-			      date: tds[0].textContent,
-			      weekday: tds[1].textContent,
-			      before: Number(tds[2].textContent),
-			      after: Number(tds[3].textContent)
-			    });
-			  });
-
-			  if (data.length === 0) {
-			    alert('申請するデータがありません');
-			    return;
-			  }
-
-			  fetch(url, {
-			    method: 'POST',
-			    headers: {
-			      'Content-Type': 'application/json',
-			      [csrfHeader]: csrfToken
-			    },
-			    body: JSON.stringify(data)
-			  })
-			  .then(response => response.json())
-			  .then(result => {
-			    if (!result.success) {
-			      alert(result.errorMsg); // エラー表示
-			    } else {
-			      alert('申請完了');
-			      // 必要なら画面遷移など
-				  const rowCount = vacationTableBody.querySelectorAll('tr').length;
-				     vacationTableBody.innerHTML = '';
-				     // remainingDaysを申請した日数分だけ減らす
-				     // サーバから最新の残年休日数(result.paidHoliday)が返ってくる場合はそちらを優先
-				     if (result.paidHoliday !== undefined) {
-				       remainingDays = result.paidHoliday;
-					   document.getElementById('paidHolidayDisplay').textContent = remainingDays;
-				     } else {
-				       remainingDays -= rowCount;
-				     }
-			    }
-			  });
+			function openErrorModal(message) {
+			    var modal = document.getElementById('errorModal');
+			    modal.style.display = 'flex';
+			    setTimeout(function () {
+			        modal.classList.add('show');
+			    }, 10);
+			    document.getElementById('errorModalContent').innerHTML = message.replace(/\n/g, '<br>');
 			}
-		  </script>
-	</main>
+			function closeErrorModal() {
+			    var modal = document.getElementById('errorModal');
+			    modal.classList.remove('show');
+			    setTimeout(function () {
+			        modal.style.display = 'none';
+			    }, 400);
+			}
+        </script>
+    </main>
 </body>
-
 </html>
