@@ -39,16 +39,14 @@
 		<div class="page-title">ユーザー管理</div>
 		<div class="page-desc">ここでユーザーの一覧表示・追加・編集・削除などが行えます。</div>
 
-		<!-- 検索＆新規登録横並びエリア -->
-		<div class="search-register-bar">
-		    <form th:action="@{/admin/user-list}" method="post" th:object="${userSearchForm}" class="search-form-inline">
-		        <input type="text" name="searchWord" th:field="*{searchWord}" class="search-input">
-		        <input type="submit" value="検索" class="search-btn-small">
-		    </form>
-		    <form th:action="@{/admin/user-regist}" method="post" class="register-form-inline">
-		        <input type="submit" value="新規登録" class="search-btn-small register-btn">
-		    </form>
-		</div>
+    <form th:action="@{/admin/user-list}" method="post" th:object="${userSearchForm}">
+        <input type="text" name="searchWord" th:field="*{searchWord}" placeholder="社員名">
+        <input type="submit" value="検索">
+    </form>
+
+    <form th:action="@{/admin/user-regist}" method="post">
+        <input type="submit" value="新規登録">
+    </form>
 
     <!-- ユーザー一覧テーブル -->
     <table class="user-table">

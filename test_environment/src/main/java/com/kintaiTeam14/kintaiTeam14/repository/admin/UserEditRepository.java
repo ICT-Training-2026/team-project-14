@@ -16,7 +16,7 @@ public class UserEditRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 	
-	public boolean userEditSchedule(UserEditForm f) {
+	public boolean userEditCheck(UserEditForm f) {
 		
 		boolean result=true;
 		
@@ -28,11 +28,18 @@ public class UserEditRepository {
 		String currentDepartment=currentInfo.get(0).get("department_id").toString(); //現在の部署
 		
 		//なにも編集されていない場合
-		if(currentName.equals(f.getName()) && currentDepartment.equals(f.getDepartmentId())) {
+		if((currentName==null || currentName.equals(f.getName())) && (currentDepartment==null || currentDepartment.equals(f.getDepartmentId()))) {
 			result=false;
 		}
 		
 		return result;
+	}
+	
+	public void editSchedule(UserEditForm f) {
+		String sql="INSERT INTO edit_tasks (employee_id,new_employee_name,new_department_id,activate_time) "
+				+ "VALUES (?,?,?,?) ";
+		
+		jdbcTemplate.update(sql, Integer.parseInt(f.getEmployeeId()),f.getName(),f.getDepartmentId(),f.getActivateDate());
 	}
 	
 	//db登録実行

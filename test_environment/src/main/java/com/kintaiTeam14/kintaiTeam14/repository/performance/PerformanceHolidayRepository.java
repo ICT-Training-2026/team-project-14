@@ -1,4 +1,4 @@
-package com.kintaiTeam14.kintaiTeam14.repository;
+package com.kintaiTeam14.kintaiTeam14.repository.performance;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.kintaiTeam14.kintaiTeam14.form;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -16,6 +16,6 @@ public class UserEditForm {
 	@NotNull
 	private String employeeId;
 	@NotNull
-	private LocalDateTime activateDate;
+	private LocalDate activateDate;
 
 }
