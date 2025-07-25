@@ -2,323 +2,861 @@
 
 /* --- ベース --- */
 body {
-    background: #f6f8fb;
-    font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    color: #222;
+	background: #f6f8fb;
+	font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	color: #222;
 }
 
 /* --- タスクバー --- */
 .taskbar {
-    width: 100vw;
-    height: 60px;
-    background: #1565c0;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    box-sizing: border-box;
-    min-width: 0;
+	width: 100vw;
+	height: 60px;
+	background: #1565c0;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 32px;
+	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	box-sizing: border-box;
+	min-width: 0;
 }
+
 .taskbar-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
 }
+
 .taskbar-logo {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
+
 .taskbar-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	font-size: 1.4rem;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+
 .taskbar-tabs {
-    display: flex;
-    gap: 2px;
-    margin-left: 36px;
-    flex: none;
+	display: flex;
+	gap: 2px;
+	margin-left: 36px;
+	flex: none;
 }
+
 .taskbar-tab {
-    color: #e3ecf7;
-    font-size: 1.07rem;
-    font-weight: 700;
-    padding: 9px 28px;
-    border: none;
-    background: transparent;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    transition: background 0.18s, color 0.18s;
-    outline: none;
-    text-decoration: none;
-    position: relative;
-    top: 2px;
-    letter-spacing: 0.01em;
+	color: #e3ecf7;
+	font-size: 1.07rem;
+	font-weight: 700;
+	padding: 9px 28px;
+	border: none;
+	background: transparent;
+	border-radius: 8px 8px 0 0;
+	cursor: pointer;
+	transition: background 0.18s, color 0.18s;
+	outline: none;
+	text-decoration: none;
+	position: relative;
+	top: 2px;
+	letter-spacing: 0.01em;
 }
-.taskbar-tab.active, .taskbar-tab:focus {
-    background: #fff;
-    color: #1565c0;
-    box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
+
+.taskbar-tab.active,
+.taskbar-tab:focus {
+	background: #fff;
+	color: #1565c0;
+	box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
 }
+
 .taskbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
 }
+
 .taskbar-logout {
-    background: rgba(255,255,255,0.16);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 28px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    margin-left: 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 28px;
+	font-size: 1.1rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+	margin-left: 0;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
-.taskbar-logout:hover, .taskbar-logout:focus {
-    background: #fff;
-    color: #1565c0;
+
+.taskbar-logout:hover,
+.taskbar-logout:focus {
+	background: #fff;
+	color: #1565c0;
 }
 
 /* --- メイン --- */
 main {
-    max-width: 620px;
-    margin: 120px auto 0 auto;
-    padding: 0 5vw;
+	max-width: 620px;
+	margin: 120px auto 0 auto;
+	padding: 0 5vw;
 }
+
 .menu-title {
-    font-size: 2.3rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    margin-bottom: 10px;
-    text-align: center;
-    text-shadow: 0 2px 10px rgba(25, 118, 210, 0.04);
+	font-size: 2.3rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	margin-bottom: 10px;
+	text-align: center;
+	text-shadow: 0 2px 10px rgba(25, 118, 210, 0.04);
 }
+
 .menu-desc {
-    color: #7a7a7a;
-    margin-bottom: 36px;
-    font-size: 1.12rem;
-    text-align: center;
-    letter-spacing: 0.01em;
+	color: #7a7a7a;
+	margin-bottom: 36px;
+	font-size: 1.12rem;
+	text-align: center;
+	letter-spacing: 0.01em;
 }
+
 .menu-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
-    align-items: stretch;
-    max-width: 480px;
-    margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 26px;
+	align-items: stretch;
+	max-width: 480px;
+	margin: 0 auto;
 }
+
 /* aタグの下線完全除去 */
 .menu-buttons a {
-    text-decoration: none !important;
-    border-bottom: none !important;
+	text-decoration: none !important;
+	border-bottom: none !important;
 }
 
 /* --- ボタン --- */
 .modern-btn {
-    width: 100%;
-    background: #1565c0;
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 24px 0;
-    font-size: 1.2rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
-    transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
-    cursor: pointer;
-    text-align: center;
-    margin: 0 auto;
-    display: block;
-    text-decoration: none !important;
-    border-bottom: none !important;
+	width: 100%;
+	background: #1565c0;
+	color: #fff;
+	border: none;
+	border-radius: 14px;
+	padding: 24px 0;
+	font-size: 1.2rem;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
+	transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+	cursor: pointer;
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+	text-decoration: none !important;
+	border-bottom: none !important;
 }
+
 .modern-btn:after,
 .modern-btn:before {
-    display: none !important;
+	display: none !important;
 }
+
 .modern-btn * {
-    text-decoration: none !important;
-    border-bottom: none !important;
+	text-decoration: none !important;
+	border-bottom: none !important;
 }
+
 .modern-btn:hover,
 .modern-btn:focus {
-    background: #0d47a1;
-    box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
-    transform: translateY(-2px) scale(1.012);
+	background: #0d47a1;
+	box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
+	transform: translateY(-2px) scale(1.012);
 }
 
 /* --- 汎用ページタイトル・説明・戻るリンク --- */
 .page-title {
-    font-size: 2.1rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    margin-bottom: 18px;
-    text-align: center;
-    color: #1565c0;
+	font-size: 2.1rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	margin-bottom: 18px;
+	text-align: center;
+	color: #1565c0;
 }
+
 .page-desc {
-    color: #7a7a7a;
-    margin-bottom: 32px;
-    font-size: 1.1rem;
-    text-align: center;
+	color: #7a7a7a;
+	margin-bottom: 32px;
+	font-size: 1.1rem;
+	text-align: center;
 }
+
 .back-link {
-    display: block;
-    margin: 40px auto 0 auto;
-    color: #1976d2;
-    font-size: 1rem;
-    text-align: center;
-    text-decoration: underline;
+	display: block;
+	margin: 40px auto 0 auto;
+	color: #1976d2;
+	font-size: 1rem;
+	text-align: center;
+	text-decoration: underline;
 }
-.back-link:hover { color: #0d47a1; }
+
+.back-link:hover {
+	color: #0d47a1;
+}
 
 /* --- ユーザー一覧テーブル用 --- */
 .user-table {
-    margin: 0 auto 32px auto;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(21,118,210,0.06);
-    width: 100%;
-    max-width: 800px;
+	margin: 0 auto 32px auto;
+	border-collapse: collapse;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
+	width: 100%;
+	max-width: 800px;
 }
-.user-table th, .user-table td {
-    padding: 12px 18px;
-    border-bottom: 1px solid #e0e7ee;
-    text-align: center;
+
+.user-table th,
+.user-table td {
+	padding: 12px 18px;
+	border-bottom: 1px solid #e0e7ee;
+	text-align: center;
 }
+
 .user-table th {
-    background: #f6f8fb;
-    color: #1976d2;
-    font-size: 1rem;
-    font-weight: 700;
+	background: #f6f8fb;
+	color: #1976d2;
+	font-size: 1rem;
+	font-weight: 700;
 }
+
 .user-table tr:last-child td {
-    border-bottom: none;
+	border-bottom: none;
 }
+
 .delete-btn {
-    color: #fff;
-    background: #d93025;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 18px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.18s;
+	color: #fff;
+	background: #d93025;
+	border: none;
+	border-radius: 4px;
+	padding: 6px 18px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.18s;
 }
+
 .delete-btn:hover {
-    background: #b71c1c;
+	background: #b71c1c;
 }
 
 /* --- レスポンシブ --- */
 @media (max-width: 900px) {
-    main {
-        max-width: 98vw;
-        padding: 0 2vw;
-    }
-    .menu-title { font-size: 1.5rem; }
-    .modern-btn { font-size: 1.0rem; padding: 15px 0; }
-    .taskbar-tabs { margin-left: 10px; }
-    .taskbar-tab { padding: 6px 9px; font-size: 0.95rem; }
+	main {
+		max-width: 98vw;
+		padding: 0 2vw;
+	}
+
+	.menu-title {
+		font-size: 1.5rem;
+	}
+
+	.modern-btn {
+		font-size: 1.0rem;
+		padding: 15px 0;
+	}
+
+	.taskbar-tabs {
+		margin-left: 10px;
+	}
+
+	.taskbar-tab {
+		padding: 6px 9px;
+		font-size: 0.95rem;
+	}
 }
+
 @media (max-width: 600px) {
-    .taskbar { padding: 0 4px; }
-    .taskbar-title { font-size: 1.05rem; }
-    .taskbar-tabs { gap: 0; margin-left: 0; }
-    .taskbar-tab { padding: 5px 4vw; font-size: 0.9rem; }
-    main { margin-top: 85px; }
+	.taskbar {
+		padding: 0 4px;
+	}
+
+	.taskbar-title {
+		font-size: 1.05rem;
+	}
+
+	.taskbar-tabs {
+		gap: 0;
+		margin-left: 0;
+	}
+
+	.taskbar-tab {
+		padding: 5px 4vw;
+		font-size: 0.9rem;
+	}
+
+	main {
+		margin-top: 85px;
+	}
 }
 
 input.button {
-    background-color: #1a73e8;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-weight: 500;
-    font-size: 16px;
-    padding: 12px 24px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgb(26 115 232 / 0.3);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    min-width: 100px;
-    text-align: center;
-    user-select: none;
-    letter-spacing: 0.2px;
+	background-color: #1a73e8;
+	border: none;
+	border-radius: 4px;
+	color: white;
+	font-weight: 500;
+	font-size: 16px;
+	padding: 12px 24px;
+	cursor: pointer;
+	box-shadow: 0 2px 4px rgb(26 115 232 / 0.3);
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	min-width: 100px;
+	text-align: center;
+	user-select: none;
+	letter-spacing: 0.2px;
 }
+
 input.button:hover,
 input.button:focus {
-    background-color: #1669c1;
-    box-shadow: 0 4px 8px rgb(22 105 193 / 0.4);
-    outline: none;
+	background-color: #1669c1;
+	box-shadow: 0 4px 8px rgb(22 105 193 / 0.4);
+	outline: none;
 }
 
 form:not(#syuttaikin) {
-    max-width: 600px;
-    margin-bottom: 20px;
-    width: 100%;
+	max-width: 600px;
+	margin-bottom: 20px;
+	width: 100%;
 }
+
 form:not(#syuttaikin) input.button {
-    width: 100%;
-    max-width: 600px;
-    display: block;
-    margin: 0 auto;
+	width: 100%;
+	max-width: 600px;
+	display: block;
+	margin: 0 auto;
 }
 
 .logoutback {
-    display: block;
+	display: block;
 }
 
 @media (max-width: 480px) {
-    input.button {
-        width: 100%;
-    }
+	input.button {
+		width: 100%;
+	}
 }
 
-html > .logoutback {
-  margin-top: 40px;
-  margin-bottom: 30px;
-  width: 100vw;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  max-width: 600px;
+html>.logoutback {
+	margin-top: 40px;
+	margin-bottom: 30px;
+	width: 100vw;
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	max-width: 600px;
 }
 
 .menu-buttons .horizontal-buttons {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    margin-bottom: 26px;
+	display: flex;
+	gap: 24px;
+	justify-content: center;
+	margin-bottom: 26px;
 }
+
 .menu-buttons .horizontal-buttons .modern-btn {
-    flex: 1 1 0;
-    min-width: 120px;
+	flex: 1 1 0;
+	min-width: 120px;
 }
 
 /* 出勤・退勤ボタンだけ色変更（例：青系） */
 .modern-btn.main-action-btn {
-    background: #696969;       /* 明るめの青 */
-    color: #fff;
+	background: #696969;
+	/* 明るめの青 */
+	color: #fff;
 }
+
 .modern-btn.main-action-btn:hover,
 .modern-btn.main-action-btn:focus {
-    background: #01579b;      /* 濃い青 */
+	background: #01579b;
+	/* 濃い青 */
+}
+
+/* パスワード変更画面のボタン */
+.password-change-form {
+	max-width: 600px;
+	margin: 40px auto;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.password-change-form .form-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 24px;
+}
+
+.password-change-form label {
+	flex: 0 0 180px;
+	font-size: 1.2rem;
+	font-weight: 500;
+	line-height: 1.4;
+	display: block;
+	margin-top: 6px;
+}
+
+.password-change-form input[type="password"] {
+	flex: 1 1 auto;
+	padding: 12px;
+	border: 1px solid #1565c0;
+	border-radius: 2px;
+	background: #fff;
+	color: #fff;
+	font-size: 1.1rem;
+	transition: border-color 0.2s, background 0.2s;
+	outline: none;
+}
+
+.password-change-form input[type="password"]:focus {
+	border-color: #1976d2;
+	background: #1565c0;
+}
+
+.password-change-form .modern-btn {
+	margin-top: 18px;
+	width: auto;
+	min-width: 120px;
+	padding: 10px 28px;
+	border-radius: 8px;
+	font-size: 1rem;
+	display: block;
+	margin-left: auto;
+}
+
+/* ユーザーホームの出勤・退勤ボタン */
+.menu-buttons .horizontal-buttons {
+	display: flex;
+	gap: 24px;
+	justify-content: center;
+	margin-bottom: 26px;
+}
+
+.menu-buttons .horizontal-buttons form {
+	flex: 1 1 0;
+	min-width: 120px;
+}
+
+.menu-buttons .horizontal-buttons form button.modern-btn {
+	width: 100%;
+}
+
+/* ユーザーホームの時刻表示欄 */
+/*.time-message {
+  min-height: 1.5em;
+  margin-bottom: 24px;
+  text-align: left;
+  font-size: 18px;
+}*/
+
+/* 出勤・退勤完了ウィンドウの表示 */
+/* モーダルの全体背景 */
+.modal-overlay {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.3);
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-overlay.show .modal-content {
+	transform: translateY(0) scale(1);
+	opacity: 1;
+}
+
+/* モーダルの中身 */
+.modal-content {
+	background: #fff;
+	padding: 32px 24px;
+	border-radius: 12px;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+	text-align: center;
+	min-width: 280px;
+	max-width: 90vw;
+
+	transform: translateY(4px) scale(1);
+	/* 移動距離、スケール変更 */
+	transition: transform 0.3s, opacity 0.3s;
+	opacity: 0;
+}
+
+/* 閉じるボタン */
+.modal-close-btn {
+	margin-top: 40px;
+	padding: 8px 24px;
+	background: #1565c0;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+	background: #104a8d;
+}
+
+/* ================================
+   実績管理画面 レイアウト＆テーブル
+==================================== */
+
+/* --- レイアウト --- */
+main {
+	max-width: 100vw;
+	padding: 0 2vw;
+}
+
+.database-container {
+	max-width: 100vw;
+	margin: 0 auto;
+	overflow-x: auto;
+}
+
+.summary-container {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	width: 100%;
+	margin: 32px 0 48px 0;
+}
+
+/* --- テーブル本体 --- */
+.user-table,
+.performance-database,
+.summary-table {
+	width: 100%;
+	max-width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
+	font-size: 0.85rem;
+}
+
+.user-table,
+.performance-database {
+	min-width: 1150px;
+	border-radius: 10px;
+}
+
+.summary-table {
+	max-width: 600px;
+	margin: 0 auto;
+	border-radius: 0;
+}
+
+/* --- ヘッダー・セル --- */
+.user-table th,
+.user-table td,
+.performance-database th,
+.performance-database td,
+.summary-table th,
+.summary-table td {
+	font-size: 0.85rem;
+	padding: 4px 6px;
+	height: 22px;
+	text-align: center;
+	border-bottom: 1px solid #e0e7ee;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+
+.user-table th,
+.performance-database th,
+.summary-table th {
+	background: #f6f8fb;
+	color: #1976d2;
+	font-weight: 700;
+}
+
+.user-table th,
+.performance-database th {
+	height: 38px;
+}
+
+.user-table td,
+.performance-database td {
+	height: 30px;
+}
+
+/* --- 入力欄・セレクト --- */
+.user-table input[type="text"],
+.user-table input[type="date"],
+.user-table input[type="time"],
+.performance-database input[type="text"],
+.performance-database input[type="date"],
+.performance-database input[type="time"],
+.user-table select,
+.performance-database select,
+.summary-table input,
+.summary-table select {
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 0.85rem;
+	padding: 1px 3px;
+	height: 22px;
+	margin: 0;
+}
+
+/* --- ボタン --- */
+.user-table .modern-btn,
+.user-table .main-action-btn,
+.user-table .delete-btn,
+.performance-database .modern-btn,
+.performance-database .main-action-btn,
+.performance-database .delete-btn,
+.summary-table .modern-btn {
+	width: 70px;
+	font-size: 0.85rem;
+	height: 22px;
+	padding: 1px 8px;
+	min-width: 36px;
+	border-radius: 2px;
+	font-weight: 700;
+	box-sizing: border-box;
+}
+
+.user-table .modern-btn *,
+.user-table .main-action-btn *,
+.user-table .delete-btn *,
+.performance-database .modern-btn *,
+.performance-database .main-action-btn *,
+.performance-database .delete-btn * {
+	font-size: 0.85rem !important;
+}
+
+.user-table .delete-btn,
+.performance-database .delete-btn {
+	background: #d93025;
+	color: #fff;
+	border: none;
+}
+
+.user-table .delete-btn:hover,
+.performance-database .delete-btn:hover {
+	background: #b71c1c;
+}
+
+/* --- テーブル列幅 --- */
+.performance-database .col-date {
+	width: 90px;
+	min-width: 70px;
+	max-width: 120px;
+}
+
+.performance-database .col-dayofweek {
+	width: 24px;
+	min-width: 20px;
+	max-width: 50px;
+}
+
+.performance-database .col-time {
+	width: 50px;
+	min-width: 40px;
+	max-width: 90px;
+}
+
+.performance-database .col-break,
+.performance-database .col-apply,
+.performance-database .col-status,
+.performance-database .col-resubmit,
+.performance-database .col-remove {
+	width: 40px;
+	min-width: 32px;
+	max-width: 60px;
+}
+
+.performance-database .col-reason {
+	width: 140px;
+	min-width: 60px;
+	max-width: 140px;
+}
+
+.summary-table .col-sum-month {
+	width: 25px;
+	min-width: 16px;
+}
+
+.summary-table .col-sum-scheduled {
+	width: 60px;
+	min-width: 40px;
+}
+
+.summary-table .col-sum-actual {
+	width: 60px;
+	min-width: 40px;
+}
+
+.summary-table .col-sum-overtime {
+	width: 50px;
+	min-width: 30px;
+}
+
+.summary-table .col-sum-paid {
+	width: 38px;
+	min-width: 20px;
+}
+
+.summary-table .col-sum-comp {
+	width: 38px;
+	min-width: 20px;
+}
+
+/* --- テーブル内の特殊セル --- */
+.performance-database .col-date input[type="date"] {
+	width: 100%;
+}
+
+.performance-database .col-dayofweek input[type="text"] {
+	width: 100%;
+	text-align: center;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.performance-database .col-time input[type="time"] {
+	width: 100%;
+	text-align: center;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.performance-database .col-break input[type="date"],
+.performance-database .col-apply input[type="button"],
+.performance-database .col-status input[type="hidden"],
+.performance-database .col-resubmit input[type="button"],
+.performance-database .col-remove input[type="button"],
+.performance-database .col-reason input[type="text"] {
+	width: 100%;
+}
+
+/* --- 日付box・会社休日 --- */
+.date-holiday-flex,
+.date-box {
+	display: flex;
+	align-items: center;
+	background: #f6f6f6;
+	border: 1px solid #e0e7ee;
+	border-radius: 4px;
+	padding: 0 6px;
+	height: 24px;
+	min-width: 90px;
+	box-sizing: border-box;
+}
+
+.date-input,
+.date-holiday-flex input[type="date"] {
+	border: none;
+	background: transparent;
+	font-size: 0.85rem;
+	color: #222;
+	width: 95px;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	pointer-events: none;
+}
+
+.holiday-label {
+	color: #d93025;
+	font-size: 0.85em;
+	margin-left: 5px;
+	font-weight: bold;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+	background: transparent;
+	border: none;
+	padding: 0;
+}
+
+.holiday-row > td {
+    background: #faebd7 !important;  /* 薄い赤系 */
+}
+
+/* --- 検索フォーム・ナビゲーション --- */
+.search-form-inline {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 110px 0 20px 0;
+	gap: 0;
+}
+
+.search-btn-small {
+	font-size: 12px;
+	padding: 5px 12px;
+	width: auto;
+	min-width: 0;
+	height: auto;
+	border-radius: 4px;
+	font-weight: 600;
+	margin-left: 2px;
+	box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
+	line-height: 1;
+	letter-spacing: 0.05em;
+}
+
+.month-navigation-nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 18px;
+	margin-bottom: 24px;
+}
+
+.current-year-month-nav {
+	font-size: 1.2rem;
+	font-weight: bold;
+	letter-spacing: 0.05em;
+	min-width: 70px;
+	text-align: center;
+}
+
+.month-arrow-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #1565c0;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 1rem;
+	font-weight: bold;
+	padding: 2px 10px;
+	min-width: 0;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background 0.16s, color 0.16s;
+	box-shadow: 0 2px 6px rgba(21, 101, 192, 0.08);
+}
+
+.month-arrow-btn:hover,
+.month-arrow-btn:focus {
+	background: #104a8d;
+	color: #fff;
+	text-decoration: none;
+	outline: none;
 }

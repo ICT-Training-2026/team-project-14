@@ -8,40 +8,116 @@
 </head>
 
 <body>
-	<header class="taskbar">
-		<div class="taskbar-left">
-			<span class="taskbar-logo">
-				<a th:href="@{/admin}" class="taskbar-home-link"
-					style="display:flex;align-items:center;text-decoration:none;color:inherit;">
-					<span class="taskbar-logo">
-						<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-							<circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18" />
-							<rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9" />
-							<rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0" />
-						</svg>
-					</span>
-					<span class="taskbar-title" style="margin-left:12px;">管理者ホーム</span>
-				</a>
-				<nav class="taskbar-tabs">
-					<a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
-					<a th:href="@{/admin/achievement}" th:classappend="'active'" class="taskbar-tab">実績</a>
-					<a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
-					<a th:href="@{/admin/company-info}" class="taskbar-tab">会社情報</a>
-				</nav>
-		</div>
-		<div class="taskbar-right">
-			<form th:action="@{/logout}" method="post" style="margin:0;">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-				<button type="submit" class="taskbar-logout">ログアウト</button>
-			</form>
-		</div>
-	</header>
-	<main>
-		<div class="page-title">実績</div>
-		<div class="page-desc">ここで勤怠実績の閲覧・検索・ダウンロードなどが行えます。</div>
-		<!-- ここに実績管理の機能を実装 -->
-		<a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
-	</main>
+    <header class="taskbar">
+        <div class="taskbar-left">
+            <span class="taskbar-logo">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="14" r="14" fill="#fff" opacity="0.18"/>
+                    <rect x="7" y="7" width="14" height="14" rx="4" fill="#fff" opacity="0.9"/>
+                    <rect x="10" y="10" width="8" height="8" rx="2" fill="#1565c0"/>
+                </svg>
+            </span>
+            <span class="taskbar-title">管理者ホーム</span>
+            <nav class="taskbar-tabs">
+                <a th:href="@{/admin/User-management}" class="taskbar-tab">ユーザー管理</a>
+                <a th:href="@{/admin/achievement/performance}" th:classappend="'active'" class="taskbar-tab">実績</a>
+                <a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
+                <a th:href="@{/admin/company-info}" class="taskbar-tab">会社情報</a>
+            </nav>
+        </div>
+        <div class="taskbar-right">
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="taskbar-logout">ログアウト</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <div class="page-title">実績</div>
+        <div class="page-desc">ここで勤怠実績の閲覧・検索・ダウンロードなどが行えます。</div>
+
+        <!-- 検索フォーム -->
+        <form th:action="@{/admin/achievement/performance}" method="get" class="search-form">
+            <label>
+                社員番号:
+                <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" min="1" />
+            </label>
+            <label>
+                年:
+                <input type="number" name="year" th:value="${selectedYear}" placeholder="年" min="2000" max="2100" />
+            </label>
+            <label>
+                月:
+                <input type="number" name="month" th:value="${selectedMonth}" placeholder="月" min="1" max="12" />
+            </label>
+            <button type="submit">検索</button>
+        </form>
+
+        <!-- 勤怠一覧テーブル -->
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <th>曜日</th>
+                    <th>打刻時間</th>
+                    <th>休憩時間</th>
+                    <th>状況</th>
+                    <th>出社区分</th>
+                    <th>事由</th>
+                    <th>編集</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="record : ${attendanceList}" th:classappend="${record.status == '申請済み'} ? 'highlight' : ''">
+                    <td th:text="${#temporals.format(record.date, 'M/d')}">7/1</td>
+                    <td th:text="${#temporals.format(record.date, 'E', T(java.util.Locale).JAPAN)}">火</td>
+                    <td th:text="${(record.arrivalTime == null and record.endTime == null) ? '--' : (record.arrivalTime != null ? #temporals.format(record.arrivalTime, 'H:mm') : '--') + '～' + (record.endTime != null ? #temporals.format(record.endTime, 'H:mm') : '')}">8:35～17:30</td>
+                    <td th:text="${record.breakTime != null ? T(java.lang.Math).floor(record.breakTime) : '--'}">1</td>
+                    <td th:text="${record.status}">承認済み</td>
+                    <!-- atClassificationではなくcontrollerで変換したclassificationを表示 -->
+                    <td th:text="${record.classification}">出社</td>
+                    <td th:text="${record.reason != null ? record.reason : ''}">体調不良のため</td>
+                    <td>
+                        <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
+                    </td>
+                </tr>
+                <tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
+                    <td colspan="8">該当するデータがありません。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 月間集計テーブル -->
+        <table border="1" class="monthly-summary-table" style="margin-top: 20px; border-collapse: collapse; width: 100%;">
+            <thead>
+                <tr style="background-color: #add8e6;">
+                    <th>月</th>
+                    <th>月間所定労働時間(h)</th>
+                    <th>実労働時間(h)</th>
+                    <th>残業時間(h)</th>
+                    <th>残年休日数</th>
+                    <th>残振休日数</th>
+                    <th>CSV出力</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${selectedMonth}">7</td>
+                    <td th:text="${scheduledWorkingHours}">140</td>
+                    <td th:text="${actualWorkingHours}">0</td>
+                    <td th:text="${formattedOvertimeHours}">0.00</td>
+                    <td th:text="${remainingAnnualLeave}">5</td>
+                    <td th:text="${remainingSubstituteHoliday}">5</td>
+                    <td>
+                        <button type="button">出力</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 戻るリンク -->
+        <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
+    </main>
 </body>
 
 </html>

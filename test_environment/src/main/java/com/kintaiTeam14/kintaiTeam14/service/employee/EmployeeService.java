@@ -1,6 +1,7 @@
 package com.kintaiTeam14.kintaiTeam14.service.employee;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,6 +63,16 @@ public class EmployeeService {
         return employeeRepository.findByEmployeeName(username);
     }
     
+    /**
+     * 指定されたユーザー名に対応するユーザー情報を取得する。(部分一致で返す)
+     * 
+     * @param username ユーザー名
+     * @return Userオブジェクト（存在しない場合はnull）
+     */
+    public List<Map<String, Object>> findByUsernameAll(String username) {
+    		return employeeRepository.findByEmployeeNameAll(username);
+    }
+    
     public List<Employee> getAllUsers() {
         return employeeRepository.findAll();
     }
@@ -94,6 +105,13 @@ public class EmployeeService {
     	employeeRepository.changeIsPassword(employeeId);
     	
     }
+    public int getPaidHoliday(long employeeId){
+    	return employeeRepository.findById(employeeId).get().getPaidHoliday();
+    }
+    public int getCompday(long employeeId){
+    	return employeeRepository.findById(employeeId).get().getCompDay();
+    }
+    
     
     
 
