@@ -6,36 +6,35 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <style>
-        .page-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2563eb;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+  
         .page-desc {
             color: #64748b;
             text-align: center;
             margin-bottom: 28px;
         }
-        .search-form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .search-form label {
-            font-size: 1rem;
-            color: #26344a;
-        }
-        .search-form input[type="number"] {
-            padding: 4px 8px;
-            border-radius: 4px;
-            border: 1px solid #cbd5e1;
-            font-size: 1rem;
-            width: 100px;
-        }
+		.search-form {
+		    display: flex;
+		    flex-wrap: nowrap;
+		    align-items: center;
+		    gap: 0;
+		    margin-bottom: 24px;
+		}
+		.search-form label {
+		    display: inline-block;
+		    white-space: nowrap;
+		    margin-bottom: 0;
+		    vertical-align: middle;
+		}
+		.search-form input[type="number"] {
+		    display: inline-block;
+		    vertical-align: middle;
+		    margin-right: 2px;
+		    padding: 4px 8px;
+		    border-radius: 4px;
+		    border: 1px solid #cbd5e1;
+		    font-size: 1rem;
+		}
+
         .search-form button {
             background: #2563eb;
             color: #fff;
@@ -88,14 +87,7 @@
 		.attendance-table tbody tr:hover {
 		    background: #f1f6fd;
 		}
-        .back-link {
-            display: inline-block;
-            color: #2563eb;
-            margin-top: 32px;
-            font-size: 1rem;
-            text-decoration: underline;
-        }
-        .back-link:hover { color: #1d4ed8; }
+ 
 		.monthly-summary-table.center-table {
 		    margin: 32px auto 0 auto;
 		    border-collapse: separate;
@@ -164,24 +156,24 @@
     </header>
     <main>
         <div class="page-title">実績</div>
-        <div class="page-desc">ここで勤怠実績の閲覧・検索・ダウンロードなどが行えます。</div>
+        <div class="page-desc">ここで勤怠実績の検索・閲覧などが行えます。</div>
 
-        <!-- 検索フォーム -->
-        <form th:action="@{/admin/achievement/performance}" method="get" class="search-form">
-            <label>
-                社員番号:
-                <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" min="1" />
-            </label>
-            <label>
-                年:
-                <input type="number" name="year" th:value="${selectedYear}" placeholder="年" min="2000" max="2100" />
-            </label>
-            <label>
-                月:
-                <input type="number" name="month" th:value="${selectedMonth}" placeholder="月" min="1" max="12" />
-            </label>
-            <button type="submit">検索</button>
-        </form>
+		<!-- 検索フォーム -->
+		<form th:action="@{/admin/achievement/performance}" method="get" class="search-form">
+		    <label style="margin-right: 10px;">
+		        社員番号:
+		        <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" min="1" style="width: 90px;" />
+		    </label>
+		    <label style="margin-right: 10px;">
+		        <input type="number" name="year" th:value="${selectedYear}" placeholder="年" min="2000" max="2100" style="width: 70px;" />
+		        年
+		    </label>
+		    <label style="margin-right: 10px;">
+		        <input type="number" name="month" th:value="${selectedMonth}" placeholder="月" min="1" max="12" style="width: 50px;" />
+		        月
+		    </label>
+		    <button type="submit">検索</button>
+		</form>
 
         <!-- 勤怠一覧テーブル -->
 		<table class="attendance-table">
