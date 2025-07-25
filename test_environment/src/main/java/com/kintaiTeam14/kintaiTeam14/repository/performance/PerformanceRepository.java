@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
+import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
 public interface PerformanceRepository {
     List<Performance> findAll(Long userId);
@@ -14,5 +15,14 @@ public interface PerformanceRepository {
     boolean existsByUserIdAndDate(Long userId, LocalDate date);
 
     void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate);
+
+    void createAttendanceWithReason(Long userId, LocalDate date);
+
+
+
+    // 追加
+    List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate);
+    List<RePerformance> findByreId(int reId);
     void updatePerformance(Performance performance);
+    void updateRePerformance(RePerformance reperformance);
 }

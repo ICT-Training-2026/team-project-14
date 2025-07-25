@@ -105,6 +105,13 @@ public class EmployeeService {
     	employeeRepository.changeIsPassword(employeeId);
     	
     }
+    public int getPaidHoliday(long employeeId){
+    	return employeeRepository.findById(employeeId).get().getPaidHoliday();
+    }
+    public int getCompday(long employeeId){
+    	return employeeRepository.findById(employeeId).get().getCompDay();
+    }
+    
     
     
 

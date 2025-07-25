@@ -114,18 +114,18 @@ public class EmployeeRepository {
 		return jdbcTemplate.query(sql, USER_ROW_MAPPER);
 	}
 
-	/**
-	 * 指定したIDのユーザーを取得する。
-	 * 見つからなければnullを返す。
-	 *
-	 * @param id ユーザーID
-	 * @return Userオブジェクトまたはnull
-	 */
-	public Optional<Employee> findById(Long id) {
-		String sql = "SELECT * FROM users WHERE id = ?";
-		List<Employee> employees = jdbcTemplate.query(sql, USER_ROW_MAPPER, id);
-		return employees.isEmpty() ? Optional.empty() : Optional.of(employees.get(0));
-	}
+    /**
+     * 指定したIDのユーザーを取得する。
+     * 見つからなければnullを返す。
+     *
+     * @param id ユーザーID
+     * @return Userオブジェクトまたはnull
+     */
+    public Optional<Employee> findById(Long id) {
+        String sql = "SELECT * FROM employee WHERE employee_id = ?";
+        List<Employee> employees = jdbcTemplate.query(sql, USER_ROW_MAPPER, id);
+        return employees.isEmpty() ? Optional.empty() : Optional.of(employees.get(0));
+    }
 
 	/**
 	 * 指定したIDのユーザーを削除する。

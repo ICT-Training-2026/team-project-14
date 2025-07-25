@@ -9,7 +9,7 @@ import com.kintaiTeam14.kintaiTeam14.form.UserRegistForm;
 import com.kintaiTeam14.kintaiTeam14.service.admin.UserRegistService;
 
 import lombok.RequiredArgsConstructor;
-
+/*test*/
 
 @Controller
 @RequiredArgsConstructor

@@ -1,0 +1,285 @@
+/* ===== ユーザーホーム用CSS ===== */
+
+/* --- ベース --- */
+body {
+  background: #f6f8fb;
+  font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: #222;
+}
+
+/* --- タスクバー --- */
+.taskbar {
+  width: 100vw;
+  height: 60px;
+  background: #1565c0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.taskbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.taskbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.taskbar-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.taskbar-tabs {
+  display: flex;
+  gap: 2px;
+  margin-left: 36px;
+  flex: none;
+}
+
+.taskbar-tab {
+  color: #e3ecf7;
+  font-size: 1.07rem;
+  font-weight: 700;
+  padding: 9px 28px;
+  border: none;
+  background: transparent;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  outline: none;
+  text-decoration: none;
+  position: relative;
+  top: 2px;
+  letter-spacing: 0.01em;
+}
+
+.taskbar-tab.active,
+.taskbar-tab:focus {
+  background: #fff;
+  color: #1565c0;
+  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
+}
+
+.taskbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.taskbar-logout {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin-left: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+}
+
+.taskbar-logout:hover,
+.taskbar-logout:focus {
+  background: #fff;
+  color: #1565c0;
+}
+
+/* --- メイン --- */
+main {
+  max-width: 620px;
+  margin: 120px auto 0 auto;
+  padding: 0 5vw;
+}
+
+.menu-title {
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(25, 118, 210, 0.04);
+}
+
+.menu-desc {
+  color: #7a7a7a;
+  margin-bottom: 36px;
+  font-size: 1.12rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  align-items: stretch;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* aタグの下線完全除去 */
+.menu-buttons a {
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+/* --- ボタン --- */
+.modern-btn {
+  width: 100%;
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 24px 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+.modern-btn:hover,
+.modern-btn:focus {
+  background: #0d47a1;
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
+  transform: translateY(-2px) scale(1.012);
+}
+
+/* 出勤・退勤ボタンだけ色変更 */
+.modern-btn.main-action-btn {
+  background: #696969;
+  color: #fff;
+}
+.modern-btn.main-action-btn:hover,
+.modern-btn.main-action-btn:focus {
+  background: #01579b;
+}
+
+/* --- 横並びボタン --- */
+.menu-buttons .horizontal-buttons {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+.menu-buttons .horizontal-buttons form {
+  flex: 1 1 0;
+  min-width: 120px;
+}
+.menu-buttons .horizontal-buttons form button.modern-btn {
+  width: 100%;
+}
+
+/* --- モーダル --- */
+.modal-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.show .modal-content {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.modal-content {
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  min-width: 280px;
+  max-width: 90vw;
+  transform: translateY(4px) scale(1);
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0;
+}
+.modal-close-btn {
+  margin-top: 40px;
+  padding: 8px 24px;
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal-close-btn:hover {
+  background: #104a8d;
+}
+
+/* --- レスポンシブ --- */
+@media (max-width: 900px) {
+  main {
+    max-width: 98vw;
+    padding: 0 2vw;
+  }
+  .menu-title {
+    font-size: 1.5rem;
+  }
+  .modern-btn {
+    font-size: 1.0rem;
+    padding: 15px 0;
+  }
+  .taskbar-tabs {
+    margin-left: 10px;
+  }
+  .taskbar-tab {
+    padding: 6px 9px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .taskbar {
+    padding: 0 4px;
+  }
+  .taskbar-title {
+    font-size: 1.05rem;
+  }
+  .taskbar-tabs {
+    gap: 0;
+    margin-left: 0;
+  }
+  .taskbar-tab {
+    padding: 5px 4vw;
+    font-size: 0.9rem;
+  }
+  main {
+    margin-top: 85px;
+  }
+}
