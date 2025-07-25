@@ -11,7 +11,7 @@ import com.kintaiTeam14.kintaiTeam14.entity.Attendance;
 import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
-public class AttendanceRepository {
+public class AttendanceSyouninRepository {
 	private final JdbcTemplate jdbcTemplate;
 	public int updateAtClassification(Long employeeId, LocalDate date, Byte atClassification) {
 	    String sql = "UPDATE attendance SET at_classification = ? WHERE employee_id = ? AND date = ?";

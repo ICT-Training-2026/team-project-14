@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Employee;
-import com.kintaiTeam14.kintaiTeam14.service.attendance.AttendanceService;
+import com.kintaiTeam14.kintaiTeam14.service.attendance.AttendanceSyouninService;
 import com.kintaiTeam14.kintaiTeam14.service.employee.EmployeeService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class shinseiController {
 	 private final EmployeeService employeeService;
-	 private final AttendanceService attendanceService;
+	 private final AttendanceSyouninService attendanceService;
 	@PostMapping("/{employeeId}/top/shinsei")
 	public String kakusyusinsei(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);

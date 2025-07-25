@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Attendance;
-import com.kintaiTeam14.kintaiTeam14.repository.attendance.AttendanceRepository;
+import com.kintaiTeam14.kintaiTeam14.repository.attendance.AttendanceSyouninRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AttendanceService {
-	private final AttendanceRepository attendanceRepository;
+public class AttendanceSyouninService {
+	private final AttendanceSyouninRepository attendanceRepository;
 	
 	public int updateAtClassificationService(Long employeeId, LocalDate date, Byte atClassification) {
 	   return   attendanceRepository.updateAtClassification(employeeId, date, atClassification);
