@@ -9,7 +9,7 @@ public class AttendanceWithReasonDto {
     private LocalDate date;
     private LocalDateTime arrivalTime;
     private LocalDateTime endTime;
-    private Integer breakTime;
+    private Double breakTime;  // 修正: Integer → Double
     private Integer atClassification;
     private String status;
     private String reason;
@@ -17,7 +17,7 @@ public class AttendanceWithReasonDto {
     // コンストラクタ
     public AttendanceWithReasonDto(Long attendId, Integer employeeId, LocalDate date,
                                   LocalDateTime arrivalTime, LocalDateTime endTime,
-                                  Integer breakTime, Integer atClassification,
+                                  Double breakTime, Integer atClassification,
                                   String status, String reason) {
         this.attendId = attendId;
         this.employeeId = employeeId;
@@ -71,11 +71,11 @@ public class AttendanceWithReasonDto {
         this.endTime = endTime;
     }
 
-    public Integer getBreakTime() {
+    public Double getBreakTime() {
         return breakTime;
     }
 
-    public void setBreakTime(Integer breakTime) {
+    public void setBreakTime(Double breakTime) {
         this.breakTime = breakTime;
     }
 

@@ -23,8 +23,11 @@ public class AdminAttendance {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @Column(name = "break_time", nullable = false)
-    private Integer breakTime = 1; // デフォルト1
+    /**
+     * 休憩時間（時間単位、小数点可）
+     */
+    @Column(name = "break_time", nullable = false, columnDefinition = "decimal(4,2) default 1.0")
+    private Double breakTime = 1.0;
 
     @Column(name = "at_classification", nullable = false)
     private Integer atClassification;
@@ -83,11 +86,11 @@ public class AdminAttendance {
         this.endTime = endTime;
     }
 
-    public Integer getBreakTime() {
+    public Double getBreakTime() {
         return breakTime;
     }
 
-    public void setBreakTime(Integer breakTime) {
+    public void setBreakTime(Double breakTime) {
         this.breakTime = breakTime;
     }
 

@@ -1,13 +1,19 @@
 package com.kintaiTeam14.kintaiTeam14.service.adminperformance;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.kintaiTeam14.kintaiTeam14.dto.AttendanceWithReasonDto;
+import com.kintaiTeam14.kintaiTeam14.entity.AdminEmployee;
+import com.kintaiTeam14.kintaiTeam14.repository.adminperformance.AdminEmployeeRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.adminperformance.AdminPerformanceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +22,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminPerformanceService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AdminPerformanceService.class);
+
     private final AdminPerformanceRepository attendanceRepository;
+    private final AdminEmployeeRepository employeeRepository;
 
     /**
      * 社員IDと年月で勤怠一覧をDTOで取得する（reasonも含む）
@@ -46,23 +55,25 @@ public class AdminPerformanceService {
             java.sql.Timestamp sqlEnd = (java.sql.Timestamp) row[4];
             LocalDateTime endTime = sqlEnd != null ? sqlEnd.toLocalDateTime() : null;
 
-            // breakTimeの変換
+            // breakTimeをDouble型で取得
             Object breakTimeObj = row[5];
-            Integer breakTime = null;
-            if (breakTimeObj instanceof Byte) {
-                breakTime = ((Byte) breakTimeObj).intValue();
-            } else if (breakTimeObj instanceof Integer) {
-                breakTime = (Integer) breakTimeObj;
+            Double breakTime = null;
+            if (breakTimeObj instanceof Number) {
+                breakTime = ((Number) breakTimeObj).doubleValue();
             }
 
-            // atClassificationの変換
+            // Boolean対応でatClassificationをIntegerに変換
             Object atClassificationObj = row[6];
             Integer atClassification = null;
-            if (atClassificationObj instanceof Byte) {
-                atClassification = ((Byte) atClassificationObj).intValue();
-            } else if (atClassificationObj instanceof Integer) {
-                atClassification = (Integer) atClassificationObj;
+            if (atClassificationObj instanceof Boolean) {
+                atClassification = ((Boolean) atClassificationObj) ? 1 : 0;
+            } else if (atClassificationObj instanceof Number) {
+                atClassification = ((Number) atClassificationObj).intValue();
             }
+
+            // ログ追加：値と型の確認
+            logger.debug("atClassificationObj: {}, class: {}, mapped value: {}", atClassificationObj,
+                atClassificationObj != null ? atClassificationObj.getClass().getName() : "null", atClassification);
 
             String status = (String) row[7];
             String reason = (String) row[8];
@@ -74,5 +85,50 @@ public class AdminPerformanceService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    /**
+     * 社員IDと年月で実労働時間を計算する
+     * 退勤 - 出勤 - 休憩時間 の合計時間（時間単位、小数点以下も含む）
+     *
+     * @param employeeId 社員ID
+     * @param year       年
+     * @param month      月
+     * @return 実労働時間の合計（時間、小数点以下含む）
+     */
+    public double calculateActualWorkingHours(Integer employeeId, int year, int month) {
+        List<AttendanceWithReasonDto> attendanceList = getAttendanceWithReasonList(employeeId, year, month);
+        double totalHours = 0.0;
+
+        for (AttendanceWithReasonDto attendance : attendanceList) {
+            LocalDateTime arrival = attendance.getArrivalTime();
+            LocalDateTime end = attendance.getEndTime();
+            Double breakTime = attendance.getBreakTime();
+
+            if (arrival != null && end != null) {
+                long minutesWorked = Duration.between(arrival, end).toMinutes();
+                double breakMinutes = (breakTime != null) ? breakTime * 60.0 : 0.0;
+                double netMinutes = minutesWorked - breakMinutes;
+                if (netMinutes > 0) {
+                    totalHours += netMinutes / 60.0;
+                }
+            }
+        }
+
+        logger.debug("Total actual working hours for employeeId {}: {}", employeeId, totalHours);
+        return totalHours;
+    }
+
+    /**
+     * 社員IDで社員情報を取得する
+     *
+     * @param employeeId 社員ID
+     * @return AdminEmployeeのOptional
+     */
+    public Optional<AdminEmployee> getEmployeeById(Integer employeeId) {
+        Optional<AdminEmployee> employeeOpt = employeeRepository.findByEmployeeId(employeeId);
+        employeeOpt.ifPresent(emp -> logger.debug("Found employee: id={}, paidHoliday={}, compDay={}",
+                emp.getEmployeeId(), emp.getPaidHoliday(), emp.getCompDay()));
+        return employeeOpt;
     }
 }

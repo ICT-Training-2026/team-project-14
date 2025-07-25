@@ -36,7 +36,7 @@ public interface AdminPerformanceRepository extends JpaRepository<AdminAttendanc
      * @param endDate    終了日付（含む）
      * @return Object配列のリスト
      */
-    @Query(value = "SELECT a.attend_id, a.employee_id, a.date, a.arrival_time, a.end_time, a.break_time, a.at_classification, a.status, r.reason " +
+    @Query(value = "SELECT a.attend_id, a.employee_id, a.date, a.arrival_time, a.end_time, a.break_time, CAST(a.at_classification AS UNSIGNED) AS at_classification, a.status, r.reason " +
                    "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
                    "WHERE a.employee_id = :employeeId AND a.date BETWEEN :startDate AND :endDate " +
                    "ORDER BY a.date ASC", nativeQuery = true)

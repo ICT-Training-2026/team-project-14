@@ -70,9 +70,10 @@
                     <td th:text="${#temporals.format(record.date, 'M/d')}">7/1</td>
                     <td th:text="${#temporals.format(record.date, 'E', T(java.util.Locale).JAPAN)}">火</td>
                     <td th:text="${(record.arrivalTime == null and record.endTime == null) ? '--' : (record.arrivalTime != null ? #temporals.format(record.arrivalTime, 'H:mm') : '--') + '～' + (record.endTime != null ? #temporals.format(record.endTime, 'H:mm') : '')}">8:35～17:30</td>
-                    <td th:text="${record.breakTime != null ? record.breakTime + ':00' : '--'}">1:00</td>
+                    <td th:text="${record.breakTime != null ? T(java.lang.Math).floor(record.breakTime) : '--'}">1</td>
                     <td th:text="${record.status}">承認済み</td>
-                    <td th:text="${record.atClassification == 1 ? '出勤' : (record.atClassification == 2 ? '年休申請中' : (record.atClassification == 3 ? '振休申請中' : ''))}">出勤</td>
+                    <!-- atClassificationではなくcontrollerで変換したclassificationを表示 -->
+                    <td th:text="${record.classification}">出社</td>
                     <td th:text="${record.reason != null ? record.reason : ''}">体調不良のため</td>
                     <td>
                         <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
@@ -80,6 +81,34 @@
                 </tr>
                 <tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
                     <td colspan="8">該当するデータがありません。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 月間集計テーブル -->
+        <table border="1" class="monthly-summary-table" style="margin-top: 20px; border-collapse: collapse; width: 100%;">
+            <thead>
+                <tr style="background-color: #add8e6;">
+                    <th>月</th>
+                    <th>月間所定労働時間(h)</th>
+                    <th>実労働時間(h)</th>
+                    <th>残業時間(h)</th>
+                    <th>残年休日数</th>
+                    <th>残振休日数</th>
+                    <th>CSV出力</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${selectedMonth}">7</td>
+                    <td th:text="${scheduledWorkingHours}">140</td>
+                    <td th:text="${actualWorkingHours}">0</td>
+                    <td th:text="${formattedOvertimeHours}">0.00</td>
+                    <td th:text="${remainingAnnualLeave}">5</td>
+                    <td th:text="${remainingSubstituteHoliday}">5</td>
+                    <td>
+                        <button type="button">出力</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
