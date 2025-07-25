@@ -59,6 +59,7 @@
             <option value="申請済み" th:selected="${rePerformance.status == '申請済み'}">申請済み</option>
             <option value="確定済み" th:selected="${rePerformance.status == '確定済み'}">確定済み</option>
             <option value="差し戻し" th:selected="${rePerformance.status == '差し戻し'}">差し戻し</option>
+            <option value="再申請済み" th:selected="${rePerformance.status == '再申請済み'}">再申請済み</option>
           </select>
           <input type="hidden" th:name="status" th:value="${rePerformance.status}" />
         </td>
@@ -84,7 +85,7 @@
 	</div>
 
 	<form th:action="@{/{employeeId}/top/jisseki_user(employeeId=${userId})}" method="post" style="margin: 3px;">
-				    <button type="submit" class="resubmit-button" style="white-space: nowrap; min-width: 3ch; padding: 4px 8px;">再申請</button>
+				<button type="submit" class="resubmit-button-on" style="white-space: nowrap; min-width: 3ch; padding: 4px 8px;">再申請</button>
 	</form>
 
 

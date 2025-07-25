@@ -21,6 +21,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const resubmitButton = document.querySelector('.resubmit-button-on');
+  if (!resubmitButton) return;
+
+  resubmitButton.addEventListener('click', function (event) {
+    event.preventDefault(); // まずデフォルトのフォーム送信を止める
+
+    const rows = document.querySelectorAll('.reperformance-database tbody tr.performance-row');
+
+    rows.forEach((row) => {
+      const statusSelect = row.querySelector('.status-select');
+      if (statusSelect) {
+        statusSelect.value = '再申請済み';
+      }
+
+      const hiddenStatusInput = row.querySelector('input[type="hidden"][name="status"]');
+      if (hiddenStatusInput) {
+        hiddenStatusInput.value = '再申請済み';
+      }
+    });
+
+    const updatePromises = Array.from(rows).map((row) => sendUpdate(row));
+
+    Promise.all(updatePromises)
+      .then(() => {
+        // 全てのAjax更新が完了したらフォーム送信を行う
+        // もしフォームがボタンの親フォームなら以下で送信可能
+        event.target.form.submit();
+
+        // または、明示的にlocation.hrefで遷移させる場合はここで行う
+        // 例: location.href = event.target.form.action;
+      })
+      .catch((error) => {
+        console.error('更新処理でエラーが発生しました:', error);
+        alert('更新処理中にエラーが発生しました。もう一度お試しください。');
+        // フォーム送信は中止済みなのでここで特にしなくてよい
+      });
+  });
+
   //表面上のデータの吸い上げ
   function gatherData(row) {
     const startTimeValue = row.querySelector('.performance-start-input').value;
