@@ -139,9 +139,9 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
         while (!date.isAfter(endDate)) {
             if (!existsByUserIdAndDate(userId, date)) {
             	if (holidays.contains(date)) {
-            		 createAttendanceWithReason(userId, date,0);
+            		 createAttendanceWithReason(userId, date,1);
                 } else {
-                	createAttendanceWithReason(userId, date,1);
+                	createAttendanceWithReason(userId, date,0);
                 }
             }
             date = date.plusDays(1);
