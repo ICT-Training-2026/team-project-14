@@ -2,376 +2,400 @@
 
 /* --- ベース --- */
 body {
-	background: #f6f8fb;
-	font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	min-height: 100vh;
-	color: #222;
+    background: #f6f8fb;
+    font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #222;
 }
 
 /* --- タスクバー --- */
 .taskbar {
-	width: 100vw;
-	height: 60px;
-	background: #1565c0;
-	color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 32px;
-	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 100;
-	box-sizing: border-box;
-	min-width: 0;
+    width: 100vw;
+    height: 60px;
+    background: #1565c0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    min-width: 0;
 }
 .taskbar-left {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
 }
 .taskbar-logo {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 .taskbar-title {
-	font-size: 1.4rem;
-	font-weight: 700;
-	letter-spacing: 0.01em;
-	white-space: nowrap;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 .taskbar-tabs {
-	display: flex;
-	gap: 2px;
-	margin-left: 36px;
-	flex: none;
+    display: flex;
+    gap: 2px;
+    margin-left: 36px;
+    flex: none;
 }
 .taskbar-tab {
-	color: #e3ecf7;
-	font-size: 1.07rem;
-	font-weight: 700;
-	padding: 9px 28px;
-	border: none;
-	background: transparent;
-	border-radius: 8px 8px 0 0;
-	cursor: pointer;
-	transition: background 0.18s, color 0.18s;
-	outline: none;
-	text-decoration: none;
-	position: relative;
-	top: 2px;
-	letter-spacing: 0.01em;
+    color: #e3ecf7;
+    font-size: 1.07rem;
+    font-weight: 700;
+    padding: 9px 28px;
+    border: none;
+    background: transparent;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    outline: none;
+    text-decoration: none;
+    position: relative;
+    top: 2px;
+    letter-spacing: 0.01em;
 }
 .taskbar-tab.active,
 .taskbar-tab:focus {
-	background: #fff;
-	color: #1565c0;
-	box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
+    background: #fff;
+    color: #1565c0;
+    box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
 }
 .taskbar-right {
-	display: flex;
-	align-items: center;
-	gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 .taskbar-logout {
-	background: rgba(255, 255, 255, 0.16);
-	color: #fff;
-	border: none;
-	border-radius: 8px;
-	padding: 10px 28px;
-	font-size: 1.1rem;
-	font-weight: 700;
-	cursor: pointer;
-	transition: background 0.15s, color 0.15s;
-	margin-left: 0;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    margin-left: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
 .taskbar-logout:hover,
 .taskbar-logout:focus {
-	background: #fff;
-	color: #1565c0;
+    background: #fff;
+    color: #1565c0;
 }
 
 /* --- メイン --- */
 main {
-	max-width: 100vw;
-	padding: 0 2vw;
-	margin-top: 120px;
+    max-width: 100vw;
+    padding: 0 2vw;
+    margin-top: 120px;
 }
 
 /* --- ページタイトル・説明・戻るリンク --- */
 .page-title {
-	font-size: 2.1rem;
-	font-weight: 800;
-	letter-spacing: 0.03em;
-	margin-bottom: 18px;
-	text-align: center;
-	color: #1565c0;
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin-bottom: 18px;
+    text-align: center;
+    color: #1565c0;
 }
 .page-desc {
-	color: #7a7a7a;
-	margin-bottom: 32px;
-	font-size: 1.1rem;
-	text-align: center;
+    color: #7a7a7a;
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+    text-align: center;
 }
 .back-link {
-  display: block;
-  margin: 40px auto 0 auto;
-  color: #1976d2;
-  font-size: 1rem;
-  text-align: center;
-  text-decoration: underline;
+    display: block;
+    margin: 40px auto 0 auto;
+    color: #1976d2;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: underline;
 }
 .back-link:hover {
-  color: #0d47a1;
+    color: #0d47a1;
 }
 
 /* --- 年休残数表示 --- */
 .paid-holiday-info {
-	color: #1976d2;
-	background: #e3ecf7;
-	display: inline-block;
-	padding: 8px 18px;
-	border-radius: 8px;
-	font-weight: bold;
-	margin: 14px 0 24px 0;
-	font-size: 1.15rem;
-	margin-left: 60px;
+    color: #1976d2;
+    background: #e3ecf7;
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin: 14px 0 24px 0;
+    font-size: 1.15rem;
+    margin-left: 60px;
 }
 
 /* --- 年休申請ブロック・テーブル --- */
 .annual-table-block {
-	max-width: 1000px;
-	margin: 40px auto 0 auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
+    max-width: 1000px;
+    margin: 40px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 .annual-date-btn-area {
-	width: 100%;
-	text-align: left;
-	margin-bottom: 8px;
-	display: flex;
-	justify-content: flex-start;
-	max-width: 1000px;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-start;
+    max-width: 1000px;
 }
 .user-table {
-	table-layout: fixed;
-	width: 100%;
-	max-width: 1000px;
-	margin: 0 auto;
-	background: #fff;
-	box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
-	border-collapse: collapse;
-	border-radius: 10px;
-	font-size: 1.0rem;
+    table-layout: fixed;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
+    border-collapse: collapse;
+    border-radius: 10px;
+    font-size: 1.0rem;
 }
 .user-table th,
 .user-table td {
-	font-size: 1.0rem;
-	padding: 12px 18px;
-	text-align: center;
-	border-bottom: 1px solid #e0e7ee;
-	vertical-align: middle;
+    font-size: 1.0rem;
+    padding: 12px 18px;
+    text-align: center;
+    border-bottom: 1px solid #e0e7ee;
+    vertical-align: middle;
 }
 .user-table th {
-	background: #f6f8fb;
-	color: #1976d2;
-	font-weight: 700;
+    background: #f6f8fb;
+    color: #1976d2;
+    font-weight: 700;
 }
 .user-table td {
-	background: #fff;
+    background: #fff;
 }
 .user-table .col-date {
-	width: 90px;
-	min-width: 70px;
-	max-width: 120px;
+    width: 90px;
+    min-width: 70px;
+    max-width: 120px;
 }
 
 /* --- ボタン共通 --- */
 .modern-btn,
 button.modern-btn {
-	background: #1565c0;
-	color: #fff;
-	border: none;
-	border-radius: 10px;
-	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
-	transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none !important;
-	border-bottom: none !important;
-	width: 100%;
+    background: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    width: 100%;
 }
 .modern-btn:hover,
 .modern-btn:focus,
 button.modern-btn:hover,
 button.modern-btn:focus {
-	background: #0d47a1;
-	box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
-	transform: translateY(-2px) scale(1.012);
+    background: #0d47a1;
+    box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
+    transform: translateY(-2px) scale(1.012);
 }
 .modern-btn:disabled,
 button.modern-btn[disabled] {
-	background: #b0b0b0 !important;
-	cursor: not-allowed;
+    background: #b0b0b0 !important;
+    cursor: not-allowed;
 }
 
 /* --- 申請ボタン --- */
 .submit-btn {
-	width: 100%;
-	max-width: 180px;
-	font-size: 1.1rem;
-	font-weight: 700;
-	padding: 14px 0;
-	margin: 24px auto 0 auto;
-	display: block;
+    width: 100%;
+    max-width: 180px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 0;
+    margin: 24px auto 0 auto;
+    display: block;
 }
 
 /* --- 日付検索ボタン --- */
 .date-search-btn {
-	min-width: 100px;
-	width: 130px;
-	height: 40px;
-	font-size: 1.05rem;
-	font-weight: 700;
-	border-radius: 4px;
-	background: #1565c0;
-	color: #fff;
-	border: none;
-	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
-	transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
-	cursor: pointer;
-	margin-bottom: 8px;
-	margin-left: 0;
-	margin-right: 0;
-	display: inline-block;
-	text-align: center;
+    min-width: 100px;
+    width: 130px;
+    height: 40px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 4px;
+    background: #1565c0;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+    cursor: pointer;
+    margin-bottom: 8px;
+    margin-left: 0;
+    margin-right: 0;
+    display: inline-block;
+    text-align: center;
 }
 .date-search-btn:hover,
 .date-search-btn:focus {
-	background: #0d47a1;
-	box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
-	transform: translateY(-2px) scale(1.012);
+    background: #0d47a1;
+    box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
+    transform: translateY(-2px) scale(1.012);
 }
 
 /* --- 削除ボタン --- */
 .delete-btn {
-	background: #d93025;
-	color: #fff;
-	border: none;
-	border-radius: 2px;
-	width: 70px;
-	height: 22px;
-	font-size: 0.85rem;
-	font-weight: 700;
-	box-sizing: border-box;
-	transition: background 0.13s;
+    background: #d93025;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    width: 70px;
+    height: 22px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-sizing: border-box;
+    transition: background 0.13s;
 }
 .delete-btn:hover {
-	background: #b71c1c;
+    background: #b71c1c;
 }
 
-/* --- モーダル --- */
+/* --- モーダル（共通化/showクラスで制御） --- */
 .modal-overlay {
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100vw;
-	height: 100vh;
-	background: rgba(0, 0, 0, 0.3);
-	z-index: 1000;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
 }
-.modal-content {
-	background: #fff;
-	padding: 32px 24px;
-	border-radius: 12px;
-	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-	text-align: center;
-	min-width: 280px;
-	max-width: 90vw;
-	margin: auto;
+.modal-overlay.show {
+    display: flex !important;
+}
+.modal-overlay .modal-content {
+    background: #fff;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    min-width: 280px;
+    max-width: 90vw;
+    transform: translateY(4px) scale(1);
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+}
+.modal-overlay.show .modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 /* モーダルタイトル */
 .modal-content h2,
 #modalTitle {
-	font-size: 1.1rem;
-	font-weight: 700;
-	margin-bottom: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 18px;
 }
 /* モーダル用ボタン共通 */
 .modal-content .modern-btn {
-	max-width: 120px;
-	min-width: 80px;
-	display: inline-block;
-	margin: 0 6px;
-	padding: 10px 0;
-	font-size: 1rem;
-	border-radius: 10px;
+    max-width: 120px;
+    min-width: 80px;
+    display: inline-block;
+    margin: 0 6px;
+    padding: 10px 0;
+    font-size: 1rem;
+    border-radius: 10px;
 }
 /* 追加ボタン（青） */
 .modal-add-btn {
-	background: #1565c0 !important;
-	color: #fff !important;
+    background: #1565c0 !important;
+    color: #fff !important;
 }
 .modal-add-btn:hover,
 .modal-add-btn:focus {
-	background: #0d47a1 !important;
+    background: #0d47a1 !important;
 }
 /* キャンセルボタン（グレー） */
 .modal-cancel-btn {
-	background: #aaa !important;
-	color: #fff !important;
+    background: #aaa !important;
+    color: #fff !important;
 }
 .modal-cancel-btn:hover,
 .modal-cancel-btn:focus {
-	background: #888 !important;
+    background: #888 !important;
+}
+/* 申請完了モーダルの閉じるボタン */
+.modal-close-btn {
+    margin-top: 40px;
+    padding: 8px 24px;
+    background: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.modal-close-btn:hover {
+    background: #104a8d;
 }
 
 /* --- レスポンシブ --- */
 @media (max-width: 900px) {
-	main {
-		max-width: 98vw;
-		padding: 0 2vw;
-	}
-	.taskbar-tabs {
-		margin-left: 10px;
-	}
-	.taskbar-tab {
-		padding: 6px 9px;
-		font-size: 0.95rem;
-	}
-	.annual-table-block,
-	.annual-date-btn-area,
-	.user-table {
-		max-width: 98vw;
-	}
+    main {
+        max-width: 98vw;
+        padding: 0 2vw;
+    }
+    .taskbar-tabs {
+        margin-left: 10px;
+    }
+    .taskbar-tab {
+        padding: 6px 9px;
+        font-size: 0.95rem;
+    }
+    .annual-table-block,
+    .annual-date-btn-area,
+    .user-table {
+        max-width: 98vw;
+    }
 }
 @media (max-width: 600px) {
-	.taskbar {
-		padding: 0 4px;
-	}
-	.taskbar-title {
-		font-size: 1.05rem;
-	}
-	.taskbar-tabs {
-		gap: 0;
-		margin-left: 0;
-	}
-	.taskbar-tab {
-		padding: 5px 4vw;
-		font-size: 0.9rem;
-	}
-	main {
-		margin-top: 85px;
-	}
+    .taskbar {
+        padding: 0 4px;
+    }
+    .taskbar-title {
+        font-size: 1.05rem;
+    }
+    .taskbar-tabs {
+        gap: 0;
+        margin-left: 0;
+    }
+    .taskbar-tab {
+        padding: 5px 4vw;
+        font-size: 0.9rem;
+    }
+    main {
+        margin-top: 85px;
+    }
 }
