@@ -108,13 +108,14 @@
           <td><input type="time" th:value="${performance.endTime}" class="performance-end-input" disabled /></td>
           <td><input type="text" th:value="${performance.breakTime}" class="performance-break-input" disabled /></td>
           <!-- disabledを外してボタン有効化 -->
-          <td><input type="button" value="申請" class="submit-button" /></td>
+          <td><input type="button" value="申請" class="submit-button" th:disabled="${performance.status == '申請済み' or performance.status == '確定済み' or performance.status == '差し戻し' or performance.status == '再申請済み'}"/></td>
           <td>
             <select class="status-select" disabled>
               <option value="未申請" th:selected="${performance.status == '未申請'}">未申請</option>
               <option value="申請済み" th:selected="${performance.status == '申請済み'}">申請済み</option>
               <option value="確定済み" th:selected="${performance.status == '確定済み'}">確定済み</option>
               <option value="差し戻し" th:selected="${performance.status == '差し戻し'}">差し戻し</option>
+              <option value="再申請済み" th:selected="${performance.status == '再申請済み'}">再申請済み</option>
             </select>
             <input type="hidden" th:name="status" th:value="${performance.status}" />
           </td>
@@ -129,15 +130,19 @@
             </select>
             <input type="hidden" th:name="status" th:value="${performance.status}" />
           </td>
-          <td><input type="text" th:value="${performance.reason}" class="performance-reason-input"  /></td>
+          <!-- <td><input type="text" th:value="${performance.reason}" class="performance-reason-input"  /></td> -->
+           <td>
+            <input type="text" th:value="${performance.reason}" class="performance-reason-input"
+                  th:disabled="${performance.status == '申請済み' or performance.status == '確定済み'}" />
+          </td>
           <!-- disabledを外してボタン有効化 -->
           <td style="width: 3ch;">
           <form th:action="@{/{employeeId}/top/jisseki_user/reperformance(employeeId=${userId})}" method="post" style="margin: 3px;">
-            <button type="submit" class="resubmit-button" style="white-space: nowrap; min-width: 3ch; padding: 4px 8px;">再申請</button>
+            <button type="submit" class="resubmit-button" style="white-space: nowrap; min-width: 3ch; padding: 4px 8px;" th:disabled="${performance.status == '未申請' or performance.status == '確定済み' or performance.status == '申請済み'}">再申請</button>
                 <input type="hidden" name="reId" th:value="${performance.id}" />
           </form>
         </td>
-          <td><input type="button" value="取消" class="remove-button" /></td>
+          <td><input type="button" value="取消" class="remove-button" th:disabled="${performance.status == '未申請' or performance.status == '確定済み' or performance.status == '差し戻し' or performance.status == '再申請済み'}"/></td>
           <td><input type="hidden" class="performance-id" th:value="${performance.id}" /></td>
         </tr>
       </tbody>

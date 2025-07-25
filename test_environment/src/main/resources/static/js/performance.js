@@ -12,46 +12,91 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('click', function (e) {
-    // クリックされた要素が .submit-button かどうか判定
     if (e.target && e.target.classList.contains('submit-button')) {
-      // ボタンの属する<tr>を取得
+      e.preventDefault(); // デフォルトの送信を止める
+
       var tr = e.target.closest('tr');
       if (!tr) return;
-      // その<tr>内の.status-selectを取得
+
       var select = tr.querySelector('.status-select');
       if (select) {
         select.value = '申請済み';
-        // ここで reason input を disabled にする
+
         var reasonInput = tr.querySelector('.performance-reason-input');
         if (reasonInput) {
           reasonInput.disabled = true;
         }
-        const row = e.target.closest('tr');
-        sendUpdate(row);
-        // 状態変更を他の処理で使う場合はchangeイベントも発火
-        select.dispatchEvent(new Event('change'));
+
+        e.target.disabled = true; // ここでdisabled化
+
+        // 同じ行の取消ボタンを有効化
+        var removeButton = tr.querySelector('.remove-button');
+        if (removeButton) {
+          removeButton.disabled = false;
+        }
+
+        sendUpdate(tr)
+          .then(() => {
+            // Ajax更新が終わったらフォーム送信やページ遷移を行う
+            // 例えば、フォームがボタンの親要素の場合：
+            var form = e.target.closest('form');
+            if (form) {
+              form.submit();
+            } else {
+              // フォームがない場合は必要に応じて遷移処理を記述
+              // location.href = '遷移先URL';
+            }
+          })
+          .catch(() => {
+            alert('更新に失敗しました。');
+            e.target.disabled = false; // 失敗したらボタンを有効に戻す
+          });
       }
     }
   });
 
   document.addEventListener('click', function (e) {
-    // クリックされた要素が .submit-button かどうか判定
     if (e.target && e.target.classList.contains('remove-button')) {
-      // ボタンの属する<tr>を取得
+      e.preventDefault(); // ページ遷移やフォーム送信を一旦止める
+
       var tr = e.target.closest('tr');
       if (!tr) return;
-      // その<tr>内の.status-selectを取得
+
       var select = tr.querySelector('.status-select');
       if (select) {
         select.value = '未申請';
+
         var reasonInput = tr.querySelector('.performance-reason-input');
         if (reasonInput) {
           reasonInput.disabled = false;
         }
-        const row = e.target.closest('tr');
-        sendUpdate(row);
-        // 状態変更を他の処理で使う場合はchangeイベントも発火
-        select.dispatchEvent(new Event('change'));
+
+        // 取消ボタン自身をdisabledにする
+        e.target.disabled = true;
+
+        var submitButton = tr.querySelector('.submit-button');
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
+
+        // サーバーに更新を送信。sendUpdateがPromiseを返す想定
+        sendUpdate(tr)
+          .then(() => {
+            var form = e.target.closest('form');
+            if (form) {
+              form.submit();
+            } else {
+              // フォームがない場合は必要に応じて遷移処理を記述
+              // location.href = '遷移先URL';
+            }
+            // 更新成功後にフォーム送信やページ遷移を行う場合はここで実行
+            // 例: e.target.form.submit(); または location.href = '遷移先URL';
+            // もし遷移がないならここは不要
+          })
+          .catch(() => {
+            alert('更新に失敗しました。');
+            e.target.disabled = false; // 失敗したらボタンを有効に戻す
+          });
       }
     }
   });
