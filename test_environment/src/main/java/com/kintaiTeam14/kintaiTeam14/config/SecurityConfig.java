@@ -27,10 +27,10 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 // 勤怠CSV出力エンドポイントをpermitAll
-                .requestMatchers("/admin/export-attendance").permitAll()
+                .requestMatchers("/admin/export-attendance").hasRole("ADMIN")
                 // 祝日CSV出力エンドポイントもpermitAll
-                .requestMatchers("/admin/company-info/export").permitAll()
-                .requestMatchers("/api/holidays/export").permitAll()
+                .requestMatchers("/admin/company-info/export").hasRole("ADMIN")
+                .requestMatchers("/api/holidays/export").hasRole("ADMIN")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                 .requestMatchers("/api/holidays/**").hasRole("ADMIN")
