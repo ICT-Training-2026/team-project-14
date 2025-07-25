@@ -20,15 +20,23 @@ public class AdminUserRegist {
 	@PostMapping("admin/user-regist-exe")
 	public String userRegist(@ModelAttribute UserRegistForm f,RedirectAttributes ra) {
 		
+		String transition;
+		
 		if(service.userRegist(f)) {
-			ra.addFlashAttribute("msg", "ユーザーを新規登録しました");
+			String popup="以下の内容で新規登録しました\n"
+					+ "社員名："+f.getName()
+					+ "\n所属コード："+f.getDepartmentId()
+					+ "\n社員番号："+f.getEmployeeId();
+			ra.addFlashAttribute("msg", popup);
+			transition="redirect:/admin";
 		}
 		else {
-			ra.addFlashAttribute("msg", "すでに登録されているIDです");
+			ra.addFlashAttribute("msg", "この社員番号（"+f.getEmployeeId()+"）は既に登録されています");
+			transition="redirect:/admin/user-regist";
 		}
 
 		
-		return "redirect:/admin";
+		return transition;
 	}
 	
 }

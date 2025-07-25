@@ -80,5 +80,15 @@
     </table>
     <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
 </main>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let message = /*[[${msg}]]*/ null;
+    if (message) {
+        alert(message);
+    }
+    /*]]>*/
+</script>
+
 </body>
 </html>

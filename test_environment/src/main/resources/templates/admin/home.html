@@ -49,5 +49,15 @@
 
     </div>
 </main>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let message = /*[[${msg}]]*/ null;
+    if (message) {
+        alert(message);
+    }
+    /*]]>*/
+</script>
+
 </body>
 </html>

@@ -13,7 +13,7 @@ public class UserEditService {
 	
 	private final UserEditRepository r;
 
-	public void userEdit(UserEditForm f) {
-		r.userEdit(f);
+	public boolean userEdit(UserEditForm f) {
+		return r.userEditSchedule(f);
 	}
 }

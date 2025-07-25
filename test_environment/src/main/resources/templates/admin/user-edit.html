@@ -49,7 +49,7 @@
 		</div>
         <div class="form-row">
 			<label for="current-password">反映日</label>
-			<input type="date" th:field="*{activateDate}" required>
+			<input type="datetime-local" th:field="*{activateDate}" required>
 		</div>
         <input type="hidden" name="employeeId" th:value="*{employeeId}">
 

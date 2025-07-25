@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kintaiTeam14.kintaiTeam14.form.UserEditForm;
 import com.kintaiTeam14.kintaiTeam14.form.UserRegistForm;
@@ -38,6 +40,12 @@ public class AdminUserManagement {
 		return "/admin/user-regist";
 	}
 	
+	//ユーザー新規登録処理(リダイレクト用)
+	@GetMapping("/admin/user-regist")
+	public String userRegistRedirect(@ModelAttribute UserRegistForm f) {
+		return "/admin/user-regist";
+	}
+	
 	//ユーザー情報編集処理
 	@PostMapping("admin/edit/{empId}")
 	public String editUser(@ModelAttribute UserEditForm f,@PathVariable Long empId,Model model) {
@@ -49,8 +57,10 @@ public class AdminUserManagement {
 	 * ユーザー削除機能
 	 */
 	@PostMapping("admin/delete/{empId}")
-	public String deleteUser(@PathVariable Long empId) {
+	public String deleteUser(@PathVariable Long empId,RedirectAttributes ra) {
+		
 		userService.deleteUserById(empId);
+		ra.addFlashAttribute("msg", "削除しました");
 		return "redirect:/admin/User-management";
 	}
 	
