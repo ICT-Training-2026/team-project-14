@@ -47,7 +47,7 @@ public class AdminExportController {
 
                     int sumWork = 0;
                     List<String> lines = new ArrayList<>();
-                    lines.add("社員コード,年月,始業時刻(時),始業時刻(分),終業時刻(時),終業時刻(分),労働時間,休憩時間,超過時間");
+                    lines.add("社員コード,年月,始業時刻(時),始業時刻(分),終業時刻(時),終業時刻(分),労働時間(分),休憩時間(分),超過時間(分)");
                     for (Attendance a : monthMap.get(ym)) {
                         String startH = (a.getArrivalTime() != null)
                                 ? String.format("%02d", a.getArrivalTime().getHour())

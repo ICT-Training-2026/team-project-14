@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf
+            	.ignoringRequestMatchers("/api/holidays/**")   
                 // 勤怠CSV出力エンドポイントをCSRF除外
                 .ignoringRequestMatchers("/admin/export-attendance")
                 // 祝日CSV出力エンドポイントもCSRF除外
