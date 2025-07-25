@@ -42,12 +42,12 @@ public class DataInitializer implements ApplicationRunner {
 	            System.out.println("管理者(Admin)ユーザーを初期作成しました。");
 	        }
 
-	        Employee normalUser = employeeRepository.findByEmployeeName("user2");
+	        Employee normalUser = employeeRepository.findByEmployeeName("user3");
 	        if (normalUser == null) {
 	            Employee employeeUser = new Employee();
-	            employeeUser.setEmployeeId(100002L);
-	            employeeUser.setEmployeeName("user2");
-	            employeeUser.setPassword(passwordEncoder.encode("user2")); // 初期パスワードは適宜変更
+	            employeeUser.setEmployeeId(100003L);
+	            employeeUser.setEmployeeName("user3");
+	            employeeUser.setPassword(passwordEncoder.encode("user3")); // 初期パスワードは適宜変更
 	            employeeUser.setDepartmentId("D001");   // 例：開発
 	            employeeUser.setIsPassword(false);
 	            employeeUser.setPaidHoliday(0);

@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -133,25 +134,30 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     }
 
     @Override
-    public void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate) {
+    public void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate,Set<LocalDate>holidays) {
         LocalDate date = startDate;
         while (!date.isAfter(endDate)) {
             if (!existsByUserIdAndDate(userId, date)) {
-                createAttendanceWithReason(userId, date);
+            	if (holidays.contains(date)) {
+            		 createAttendanceWithReason(userId, date,0);
+                } else {
+                	createAttendanceWithReason(userId, date,1);
+                }
             }
             date = date.plusDays(1);
         }
     }
 
     @Override
-    public void createAttendanceWithReason(Long userId, LocalDate date) {
-        String insertAttendanceSql = "INSERT INTO attendance (employee_id, date, status, at_classification, break_time, overtime) VALUES (?, ?, '未申請', 0, 1, 0)";
+    public void createAttendanceWithReason(Long userId, LocalDate date, int atClassification) {
+        String insertAttendanceSql = "INSERT INTO attendance (employee_id, date, status, at_classification, break_time, overtime) VALUES (?, ?, '未申請', ?, 1, 0)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(insertAttendanceSql, new String[] {"attend_id"});
             ps.setLong(1, userId);
             ps.setObject(2, date);
+            ps.setInt(3, atClassification);
             return ps;
         }, keyHolder);
 
