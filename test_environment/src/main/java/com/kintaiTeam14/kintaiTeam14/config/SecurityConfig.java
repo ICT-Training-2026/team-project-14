@@ -17,10 +17,10 @@ public class SecurityConfig {
 	private final CustomAccessDeniedHandler accessDeniedHandler;
 	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	/**
 	 * セキュリティフィルタチェーンのBeanを登録。
@@ -58,6 +58,6 @@ public class SecurityConfig {
         exception.accessDeniedHandler(accessDeniedHandler)
     );
 
-        return http.build();
-    }
+		return http.build();
+	}
 }
