@@ -4,6 +4,7 @@ package com.kintaiTeam14.kintaiTeam14.repository.performance;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
@@ -17,6 +18,8 @@ public interface PerformanceRepository {
     void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate);
 
     void createAttendanceWithReason(Long userId, LocalDate date);
+
+    List<AdminPerformance> findSubmitAll();
 
 
 

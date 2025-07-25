@@ -143,4 +143,9 @@ public class PerformanceServiceImpl implements PerformanceService {
 	public List<RePerformance> findByreId(int reId) {
 		return repository.findByreId(reId);
 	}
+
+	@Override
+	public List findSubmitAll() {
+		return repository.findSubmitAll();
+	}
 }
