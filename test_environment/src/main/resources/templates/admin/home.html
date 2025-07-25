@@ -61,7 +61,7 @@
 			exportBtn.addEventListener('click', function () {
 				if (confirm('外部出力しますか？')) {
 					// ダウンロードURLをサーバーに合わせて調整してください
-					const downloadUrl = /*[[@{/admin/company-info/export}]]*/ '/api/holidays/export';
+					const downloadUrl = /*[[@{/admin/company-info/export}]]*/ '/admin/export-attendance-zip';
 					// ダウンロード開始
 					const a = document.createElement('a');
 					a.href = downloadUrl;
