@@ -53,7 +53,8 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     @Transactional
     public void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate) {
-        repository.createPerformancesForYear(userId, startDate, endDate);
+    	Set<LocalDate>holidays=findHolidaysBetween(startDate, endDate);
+    	repository.createPerformancesForYear(userId, startDate, endDate);
     }
 
 //	@Override
