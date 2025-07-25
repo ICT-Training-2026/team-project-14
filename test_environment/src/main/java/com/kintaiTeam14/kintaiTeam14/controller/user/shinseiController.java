@@ -247,7 +247,7 @@ public class shinseiController {
 	
 	
 	
-	   @PostMapping("/{employeeId}/top/shinsei_user/hurikyu/apply")
+	   @PostMapping("/{employeeId}/top/shinsei/hurikyu/apply")
 	   @ResponseBody
 	    public Map<String, Object> applyHurikyu(Model m,@PathVariable Long employeeId,@RequestBody List<Map<String, Object>> requestList) {
 	        // ここでrequestListの内容をDB保存等のロジックに利用
