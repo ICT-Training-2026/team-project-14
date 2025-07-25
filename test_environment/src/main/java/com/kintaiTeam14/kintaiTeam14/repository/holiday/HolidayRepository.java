@@ -13,7 +13,7 @@ import com.kintaiTeam14.kintaiTeam14.entity.Holiday;
 public interface HolidayRepository extends JpaRepository<Holiday, Integer> {
 
     // 追加：指定月の休日・振替休日取得
-    @Query("SELECT h.holidayDate FROM Holiday h WHERE (h.holidayType = '休日' OR h.holidayType = '振替休日') AND FUNCTION('YEAR', h.holidayDate) = :year AND FUNCTION('MONTH', h.holidayDate) = :month")
+    @Query("SELECT h.holidayDate FROM Holiday h WHERE (h.holidayType = '休日' OR h.holidayType = '振替休日' OR h.holidayType = '祝日') AND FUNCTION('YEAR', h.holidayDate) = :year AND FUNCTION('MONTH', h.holidayDate) = :month")
     List<LocalDate> findHolidayDatesInMonth(int year, int month);
 
     // JpaRepositoryがfindAll, findById, save, deleteByIdを自動実装
