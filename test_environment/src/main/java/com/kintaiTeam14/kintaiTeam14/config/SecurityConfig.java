@@ -24,32 +24,36 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                    .requestMatchers("/api/holidays/**").permitAll()         // ← これを追加
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                    .anyRequest().authenticated()
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                // 勤怠CSV出力エンドポイントをpermitAll
+                .requestMatchers("/admin/export-attendance").permitAll()
+                // 祝日CSV出力エンドポイントもpermitAll
+                .requestMatchers("/admin/company-info/export").permitAll()
+                .requestMatchers("/api/holidays/export").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/api/holidays/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
             )
-            // APIはCSRF無効化
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/holidays/**")               // ← これを追加
+            	.ignoringRequestMatchers("/api/holidays/**")   
+                // 勤怠CSV出力エンドポイントをCSRF除外
+                .ignoringRequestMatchers("/admin/export-attendance")
+                // 祝日CSV出力エンドポイントもCSRF除外
+                .ignoringRequestMatchers("/admin/company-info/export")
+                .ignoringRequestMatchers("/api/holidays/export")
             )
-            .formLogin(form ->
-                form
-                    .loginPage("/login")
-                    .successHandler(new CustomAuthenticationSuccessHandler())
-                    .permitAll()
+            .formLogin(form -> form
+                .loginPage("/login")
+                .successHandler(new CustomAuthenticationSuccessHandler())
+                .permitAll()
             )
-            .logout(logout ->
-                logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login")
-                    .permitAll()
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll()
             )
-            .exceptionHandling(exception ->
-                exception.accessDeniedHandler(accessDeniedHandler)
-            );
+            .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler));
 
         return http.build();
     }
