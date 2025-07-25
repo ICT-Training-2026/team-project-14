@@ -104,14 +104,18 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     // 実労働時間(h)を計算するメソッド
-    @Override
+    //7/25編集。実労働時間で休憩時間を引けていなかったことを修正。
     public double calculateActualWorkHours(Long userId, LocalDate startDate, LocalDate endDate) {
         List<Performance> performances = findByUserIdAndDateRange(userId, startDate, endDate);
         double totalHours = 0.0;
         for (Performance p : performances) {
             if (p.getStartTime() != null && p.getEndTime() != null) {
                 long minutes = java.time.Duration.between(p.getStartTime(), p.getEndTime()).toMinutes();
-                totalHours += minutes / 60.0;
+                double breakHours = p.getBreakTime(); // DBの値（1なら1時間）
+                double workHours = (minutes / 60.0) - breakHours;
+                if (workHours > 0) {
+                    totalHours += workHours;
+                }
             }
         }
         return totalHours;
