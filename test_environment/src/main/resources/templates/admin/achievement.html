@@ -126,6 +126,52 @@
 		.monthly-summary-table.center-table tr:last-child {
 		    border-bottom: none;
 		}
+		.search-form-inline {
+		    display: flex;
+		    align-items: center;
+		    gap: 8px;
+		    margin: 0 0 24px 0;
+		    padding: 0;
+		    width: auto;
+		}
+		.search-form-inline label {
+		    display: flex;
+		    align-items: center;
+		    gap: 4px;
+		    margin-bottom: 0;
+		    white-space: nowrap;
+		}
+		input[type="number"].search-input {
+		    font-size: 1rem;
+		    padding: 7px 10px;
+		    border: 1px solid #e0e7ee;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		}
+		input[name="employeeId"].search-input { width: 130px; }
+		input[name="year"].search-input       { width: 70px; }
+		input[name="month"].search-input      { width: 50px; }
+
+		.search-btn-small {
+		    font-size: 1rem;
+		    padding: 7px 0;
+		    border-radius: 4px;
+		    font-weight: 700;
+		    background: #1565c0;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
+		    transition: background 0.18s;
+		    width: 100px;
+		    line-height: 1.2;
+		    text-align: center;
+		    margin-left: 8px;
+		}
+		.search-btn-small:hover,
+		.search-btn-small:focus {
+		    background: #0d47a1;
+		}
     </style>
 </head>
 
@@ -163,20 +209,20 @@
         <div class="page-desc">ここで勤怠実績の検索・閲覧などが行えます。</div>
 
 		<!-- 検索フォーム -->
-		<form th:action="@{/admin/achievement/performance}" method="get" class="search-form">
-		    <label style="margin-right: 10px;">
+		<form th:action="@{/admin/achievement/performance}" method="get" class="search-form-inline">
+		    <label>
 		        社員番号:
-		        <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" min="1" style="width: 90px;" />
+		        <input type="number" name="employeeId" th:value="${employeeId}" min="1" class="search-input" style="width:90px;" />
 		    </label>
-		    <label style="margin-right: 10px;">
-		        <input type="number" name="year" th:value="${selectedYear}" placeholder="年" min="2000" max="2100" style="width: 70px;" />
+		    <label>
+		        <input type="number" name="year" th:value="${selectedYear}" min="2000" max="2100" class="search-input" style="width:70px;" />
 		        年
 		    </label>
-		    <label style="margin-right: 10px;">
-		        <input type="number" name="month" th:value="${selectedMonth}" placeholder="月" min="1" max="12" style="width: 50px;" />
+		    <label>
+		        <input type="number" name="month" th:value="${selectedMonth}" min="1" max="12" class="search-input" style="width:50px;" />
 		        月
 		    </label>
-		    <button type="submit">検索</button>
+		    <button type="submit" class="search-btn-small">検索</button>
 		</form>
 
         <!-- 勤怠一覧テーブル -->
