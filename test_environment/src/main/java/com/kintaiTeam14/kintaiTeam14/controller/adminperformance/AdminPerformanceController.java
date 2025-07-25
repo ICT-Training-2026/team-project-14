@@ -80,8 +80,8 @@ public class AdminPerformanceController {
             logger.info("Calculated actual working hours: {}", actualWorkingHours);
 
             Map<Integer, String> classificationMap = new HashMap<>();
-            classificationMap.put(0, "休日");
-            classificationMap.put(1, "出勤");
+            classificationMap.put(1, "休日");
+            classificationMap.put(0, "出勤");
             classificationMap.put(2, "年休申請中");
             classificationMap.put(3, "振出申請中");
             classificationMap.put(4, "振休");
