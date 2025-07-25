@@ -40,7 +40,7 @@
 		<div class="page-desc">ここでユーザーの一覧表示・追加・編集・削除などが行えます。</div>
 
     <form th:action="@{/admin/user-list}" method="post" th:object="${userSearchForm}">
-        <input type="text" name="searchWord" th:field="*{searchWord}">
+        <input type="text" name="searchWord" th:field="*{searchWord}" placeholder="社員名">
         <input type="submit" value="検索">
     </form>
 

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
-import com.kintaiTeam14.kintaiTeam14.repository.PerformanceHolidayRepository;
+import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceHolidayRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceRepository;
 
 import lombok.RequiredArgsConstructor;
