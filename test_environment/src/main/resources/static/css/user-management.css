@@ -223,6 +223,21 @@ input[type="text"].search-input {
     border-bottom: none;
 }
 
+/* --- 編集ボタン --- */
+.edit-btn {
+    color: #fff;
+    background: #1565c0;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+.edit-btn:hover {
+    background: #0d47a1;
+}
+
 /* --- 削除ボタン --- */
 .delete-btn {
     color: #fff;
