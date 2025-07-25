@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.kintaiTeam14.kintaiTeam14.dto.AttendanceWithReasonDto;
 import com.kintaiTeam14.kintaiTeam14.service.adminperformance.AdminHolidayService;
@@ -148,5 +149,11 @@ public class AdminPerformanceController {
         model.addAttribute("formattedOvertimeHours", formattedOvertimeHours);
 
         return "admin/achievement";
+    }
+
+    @GetMapping("/admin/achievement/edit/{id}")
+    public String editAttendance(@PathVariable("id") Long attendId, Model model) {
+        model.addAttribute("message", "テスト");
+        return "admin/achievementEdit";
     }
 }
