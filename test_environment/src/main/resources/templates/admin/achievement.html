@@ -2,9 +2,131 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>実績</title>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/common.css}">
+    <title>実績</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+  
+        .page-desc {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+		.search-form {
+		    display: flex;
+		    flex-wrap: nowrap;
+		    align-items: center;
+		    gap: 0;
+		    margin-bottom: 24px;
+		}
+		.search-form label {
+		    display: inline-block;
+		    white-space: nowrap;
+		    margin-bottom: 0;
+		    vertical-align: middle;
+		}
+		.search-form input[type="number"] {
+		    display: inline-block;
+		    vertical-align: middle;
+		    margin-right: 2px;
+		    padding: 4px 8px;
+		    border-radius: 4px;
+		    border: 1px solid #cbd5e1;
+		    font-size: 1rem;
+		}
+
+        .search-form button {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .search-form button:hover {
+            background: #1d4ed8;
+        }
+		.attendance-table {
+		    margin: 32px auto 0 auto;
+		    border-collapse: collapse;              /* セルの線を重ねてきれいに見せる */
+		    background: #fff;
+		    border-radius: 10px;
+		    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+		    overflow: hidden;
+		    min-width: 800px;
+		    max-width: 1050px;
+		    width: 100%;
+		}
+		.attendance-table th,
+		.attendance-table td {
+		    text-align: center;
+		    padding: 16px 0;
+		    font-size: 1.05rem;
+		    border-right: 1px solid #e0e6ed;      /* 縦線（薄いグレー） */
+		    border-bottom: 1px solid #e0e6ed;     /* 横線（薄いグレー） */
+		}
+		.attendance-table th:last-child,
+		.attendance-table td:last-child {
+		    border-right: none;                   /* 最後の列の右線を消す */
+		}
+		.attendance-table th {
+		    background: #f8fafc;
+		    color: #2563eb;
+		    font-weight: bold;
+		    letter-spacing: 1px;
+		    border-bottom: 2px solid #e5eaf0;     /* ヘッダー下はやや濃い線 */
+		}
+		.attendance-table tbody tr:last-child td {
+		    border-bottom: none;                  /* 最下行の下線を消す */
+		}
+		.attendance-table td {
+		    color: #26344a;
+		}
+		.attendance-table tbody tr:hover {
+		    background: #f1f6fd;
+		}
+ 
+		.monthly-summary-table.center-table {
+		    margin: 32px auto 0 auto;
+		    border-collapse: separate;
+		    border-spacing: 0;
+		    background: #fff;
+		    border-radius: 10px;
+		    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+		    min-width: 700px;
+		    max-width: 950px;
+		    width: 100%;
+		}
+		.monthly-summary-table.center-table th,
+		.monthly-summary-table.center-table td {
+		    text-align: center;
+		    padding: 14px 0;
+		    font-size: 1.03rem;
+		    border-right: 1px solid #e0e6ed;
+		}
+		.monthly-summary-table.center-table th:last-child,
+		.monthly-summary-table.center-table td:last-child {
+		    border-right: none;
+		}
+		.monthly-summary-table.center-table th {
+		    background: #e6f0fb;
+		    color: #2563eb;
+		    font-weight: bold;
+		    letter-spacing: 1px;
+		    border-bottom: 2px solid #bcdff8;
+		}
+		.monthly-summary-table.center-table td {
+		    color: #26344a;
+		}
+		.monthly-summary-table.center-table tr {
+		    border-bottom: 1px solid #e5eaf0;
+		}
+		.monthly-summary-table.center-table tr:last-child {
+		    border-bottom: none;
+		}
+    </style>
 </head>
 
 <body>
@@ -34,90 +156,78 @@
     </header>
     <main>
         <div class="page-title">実績</div>
-        <div class="page-desc">ここで勤怠実績の閲覧・検索・ダウンロードなどが行えます。</div>
+        <div class="page-desc">ここで勤怠実績の検索・閲覧などが行えます。</div>
 
-        <!-- 検索フォーム -->
-        <form th:action="@{/admin/achievement/performance}" method="get" class="search-form">
-            <label>
-                社員番号:
-                <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" min="1" />
-            </label>
-            <label>
-                年:
-                <input type="number" name="year" th:value="${selectedYear}" placeholder="年" min="2000" max="2100" />
-            </label>
-            <label>
-                月:
-                <input type="number" name="month" th:value="${selectedMonth}" placeholder="月" min="1" max="12" />
-            </label>
-            <button type="submit">検索</button>
-        </form>
+		<!-- 検索フォーム -->
+		<form th:action="@{/admin/achievement/performance}" method="get" class="search-form">
+		    <label style="margin-right: 10px;">
+		        社員番号:
+		        <input type="number" name="employeeId" th:value="${employeeId}" placeholder="社員番号" min="1" style="width: 90px;" />
+		    </label>
+		    <label style="margin-right: 10px;">
+		        <input type="number" name="year" th:value="${selectedYear}" placeholder="年" min="2000" max="2100" style="width: 70px;" />
+		        年
+		    </label>
+		    <label style="margin-right: 10px;">
+		        <input type="number" name="month" th:value="${selectedMonth}" placeholder="月" min="1" max="12" style="width: 50px;" />
+		        月
+		    </label>
+		    <button type="submit">検索</button>
+		</form>
 
         <!-- 勤怠一覧テーブル -->
-        <table class="attendance-table">
-            <thead>
-                <tr>
-                    <th>日付</th>
-                    <th>曜日</th>
-                    <th>打刻時間</th>
-                    <th>休憩時間</th>
-                    <th>状況</th>
-                    <th>出社区分</th>
-                    <th>事由</th>
-                    <th>編集</th>
-                </tr>
-            </thead>
-            <tbody>
+		<table class="attendance-table">
+		    <thead>
+		        <tr>
+		            <th>日付</th>
+		            <th>曜日</th>
+		            <th>打刻時間</th>
+		            <th>休憩時間</th>
+		            <th>状況</th>
+		            <th>出社区分</th>
+		            <th>事由</th>
+		        </tr>
+		    </thead>
+		    <tbody>
                 <tr th:each="record : ${attendanceList}" th:classappend="${record.status == '申請済み'} ? 'highlight' : ''">
-                    <td th:text="${#temporals.format(record.date, 'M/d')}">7/1</td>
-                    <td th:text="${#temporals.format(record.date, 'E', T(java.util.Locale).JAPAN)}">火</td>
-                    <td th:text="${(record.arrivalTime == null and record.endTime == null) ? '--' : (record.arrivalTime != null ? #temporals.format(record.arrivalTime, 'H:mm') : '--') + '～' + (record.endTime != null ? #temporals.format(record.endTime, 'H:mm') : '')}">8:35～17:30</td>
-                    <td th:text="${record.breakTime != null ? T(java.lang.Math).floor(record.breakTime) : '--'}">1</td>
-                    <td th:text="${record.status}">承認済み</td>
-                    <!-- atClassificationではなくcontrollerで変換したclassificationを表示 -->
-                    <td th:text="${record.classification}">出社</td>
-                    <td th:text="${record.reason != null ? record.reason : ''}">体調不良のため</td>
-                    <td>
-                        <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
-                    </td>
+                    <td th:text="${#temporals.format(record.date, 'M/d')}"></td>
+                    <td th:text="${#temporals.format(record.date, 'E', T(java.util.Locale).JAPAN)}"></td>
+                    <td th:text="${(record.arrivalTime == null and record.endTime == null) ? '--' : (record.arrivalTime != null ? #temporals.format(record.arrivalTime, 'H:mm') : '--') + '～' + (record.endTime != null ? #temporals.format(record.endTime, 'H:mm') : '')}"></td>
+                    <td th:text="${record.breakTime != null ? T(java.lang.Math).floor(record.breakTime) : '--'}"></td>
+                    <td th:text="${record.status}"></td>
+                    <td th:text="${record.classification}"></td>
+                    <td th:text="${record.reason != null ? record.reason : ''}"></td>
                 </tr>
                 <tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
-                    <td colspan="8">該当するデータがありません。</td>
+                    <td colspan="7">該当するデータがありません。</td>
                 </tr>
             </tbody>
         </table>
-
-        <!-- 月間集計テーブル -->
-        <table border="1" class="monthly-summary-table" style="margin-top: 20px; border-collapse: collapse; width: 100%;">
-            <thead>
-                <tr style="background-color: #add8e6;">
-                    <th>月</th>
-                    <th>月間所定労働時間(h)</th>
-                    <th>実労働時間(h)</th>
-                    <th>残業時間(h)</th>
-                    <th>残年休日数</th>
-                    <th>残振休日数</th>
-                    <th>CSV出力</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td th:text="${selectedMonth}">7</td>
-                    <td th:text="${scheduledWorkingHours}">140</td>
-                    <td th:text="${actualWorkingHours}">0</td>
-                    <td th:text="${formattedOvertimeHours}">0.00</td>
-                    <td th:text="${remainingAnnualLeave}">5</td>
-                    <td th:text="${remainingSubstituteHoliday}">5</td>
-                    <td>
-                        <button type="button">出力</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- 戻るリンク -->
+		
+		<!-- 月間集計テーブル -->
+		<table class="monthly-summary-table center-table">
+		    <thead>
+		        <tr>
+		            <th>月</th>
+		            <th>月間所定労働時間(h)</th>
+		            <th>実労働時間(h)</th>
+		            <th>残業時間(h)</th>
+		            <th>残年休日数</th>
+		            <th>残振休日数</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <tr>
+		            <td th:text="${selectedMonth}">7</td>
+		            <td th:text="${scheduledWorkingHours}">140</td>
+		            <td th:text="${actualWorkingHours}">0</td>
+		            <td th:text="${formattedOvertimeHours}">0.00</td>
+		            <td th:text="${remainingAnnualLeave}">5</td>
+		            <td th:text="${remainingSubstituteHoliday}">5</td>
+		        </tr>
+		    </tbody>
+		</table>
         <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
     </main>
 </body>
-
 </html>
