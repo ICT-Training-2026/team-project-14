@@ -34,8 +34,8 @@ public class AdminExportController {
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=" + zipName);
 
-        Map<Integer, Map<String, List<Attendance>>> userMonthAttendance = attendanceExportService.getAttendanceByUserAndMonth();
-
+//        Map<Integer, Map<String, List<Attendance>>> userMonthAttendance = attendanceExportService.getAttendanceByUserAndMonth();
+        Map<Integer, Map<String, List<Attendance>>> userMonthAttendance = attendanceExportService.getAttendanceByUserAndMonthPrevMonthOnly();
         try (ZipOutputStream zos = new ZipOutputStream(response.getOutputStream())) {
             for (Integer empCode : userMonthAttendance.keySet()) {
                 Map<String, List<Attendance>> monthMap = userMonthAttendance.get(empCode);
