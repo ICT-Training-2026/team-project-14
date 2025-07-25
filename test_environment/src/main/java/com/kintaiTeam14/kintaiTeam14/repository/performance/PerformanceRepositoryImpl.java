@@ -3,6 +3,7 @@ package com.kintaiTeam14.kintaiTeam14.repository.performance;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
@@ -16,6 +17,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
@@ -305,5 +307,55 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
                 reperformance.getCorrectReason(),
                 reperformance.getDiffReason(),
                 reperformance.getId());
+    }
+
+    @Override
+    public List<AdminPerformance> findSubmitAll() {
+    	String sql = "SELECT a.attend_id, a.date, a.at_classification, a.arrival_time, a.end_time, a.break_time, a.status, r.reason, e.employee_name, e.employee_id, r.correctReason, r.diffReason " +
+                "FROM attendance a " +
+                "LEFT JOIN reason r ON a.attend_id = r.attend_id " +
+                "LEFT JOIN employee e ON a.employee_id = e.employee_id " +
+                "WHERE a.status IN ('申請済み', '再申請済み')";
+//    	String sql = "SELECT a.attend_id, a.date, a.arrival_time, a.end_time, a.break_time, a.status, r.reason " +
+//                "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
+//                "WHERE a.status IN ('申請済み', '再申請済み')";
+
+    	System.out.println("AAAAAAAAAAAAAAAAAAAA");
+
+        // JdbcTemplateなどを使ってSQLを実行し、結果をAdminPerformanceのリストにマッピングして返す例
+    	return jdbcTemplate.query(sql, (rs, rowNum) -> {
+    	    AdminPerformance ap = new AdminPerformance();
+    	    ap.setId(rs.getLong("attend_id"));
+    	    ap.setDate(rs.getDate("date").toLocalDate());
+
+    	    Time arrivalTime = rs.getTime("arrival_time");
+    	    ap.setStartTime(arrivalTime != null ? arrivalTime.toLocalTime() : null);
+
+    	    Time endTime = rs.getTime("end_time");
+    	    ap.setEndTime(endTime != null ? endTime.toLocalTime() : null);
+
+    	    ap.setBreakTime(rs.getInt("break_time"));
+    	    ap.setStatus(rs.getString("status"));
+    	    ap.setReason(rs.getString("reason"));
+
+    	 // 曜日を取得してセット（日本語の狭い形式）
+    	    java.sql.Date sqlDate = rs.getDate("date");
+            String dayOfWeek = sqlDate.toLocalDate()
+                .getDayOfWeek()
+                .getDisplayName(java.time.format.TextStyle.NARROW, java.util.Locale.JAPANESE);
+            ap.setDayOfWeek(dayOfWeek);
+
+            ap.setName(rs.getString("employee_name"));
+
+            ap.setEmployId(rs.getInt("employee_id"));
+
+            ap.setCorrectReason(rs.getString("correctReason"));
+            ap.setDiffReason(rs.getString("diffReason"));
+
+            ap.setAtClassification(rs.getInt("at_classification"));
+
+
+    	    return ap;
+    	});
     }
 }
