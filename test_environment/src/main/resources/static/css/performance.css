@@ -486,3 +486,16 @@ main {
 		margin-top: 85px;
 	}
 }
+
+/* --- 戻るリンク --- */
+.back-link {
+  display: block;
+  margin: 40px auto 80px auto;
+  color: #1976d2;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: underline;
+}
+.back-link:hover {
+  color: #0d47a1;
+}

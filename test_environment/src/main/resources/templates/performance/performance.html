@@ -163,6 +163,8 @@
 				</tbody>
 			</table>
 		</div>
+		<a th:href="@{/{employeeId}/top(employeeId=${employeeId})}"
+			th:classappend="${activeTab} == 'approval' ? 'active'" class="back-link">← ユーザートップに戻る</a>
 	</main>
 	<script th:src="@{/js/performance.js}"></script>
 </body>
