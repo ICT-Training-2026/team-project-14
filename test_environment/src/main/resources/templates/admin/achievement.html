@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>実績</title>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/common.css}">
+    <title>実績</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 
 <body>
@@ -64,7 +64,7 @@
                     <th>状況</th>
                     <th>出社区分</th>
                     <th>事由</th>
-                    <th>編集</th>
+                    <!-- 編集列は削除 -->
                 </tr>
             </thead>
             <tbody>
@@ -77,12 +77,10 @@
                     <!-- atClassificationではなくcontrollerで変換したclassificationを表示 -->
                     <td th:text="${record.classification}">出社</td>
                     <td th:text="${record.reason != null ? record.reason : ''}">体調不良のため</td>
-                    <td>
-                        <a th:href="@{/admin/achievement/edit/{id}(id=${record.attendId})}" class="btn-edit">編集</a>
-                    </td>
+                    <!-- 編集ボタンの削除 -->
                 </tr>
                 <tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
-                    <td colspan="8">該当するデータがありません。</td>
+                    <td colspan="7">該当するデータがありません。</td>
                 </tr>
             </tbody>
         </table>
@@ -97,7 +95,7 @@
                     <th>残業時間(h)</th>
                     <th>残年休日数</th>
                     <th>残振休日数</th>
-                    <th>CSV出力</th>
+                    <!-- CSV出力列削除 -->
                 </tr>
             </thead>
             <tbody>
@@ -108,9 +106,7 @@
                     <td th:text="${formattedOvertimeHours}">0.00</td>
                     <td th:text="${remainingAnnualLeave}">5</td>
                     <td th:text="${remainingSubstituteHoliday}">5</td>
-                    <td>
-                        <button type="button">出力</button>
-                    </td>
+                    <!-- CSV出力ボタン削除 -->
                 </tr>
             </tbody>
         </table>

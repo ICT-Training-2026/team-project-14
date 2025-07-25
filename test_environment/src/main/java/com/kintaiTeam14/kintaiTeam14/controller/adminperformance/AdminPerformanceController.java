@@ -4,9 +4,9 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.kintaiTeam14.kintaiTeam14.dto.AttendanceWithReasonDto;
 import com.kintaiTeam14.kintaiTeam14.service.adminperformance.AdminHolidayService;
@@ -66,7 +65,6 @@ public class AdminPerformanceController {
         }
         model.addAttribute("selectedMonth", month);
 
-        // 祝日を考慮した月間所定労働時間を計算し、double型にキャスト
         int scheduledWorkingHoursInt = holidayService.calculateScheduledWorkingHours(year, month);
         double scheduledWorkingHours = (double) scheduledWorkingHoursInt;
         model.addAttribute("scheduledWorkingHours", scheduledWorkingHours);
@@ -81,14 +79,18 @@ public class AdminPerformanceController {
             actualWorkingHours = attendanceService.calculateActualWorkingHours(employeeId, year, month);
             logger.info("Calculated actual working hours: {}", actualWorkingHours);
 
-            // atClassificationの数値を文字列に変換して新しいリストを作成
-            List<Map<String, Object>> attendanceDisplayList = new ArrayList<>();
-            Map<Integer, String> classificationMap = Map.of(
-                1, "出社",
-                2, "有給申請中",
-                3, "振休申請中"
-            );
+            Map<Integer, String> classificationMap = new HashMap<>();
+            classificationMap.put(1, "休日");
+            classificationMap.put(0, "出勤");
+            classificationMap.put(2, "年休申請中");
+            classificationMap.put(3, "振出申請中");
+            classificationMap.put(4, "振休");
+            classificationMap.put(5, "振出");
+            classificationMap.put(6, "年休");
+            classificationMap.put(7, "欠勤");
+            classificationMap.put(8, "振休申請中");
 
+            List<Map<String, Object>> attendanceDisplayList = new ArrayList<>();
             for (AttendanceWithReasonDto dto : attendanceList) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("attendId", dto.getAttendId());
@@ -99,14 +101,7 @@ public class AdminPerformanceController {
                 map.put("breakTime", dto.getBreakTime());
 
                 Integer classificationKey = dto.getAtClassification();
-                String classificationStr;
-                if (classificationKey == null) {
-                    classificationStr = "エラー";
-                } else if (classificationKey == 0) {
-                    classificationStr = "";
-                } else {
-                    classificationStr = classificationMap.getOrDefault(classificationKey, "未設定");
-                }
+                String classificationStr = classificationMap.getOrDefault(classificationKey, "未設定");
                 map.put("classification", classificationStr);
 
                 map.put("status", dto.getStatus());
@@ -115,7 +110,6 @@ public class AdminPerformanceController {
             }
             model.addAttribute("attendanceList", attendanceDisplayList);
 
-            // 社員情報を取得し、残年休日数と残振休日数をモデルにセット
             attendanceService.getEmployeeById(employeeId).ifPresentOrElse(employee -> {
                 model.addAttribute("remainingAnnualLeave", employee.getPaidHoliday());
                 model.addAttribute("remainingSubstituteHoliday", employee.getCompDay());
@@ -149,11 +143,5 @@ public class AdminPerformanceController {
         model.addAttribute("formattedOvertimeHours", formattedOvertimeHours);
 
         return "admin/achievement";
-    }
-
-    @GetMapping("/admin/achievement/edit/{id}")
-    public String editAttendance(@PathVariable("id") Long attendId, Model model) {
-        model.addAttribute("message", "テスト");
-        return "admin/achievementEdit";
     }
 }
