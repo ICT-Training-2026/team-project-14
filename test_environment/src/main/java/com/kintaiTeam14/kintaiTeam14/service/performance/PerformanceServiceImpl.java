@@ -122,11 +122,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                 if (workHours > 0) {
                     totalHours += workHours;
                 }
-                double breakHours = p.getBreakTime(); // DBの値（1なら1時間）
-                double workHours = (minutes / 60.0) - breakHours;
-                if (workHours > 0) {
-                    totalHours += workHours;
-                }
+             
             }
         }
         return totalHours;
