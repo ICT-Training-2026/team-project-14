@@ -27,6 +27,14 @@ import lombok.RequiredArgsConstructor;
 public class PerformanceController {
     private final PerformanceService performanceService;
 
+    @PostMapping("/admin/approval-correction/approval-achievement")
+	public String approvalKyuuka(Model m) {
+        var submitPerformance=performanceService.findSubmitAll();
+
+        m.addAttribute("submitPerformance",submitPerformance);
+		return "admin/approval-achievement";
+	}
+
 
 
     @PostMapping("/{employeeId}/top/jisseki_user/reperformance")

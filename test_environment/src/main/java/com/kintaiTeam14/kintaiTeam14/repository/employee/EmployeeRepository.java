@@ -134,7 +134,7 @@ public class EmployeeRepository {
 	 * @return 削除したレコード数（通常1）
 	 */
 	public int deleteById(Long id) {
-		String sql = "DELETE FROM users WHERE id = ?";
+		String sql = "DELETE FROM employee WHERE employee_id = ?";
 		return jdbcTemplate.update(sql, id);
 	}
 

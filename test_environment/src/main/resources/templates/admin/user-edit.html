@@ -4,8 +4,8 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/user-regist.css}">
-    <title>ユーザー新規登録</title>
+	<link rel="stylesheet" th:href="@{/css/user-edit.css}">
+    <title>ユーザー情報編集</title>
 
 </head>
 <body>
@@ -39,10 +39,10 @@
         </div>
     </header>
 	<main>
-		<div class="page-title">ユーザー新規登録</div>
-		<div class="page-desc">ここでユーザーの新規登録が行えます。</div>
+		<div class="page-title">ユーザー情報編集</div>
+		<div class="page-desc">ここでユーザー情報の編集が行えます。</div>
 	
-	<form class="password-change-form" th:action="@{/admin/user-regist-exe}" method="post" th:object="${userRegistForm}">
+	<form class="password-change-form" th:action="@{/admin/user-edit-exe}" method="post" th:object="${userEditForm}">
         <div class="form-row">
 			<label for="current-password">社員名</label>
 			<input type="text" th:field="*{name}" required>
@@ -52,9 +52,10 @@
 			<input type="text" th:field="*{departmentId}" required>
 		</div>
         <div class="form-row">
-			<label for="current-password">社員番号</label>
-			<input type="text" th:field="*{employeeId}" required>
+			<label for="current-password">反映日</label>
+			<input type="date" th:field="*{activateDate}" required>
 		</div>
+        <input type="hidden" name="employeeId" th:value="*{employeeId}">
 
 		<button type="submit" class="modern-btn">登録</button>
 
@@ -62,14 +63,6 @@
 		<a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
 	</main>
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let message = /*[[${msg}]]*/ null;
-        if (message) {
-            alert(message);
-        }
-        /*]]>*/
-    </script>
     
 </body>
 

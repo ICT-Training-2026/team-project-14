@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
-import com.kintaiTeam14.kintaiTeam14.repository.PerformanceHolidayRepository;
+import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceHolidayRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -54,7 +54,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Transactional
     public void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate) {
     	Set<LocalDate>holidays=findHolidaysBetween(startDate, endDate);
-    	repository.createPerformancesForYear(userId, startDate, endDate);
+    	repository.createPerformancesForYear(userId, startDate, endDate,holidays);
     }
 
 //	@Override
@@ -147,5 +147,10 @@ public class PerformanceServiceImpl implements PerformanceService {
 	@Override
 	public List<RePerformance> findByreId(int reId) {
 		return repository.findByreId(reId);
+	}
+
+	@Override
+	public List findSubmitAll() {
+		return repository.findSubmitAll();
 	}
 }
