@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class shinseiController {
 		return "redirect:/" + employeeId + "/top/shinsei";
 	}
 	@GetMapping("/{employeeId}/top/shinsei")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String kakusyusinseiget(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 
@@ -66,6 +68,7 @@ public class shinseiController {
 	}
 	
 	@GetMapping("/{employeeId}/top/shinsei/nenkyu")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String nenkyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
 	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
@@ -208,6 +211,7 @@ public class shinseiController {
 	
 	
 	@GetMapping("/{employeeId}/top/shinsei/hurikyu")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String hurikyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
 	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);

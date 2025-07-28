@@ -37,7 +37,7 @@ public class PerformanceController {
 
 
     @PostMapping("/{employeeId}/top/jisseki_user/reperformance")
-	@PreAuthorize("#employeeId== principal.employeeId")
+
     public String showReperformancePage(@PathVariable("employeeId") String employeeId, Model model, @RequestParam("reId") Integer reId) {
         // 必要に応じてモデルに属性を追加
         model.addAttribute("employeeId", employeeId);

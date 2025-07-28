@@ -152,7 +152,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public void createAttendanceWithReason(Long userId, LocalDate date, int atClassification) {
-        String insertAttendanceSql = "INSERT INTO attendance (employee_id, date, status, at_classification, break_time, overtime) VALUES (?, ?, '未申請', ?, 1, 0)";
+        String insertAttendanceSql = "INSERT INTO attendance (employee_id, date, status, at_classification, break_time, overtime) VALUES (?, ?, '未申請', ?, 0, 0)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
