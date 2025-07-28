@@ -2,11 +2,10 @@ package com.kintaiTeam14.kintaiTeam14.controller.performance;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
@@ -39,6 +37,7 @@ public class PerformanceController {
 
 
     @PostMapping("/{employeeId}/top/jisseki_user/reperformance")
+	@PreAuthorize("#employeeId== principal.employeeId")
     public String showReperformancePage(@PathVariable("employeeId") String employeeId, Model model, @RequestParam("reId") Integer reId) {
         // 必要に応じてモデルに属性を追加
         model.addAttribute("employeeId", employeeId);
@@ -85,6 +84,7 @@ public class PerformanceController {
 
     // POSTメソッドで年・月をパラメータで受け取る（デフォルトは現在の年月）
     @PostMapping("/{employeeId}/top/jisseki_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
     public String showPerformancePost(
             @PathVariable Long employeeId,
             @RequestParam(name = "year", required = false) Integer year,
@@ -143,6 +143,7 @@ public class PerformanceController {
 
     // GETメソッドで年・月をパラメータで受け取る（デフォルトは現在の年月）
     @GetMapping("/{employeeId}/top/jisseki_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
     public String showPerformance(
             @PathVariable Long employeeId,
             @RequestParam(name = "year", required = false) Integer year,

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,7 @@ public class PasswordChangeController {
 	
 	
 	@GetMapping("/{employeeId}/top/passChange_form_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String ShowpasswordSetting(@PathVariable("employeeId")Long employeeId, Model model) {
 		model.addAttribute("employeeId", employeeId);
 	
@@ -36,6 +38,7 @@ public class PasswordChangeController {
 		return"/{employeeId}/top/passChange_form_user";
 	}
 	@PostMapping("/{employeeId}/top/passChange_form_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String passwordSetting(
 	        @Valid @ModelAttribute("form") ChangePasswordForm form,
 	        BindingResult bindingResult,
