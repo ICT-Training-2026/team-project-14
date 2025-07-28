@@ -3,7 +3,9 @@ package com.kintaiTeam14.kintaiTeam14.repository.performance;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
@@ -14,9 +16,11 @@ public interface PerformanceRepository {
 
     boolean existsByUserIdAndDate(Long userId, LocalDate date);
 
-    void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate);
+    void createPerformancesForYear(Long userId, LocalDate startDate, LocalDate endDate,Set<LocalDate>holidays);
 
-    void createAttendanceWithReason(Long userId, LocalDate date);
+    void createAttendanceWithReason(Long userId, LocalDate date,int atAttendance);
+
+    List<AdminPerformance> findSubmitAll();
 
 
 

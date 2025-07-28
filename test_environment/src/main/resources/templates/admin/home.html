@@ -3,15 +3,26 @@
 <head>
     <title>管理者ホーム</title>
     <meta charset="UTF-8">
-
-    <!-- CSSファイルを読み込む -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+ 
+        
+        /* 外部出力ボタン専用グレーカラー */
+        .modern-btn-gray {
+            color: #fff !important;
+            background: rgb(89, 89, 89) !important;
+            box-shadow: 0 2px 6px rgba(120,120,120,0.06);
+        }
+        .modern-btn-gray:hover {
+            background: rgb(64, 64, 64) !important;
+            color:#fff !important;
+        }
+    </style>
 </head>
-
 <body>
 	<header class="taskbar">
-			<div class="taskbar-left">
-				<span class="taskbar-logo">
+		<div class="taskbar-left">
+			<span class="taskbar-logo">
 				<a th:href="@{/admin}" class="taskbar-home-link"
 					style="display:flex;align-items:center;text-decoration:none;color:inherit;">
 					<span class="taskbar-logo">
@@ -29,14 +40,14 @@
 					<a th:href="@{/admin/approval-correction}" class="taskbar-tab">承認・訂正依頼</a>
 					<a th:href="@{/admin/company-info}"  class="taskbar-tab">会社情報</a>
 				</nav>
-			</div>
-			<div class="taskbar-right">
-				<form th:action="@{/logout}" method="post" style="margin:0;">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-					<button type="submit" class="taskbar-logout">ログアウト</button>
-				</form>
-			</div>
-		</header>
+		</div>
+		<div class="taskbar-right">
+			<form th:action="@{/logout}" method="post" style="margin:0;">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<button type="submit" class="taskbar-logout">ログアウト</button>
+			</form>
+		</div>
+	</header>
 	<main>
 		<div class="menu-title">管理者メニュー</div>
 		<div class="menu-desc">管理者用の操作を選択してください。</div>
@@ -45,8 +56,8 @@
 			<a th:href="@{/admin/achievement}" class="modern-btn">実績</a>
 			<a th:href="@{/admin/approval-correction}" class="modern-btn">承認・訂正依頼</a>
 			<a th:href="@{/admin/company-info}" class="modern-btn">会社情報</a>
-			<!-- 外部出力だけbuttonに変更 -->
-			<button type="button" class="modern-btn" id="export-btn">外部出力</button>
+			<!-- 外部出力だけグレー -->
+			<button type="button" class="modern-btn modern-btn-gray" id="export-btn">外部出力</button>
 		</div>
 		<!-- 完了メッセージ表示用 -->
 		<div id="export-message"
@@ -60,22 +71,17 @@
 			const exportMessage = document.getElementById('export-message');
 			exportBtn.addEventListener('click', function () {
 				if (confirm('外部出力しますか？')) {
-					// ダウンロードURLをサーバーに合わせて調整してください
 					const downloadUrl = /*[[@{/admin/company-info/export}]]*/ '/admin/export-attendance-zip';
-					// ダウンロード開始
 					const a = document.createElement('a');
 					a.href = downloadUrl;
 					a.download = '';
 					document.body.appendChild(a);
 					a.click();
 					document.body.removeChild(a);
-					// 完了メッセージを表示
 					exportMessage.style.display = 'block';
-					// setTimeout(() => { exportMessage.style.display = 'none'; }, 5000); //自動で消す場合
 				}
 			});
 		});
 	</script>
 </body>
-
 </html>

@@ -121,6 +121,7 @@ main {
 	gap: 0;
 }
 
+/* --- ボタン --- */
 .modern-btn {
 	background: #1565c0;
 	color: #fff;
@@ -302,7 +303,7 @@ main {
 }
 
 .performance-database .col-time {
-	width: 50px;
+	width: 60px;
 	min-width: 40px;
 	max-width: 90px;
 }
@@ -310,6 +311,8 @@ main {
 .performance-database .col-break,
 .performance-database .col-apply,
 .performance-database .col-status,
+.performance-database .col-worktype,
+/* ← 追加: 出社区分 */
 .performance-database .col-resubmit,
 .performance-database .col-remove {
 	width: 40px;
@@ -351,6 +354,11 @@ main {
 .summary-table .col-sum-comp {
 	width: 38px;
 	min-width: 20px;
+}
+
+.performance-database .col-dayofweek input[type="text"],
+.user-table .col-dayofweek input[type="text"] {
+    text-align: center;
 }
 
 /* --- テーブル内入力 --- */
@@ -425,7 +433,7 @@ main {
 .holiday-label {
 	color: #d93025;
 	font-size: 0.85em;
-	margin-left: 5px;
+	margin-left: 0px;
 	font-weight: bold;
 	letter-spacing: 0.02em;
 	white-space: nowrap;
@@ -477,4 +485,17 @@ main {
 	main {
 		margin-top: 85px;
 	}
+}
+
+/* --- 戻るリンク --- */
+.back-link {
+  display: block;
+  margin: 40px auto 80px auto;
+  color: #1976d2;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: underline;
+}
+.back-link:hover {
+  color: #0d47a1;
 }

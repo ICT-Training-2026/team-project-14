@@ -24,12 +24,10 @@
 				<span class="taskbar-title" style="margin-left:12px;">ユーザーホーム</span>
 			</a>
 			<nav class="taskbar-tabs">
-				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}"
-					th:classappend="${activeTab} == 'user' ? 'active'" class="taskbar-tab">実績管理</a>
+				<a th:href="@{/{employeeId}/top/jisseki_user(employeeId=${employeeId})}" class="taskbar-tab">実績管理</a>
 				<a th:href="@{/{employeeId}/top/passChange_user(employeeId=${employeeId})}"
-					th:classappend="${activeTab} == 'achievement' ? 'active'" class="taskbar-tab">パスワード変更</a>
-				<a th:href="@{/{employeeId}/top/shinsei(employeeId=${employeeId})}"
-					th:classappend="${activeTab} == 'approval' ? 'active'" class="taskbar-tab">各種申請</a>
+					class="taskbar-tab">パスワード変更</a>
+				<a th:href="@{/{employeeId}/top/shinsei(employeeId=${employeeId})}" class="taskbar-tab">各種申請</a>
 			</nav>
 
 		</div>
@@ -89,11 +87,11 @@
 			document.getElementById('timeModalContent').innerHTML = message.replace(/\n/g, '<br>');
 		}
 		function closeTimeModal() {
-		    var modal = document.getElementById('timeModal');
-		    modal.classList.remove('show');
-		    setTimeout(function () {
-		        modal.style.display = 'none';
-		    }, 400);
+			var modal = document.getElementById('timeModal');
+			modal.classList.remove('show');
+			setTimeout(function () {
+				modal.style.display = 'none';
+			}, 400);
 		}
 		/*]]>*/
 	</script>

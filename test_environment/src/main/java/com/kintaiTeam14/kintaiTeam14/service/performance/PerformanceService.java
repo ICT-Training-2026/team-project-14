@@ -19,6 +19,8 @@ public interface PerformanceService {
 
     List findByreId(int reId);
 
+    List findSubmitAll();
+
     // 祝日取得
     Set findHolidaysBetween(LocalDate startDate, LocalDate endDate);
 
