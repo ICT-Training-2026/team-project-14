@@ -311,7 +311,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public List<AdminPerformance> findSubmitAll() {
-    	String sql = "SELECT a.attend_id, a.date, a.at_classification, a.arrival_time, a.end_time, a.break_time, a.status, r.reason, e.employee_name, e.employee_id, r.correctReason, r.diffReason " +
+    	String sql = "SELECT a.attend_id, a.approval, a.date, a.at_classification, a.arrival_time, a.end_time, a.break_time, a.status, r.reason, e.employee_name, e.employee_id, r.correctReason, r.diffReason " +
                 "FROM attendance a " +
                 "LEFT JOIN reason r ON a.attend_id = r.attend_id " +
                 "LEFT JOIN employee e ON a.employee_id = e.employee_id " +
@@ -349,13 +349,65 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
             ap.setEmployId(rs.getInt("employee_id"));
 
+            ap.setApproval(rs.getInt("approval"));
+
             ap.setCorrectReason(rs.getString("correctReason"));
             ap.setDiffReason(rs.getString("diffReason"));
 
             ap.setAtClassification(rs.getInt("at_classification"));
-
-
     	    return ap;
     	});
     }
+
+    @Override
+    public void updateAdminPerformance(AdminPerformance adminperformance) {
+        String sqlAttendance = "UPDATE attendance SET " +
+                "arrival_time = ?, " +
+                "end_time = ?, " +
+                "approval = ?, " +
+                "status = ?, " +
+                "break_time = ?, " +
+                "at_classification = ? " +   // 最後のカラムの後にカンマは不要
+                "WHERE attend_id = ?";
+
+        java.sql.Timestamp startTimestamp = null;
+        java.sql.Timestamp endTimestamp = null;
+
+        System.out.println("repo");
+        System.out.println(adminperformance.getApproval());
+
+        if (adminperformance.getDate() != null && adminperformance.getStartTime() != null) {
+            startTimestamp = java.sql.Timestamp.valueOf(
+            		adminperformance.getDate().atTime(adminperformance.getStartTime()));
+        }
+
+        if (adminperformance.getDate() != null && adminperformance.getEndTime() != null) {
+            endTimestamp = java.sql.Timestamp.valueOf(
+            		adminperformance.getDate().atTime(adminperformance.getEndTime()));
+        }
+
+        jdbcTemplate.update(sqlAttendance,
+                startTimestamp,
+                endTimestamp,
+                adminperformance.getApproval(),
+                adminperformance.getStatus(),
+                adminperformance.getBreakTime(),
+                adminperformance.getAtClassification(),
+                adminperformance.getId());
+
+        String sqlReason = "UPDATE reason SET " +
+                "reason = ?, " +
+                "correctReason = ?, " +
+                "diffReason = ? " +  // ここも最後のカラムなのでカンマは不要
+                "WHERE attend_id = ?";
+
+
+        jdbcTemplate.update(sqlReason,
+        		adminperformance.getReason(),
+        		adminperformance.getCorrectReason(),
+        		adminperformance.getDiffReason(),
+        		adminperformance.getId());
+    }
+
+
 }

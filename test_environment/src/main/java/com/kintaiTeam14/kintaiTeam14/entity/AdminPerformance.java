@@ -17,13 +17,11 @@ public class AdminPerformance {
     private String status;             // ステータス
     private String reason;             // 理由
     private int atClassification;   //0～5
-
     private String name;
     private int employId;
-
     private String correctReason;
     private String diffReason;
-
-
+    private int approval;
+    
 
 }
