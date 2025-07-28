@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 import com.kintaiTeam14.kintaiTeam14.service.performance.PerformanceService;
@@ -70,6 +71,15 @@ public class PerformanceController {
         System.out.println("AWS2");
         System.out.println(reperformance);
         performanceService.updateRePerformance(reperformance);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/adminperformance-update")
+    public ResponseEntity<Void> updateRePerformance(@RequestBody AdminPerformance adminperformance) {
+        System.out.println("AWS3");
+        System.out.println(adminperformance);
+        
+        performanceService.updateAdminPerformance(adminperformance);
         return ResponseEntity.ok().build();
     }
 

@@ -2,6 +2,7 @@ package com.kintaiTeam14.kintaiTeam14.controller.user;
 
 import java.time.LocalDateTime;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +24,14 @@ public class UserHome {
 	
 	//リダイレクト用
 	@GetMapping("/login/index")
+	
 	public String uesrTopRedirect(@PathVariable Long employeeId) {
 		return employeeId.toString()+"/top";
 	}
 	
 	
 	@PostMapping("/{employeeId}/top/syukkin_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String getStartTime(Model m,@PathVariable Long employeeId,RedirectAttributes ra) {
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -41,6 +44,7 @@ public class UserHome {
 	
 	
 	@PostMapping("/{employeeId}/top/taikin_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String getEndTime(Model m,@PathVariable Long employeeId,RedirectAttributes ra) {
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -62,6 +66,7 @@ public class UserHome {
 //	}
 	
 	@PostMapping("/{employeeId}/top/passChange_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String passwordChange(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
 		m.addAttribute("employeeId", employeeId);
 		m.addAttribute("form", new ChangePasswordForm()); 
@@ -70,6 +75,7 @@ public class UserHome {
 	}
 	
 	@GetMapping("/{employeeId}/top/passChange_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String passwordChangeGet(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
 		m.addAttribute("employeeId", employeeId);
 		m.addAttribute("form", new ChangePasswordForm()); 
@@ -95,6 +101,7 @@ public class UserHome {
 //	}
 	
 	@GetMapping("/{employeeId}/top")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String getMethodName(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
 	
