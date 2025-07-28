@@ -78,6 +78,7 @@ public class PerformanceController {
     public ResponseEntity<Void> updateRePerformance(@RequestBody AdminPerformance adminperformance) {
         System.out.println("AWS3");
         System.out.println(adminperformance);
+        
         performanceService.updateAdminPerformance(adminperformance);
         return ResponseEntity.ok().build();
     }
