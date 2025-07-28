@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kintaiTeam14.kintaiTeam14.form.UserEditForm;
 import com.kintaiTeam14.kintaiTeam14.form.UserRegistForm;
 import com.kintaiTeam14.kintaiTeam14.form.UserSearchForm;
+import com.kintaiTeam14.kintaiTeam14.service.batch.EditTaskService;
 import com.kintaiTeam14.kintaiTeam14.service.employee.EmployeeService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminUserManagement {
 	private final EmployeeService userService;
+	private final EditTaskService editTaskService;
 	
 	//ユーザー検索用処理
 	@PostMapping("/admin/user-list")
@@ -59,8 +61,14 @@ public class AdminUserManagement {
 	@PostMapping("admin/delete/{empId}")
 	public String deleteUser(@PathVariable Long empId,RedirectAttributes ra) {
 		
-		userService.deleteUserById(empId);
-		ra.addFlashAttribute("msg", "削除しました");
+		if(editTaskService.checkExistView(empId).isEmpty()) {
+			userService.deleteUserById(empId);
+			ra.addFlashAttribute("msg", "削除しました");
+		}
+		else {
+			ra.addFlashAttribute("msg", "このユーザーは編集予定があるため削除できません");
+		}
+		
 		return "redirect:/admin/User-management";
 	}
 	
