@@ -41,6 +41,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                                         Authentication authentication) throws IOException, ServletException {
         // 認証済みユーザーのユーザ名（principal名）を取得
         String employeename = authentication.getName();
+        
    
        
         System.out.println("username"+employeename);
@@ -63,7 +64,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         
         
         if (principal instanceof CustomUserDetails) {
-        	employeeId = ((CustomUserDetails) principal).getUserId();
+        	employeeId = ((CustomUserDetails) principal).getEmployeeId();
         }
         String redirectUrl;
         if(isPassword&&isAdmin) {
