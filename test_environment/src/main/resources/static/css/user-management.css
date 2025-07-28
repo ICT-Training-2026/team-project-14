@@ -195,12 +195,19 @@ input[type="text"].search-input {
     margin: 0 auto 32px auto;
 }
 .user-table {
+	width: 900px;
+	table-layout: fixed;
     border-collapse: collapse;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
     min-width: 900px;
 }
+.col-id    { width: 200px; }
+.col-name  { width: auto; }   /* ユーザー名だけ残り幅全部 */
+.col-dept  { width: 200px; }
+.col-edit  { width: 120px; }
+.col-delete{ width: 120px; }
 .user-table th, .user-table td {
     padding: 12px 18px;
     border-bottom: 1px solid #e0e7ee;
@@ -214,6 +221,21 @@ input[type="text"].search-input {
 }
 .user-table tr:last-child td {
     border-bottom: none;
+}
+
+/* --- 編集ボタン --- */
+.edit-btn {
+    color: #fff;
+    background: #1565c0;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+.edit-btn:hover {
+    background: #0d47a1;
 }
 
 /* --- 削除ボタン --- */
