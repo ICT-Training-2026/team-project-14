@@ -2,6 +2,7 @@ package com.kintaiTeam14.kintaiTeam14.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 	private final CustomAccessDeniedHandler accessDeniedHandler;
 	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
@@ -37,9 +39,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf
-            	.ignoringRequestMatchers("/api/holidays/**")   
+            	.ignoringRequestMatchers("/api/holidays/**")
                 // 勤怠CSV出力エンドポイントをCSRF除外
                 .ignoringRequestMatchers("/admin/export-attendance")
+                .ignoringRequestMatchers("/admin/approval-correction/approval-achievement")
                 // 祝日CSV出力エンドポイントもCSRF除外
                 .ignoringRequestMatchers("/admin/company-info/export")
                 .ignoringRequestMatchers("/api/holidays/export")

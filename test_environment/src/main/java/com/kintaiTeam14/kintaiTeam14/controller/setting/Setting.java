@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -28,6 +29,7 @@ public class Setting {
 	 private final EmployeeService employeeService;
 
 	@GetMapping("/{employeeId}/passChange_form_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String ShowpasswordSetting(@PathVariable("employeeId")Long employeeId, Model model) {
 		model.addAttribute("employeeId", employeeId);
 	
@@ -35,6 +37,7 @@ public class Setting {
 		return "/user/passwordChange_fast" ;
 	}
 	@PostMapping("/{employeeId}/passChange_form_user")
+	@PreAuthorize("#employeeId== principal.employeeId")
 	public String passwordSetting(
 	        @Valid @ModelAttribute("form") ChangePasswordForm form,
 	        BindingResult bindingResult,

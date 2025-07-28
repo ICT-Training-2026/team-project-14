@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 
@@ -42,4 +43,5 @@ public interface PerformanceService {
     void updatePerformance(Performance performance);
     void updateRePerformance(RePerformance reperformance);
 
+    void updateAdminPerformance(AdminPerformance adminperformance);
 }

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kintaiTeam14.kintaiTeam14.entity.AdminPerformance;
 import com.kintaiTeam14.kintaiTeam14.entity.Performance;
 import com.kintaiTeam14.kintaiTeam14.entity.RePerformance;
 import com.kintaiTeam14.kintaiTeam14.repository.performance.PerformanceHolidayRepository;
@@ -31,6 +32,11 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
 	public void updateRePerformance(RePerformance reperformance) {
 		repository.updateRePerformance(reperformance);
+	}
+
+    @Override
+	public void updateAdminPerformance(AdminPerformance adminperformance) {
+		repository.updateAdminPerformance(adminperformance);
 	}
 
     @Override
@@ -116,10 +122,13 @@ public class PerformanceServiceImpl implements PerformanceService {
                 if (workHours > 0) {
                     totalHours += workHours;
                 }
+             
             }
         }
         return totalHours;
     }
+
+
 
     // 残業時間(h)を計算するメソッド
     @Override

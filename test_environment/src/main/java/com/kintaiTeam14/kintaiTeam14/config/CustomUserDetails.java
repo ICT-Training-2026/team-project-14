@@ -30,7 +30,7 @@ public class CustomUserDetails implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
     
-    public long getUserId() {
+    public long getEmployeeId() {
     	return employee.getEmployeeId();
 		
 	}
