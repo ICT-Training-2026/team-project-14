@@ -1,5 +1,6 @@
 package com.kintaiTeam14.kintaiTeam14.controller.admin;
 
+
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,20 +21,20 @@ import com.kintaiTeam14.kintaiTeam14.entity.Attendance;
 import com.kintaiTeam14.kintaiTeam14.service.attendance.AttendanceExportService;
 
 import lombok.RequiredArgsConstructor;
-
+ 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminExportController {
     private final AttendanceExportService attendanceExportService;
-
+ 
     @GetMapping("/export-attendance-zip")
     public void exportAttendanceZip(HttpServletResponse response) throws Exception {
         DateTimeFormatter ymFmt = DateTimeFormatter.ofPattern("yyyyMM");
         String zipName = LocalDate.now().format(ymFmt) + ".zip";
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=" + zipName);
-
+ 
 //        Map<Integer, Map<String, List<Attendance>>> userMonthAttendance = attendanceExportService.getAttendanceByUserAndMonth();
         Map<Integer, Map<String, List<Attendance>>> userMonthAttendance = attendanceExportService.getAttendanceByUserAndMonthPrevMonthOnly();
         try (ZipOutputStream zos = new ZipOutputStream(response.getOutputStream())) {
@@ -44,7 +45,7 @@ public class AdminExportController {
                     int month = Integer.parseInt(ym.substring(4, 6));
                     int stdDays = attendanceExportService.calcStandardWorkingDays(year, month);
                     int stdMinutes = stdDays * 420; // 7h=420分
-
+ 
                     int sumWork = 0;
                     List<String> lines = new ArrayList<>();
                     lines.add("社員コード,年月,始業時刻(時),始業時刻(分),終業時刻(時),終業時刻(分),労働時間(分),休憩時間(分),超過時間(分)");
@@ -76,6 +77,7 @@ public class AdminExportController {
                     }
                     String fileName = empCode + "_" + ym + ".csv";
                     zos.putNextEntry(new ZipEntry(fileName));
+                    zos.write(new byte[]{(byte)0xEF, (byte)0xBB, (byte)0xBF});
                     for (String line : lines) {
                         zos.write((line + "\r\n").getBytes(StandardCharsets.UTF_8));
                     }

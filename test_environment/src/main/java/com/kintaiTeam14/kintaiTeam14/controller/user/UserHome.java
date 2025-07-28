@@ -31,7 +31,6 @@ public class UserHome {
 	
 	
 	@PostMapping("/{employeeId}/top/syukkin_user")
-	@PreAuthorize("#employeeId== principal.employeeId")
 	public String getStartTime(Model m,@PathVariable Long employeeId,RedirectAttributes ra) {
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -44,7 +43,6 @@ public class UserHome {
 	
 	
 	@PostMapping("/{employeeId}/top/taikin_user")
-	@PreAuthorize("#employeeId== principal.employeeId")
 	public String getEndTime(Model m,@PathVariable Long employeeId,RedirectAttributes ra) {
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -66,7 +64,6 @@ public class UserHome {
 //	}
 	
 	@PostMapping("/{employeeId}/top/passChange_user")
-	@PreAuthorize("#employeeId== principal.employeeId")
 	public String passwordChange(Model m,@PathVariable Long employeeId,@ModelAttribute("form") ChangePasswordForm form) {
 		m.addAttribute("employeeId", employeeId);
 		m.addAttribute("form", new ChangePasswordForm()); 

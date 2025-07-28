@@ -37,7 +37,6 @@ public class PerformanceController {
 
 
     @PostMapping("/{employeeId}/top/jisseki_user/reperformance")
-	@PreAuthorize("#employeeId== principal.employeeId")
     public String showReperformancePage(@PathVariable("employeeId") String employeeId, Model model, @RequestParam("reId") Integer reId) {
         // 必要に応じてモデルに属性を追加
         model.addAttribute("employeeId", employeeId);
@@ -84,7 +83,6 @@ public class PerformanceController {
 
     // POSTメソッドで年・月をパラメータで受け取る（デフォルトは現在の年月）
     @PostMapping("/{employeeId}/top/jisseki_user")
-	@PreAuthorize("#employeeId== principal.employeeId")
     public String showPerformancePost(
             @PathVariable Long employeeId,
             @RequestParam(name = "year", required = false) Integer year,

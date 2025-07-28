@@ -38,7 +38,6 @@ public class PasswordChangeController {
 		return"/{employeeId}/top/passChange_form_user";
 	}
 	@PostMapping("/{employeeId}/top/passChange_form_user")
-	@PreAuthorize("#employeeId== principal.employeeId")
 	public String passwordSetting(
 	        @Valid @ModelAttribute("form") ChangePasswordForm form,
 	        BindingResult bindingResult,
