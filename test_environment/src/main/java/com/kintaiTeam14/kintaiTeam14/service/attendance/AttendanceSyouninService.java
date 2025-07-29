@@ -63,6 +63,10 @@ public class AttendanceSyouninService {
 		
 		
 	}
+	public int findAtClassificationbyAttendIdService(Long attendId) {
+		int AtClassification =attendanceRepository.findAtClassificationbyAttendId(attendId);
+		return AtClassification;
+	}
 		
 	
 

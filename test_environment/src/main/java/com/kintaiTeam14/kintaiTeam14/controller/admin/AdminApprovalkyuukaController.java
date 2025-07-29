@@ -38,10 +38,11 @@ public class AdminApprovalkyuukaController {
 
 	@PostMapping("/admin/approval-correction/approval-kyuuka/approve/{attendId}")
 	public ResponseEntity<?> approvalKyuukaApprove(Model m,@PathVariable Long attendId) {
+		int atClassafcation=attendanceService.findAtClassificationbyAttendIdService(attendId)
 		int sccese=attendanceService.changeAtClassificationByAttendIdService(attendId);
 		
 		System.out.println(sccese);
-		if(sccese ==1) {
+		if((sccese ==1 )&& (atClassafcation==2)) {
 			attendanceService.setAttendTimebyAttendIdService(attendId);
 		}
 		return ResponseEntity.ok().build();
