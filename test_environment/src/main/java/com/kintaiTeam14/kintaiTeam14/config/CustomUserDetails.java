@@ -59,6 +59,9 @@ public class CustomUserDetails implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    
+    
+    
 
 
 
@@ -70,5 +73,20 @@ public class CustomUserDetails implements UserDetails {
     	return employee.getIsPassword();
     	
     }
+    
+    @Override
+    public boolean isEnabled() {
+        Integer del = employee.getIsdelete();
+        System.out.println(" isEnabled");
+        System.out.println(employee);
+        System.out.println(del);
+        return (del == null || del == 0);
+    }
+    
+    
+    
+    
+    
+    
 
 }
