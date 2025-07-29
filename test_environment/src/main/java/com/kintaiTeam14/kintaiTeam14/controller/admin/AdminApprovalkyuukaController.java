@@ -32,13 +32,18 @@ public class AdminApprovalkyuukaController {
 	@PostMapping("/admin/approval-correction/approval-kyuuka/reject/{attendId}")
 	public ResponseEntity<?> approvalKyuukaReject(Model m,@PathVariable Long attendId){
 		int scccese=attendanceService.changeAtClassificationByAttendIdRejectService(attendId);
+		
 		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/admin/approval-correction/approval-kyuuka/approve/{attendId}")
 	public ResponseEntity<?> approvalKyuukaApprove(Model m,@PathVariable Long attendId) {
-		int scccese=attendanceService.changeAtClassificationByAttendIdService(attendId);
+		int sccese=attendanceService.changeAtClassificationByAttendIdService(attendId);
 		
+		System.out.println(sccese);
+		if(sccese ==1) {
+			attendanceService.setAttendTimebyAttendIdService(attendId);
+		}
 		return ResponseEntity.ok().build();
 	}
 	

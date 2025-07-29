@@ -80,9 +80,6 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
 
 		String sqlAttendance = "UPDATE attendance SET " +
-	            "arrival_time = ?, " +
-	            "end_time = ?, " +
-	            "break_time = ?, " +
 	            "status = ? " +
 	            "WHERE attend_id = ?";
 
@@ -100,9 +97,6 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 	    }
 
 	    jdbcTemplate.update(sqlAttendance,
-	            startTimestamp,
-	            endTimestamp,
-	            performance.getBreakTime(),
 	            performance.getStatus(),
 	            performance.getId());
 

@@ -34,24 +34,24 @@ public class DataInitializer implements ApplicationRunner {
 	            employee.setPassword(passwordEncoder.encode("admin")); // 初期パスワードは適宜変更
 	            employee.setDepartmentId("S001");   // 例：総務
 	            employee.setIsPassword(true);       // 初期設定フラグ
-	            employee.setPaidHoliday(0);         // 初期有休数
-	            employee.setCompDay(0);             // 初期代休数
+	            employee.setPaidHoliday(30);         // 初期有休数
+	            employee.setCompDay(10);             // 初期代休数
 	            employee.setDepartmentHistory(null);
 
 	            employeeRepository.insertEmployee(employee);
 	            System.out.println("管理者(Admin)ユーザーを初期作成しました。");
 	        }
 
-	        Employee normalUser = employeeRepository.findByEmployeeName("user3");
+	        Employee normalUser = employeeRepository.findByEmployeeName("user4");
 	        if (normalUser == null) {
 	            Employee employeeUser = new Employee();
-	            employeeUser.setEmployeeId(100003L);
-	            employeeUser.setEmployeeName("user3");
-	            employeeUser.setPassword(passwordEncoder.encode("user3")); // 初期パスワードは適宜変更
+	            employeeUser.setEmployeeId(100004L);
+	            employeeUser.setEmployeeName("user4");
+	            employeeUser.setPassword(passwordEncoder.encode("user4")); // 初期パスワードは適宜変更
 	            employeeUser.setDepartmentId("D001");   // 例：開発
-	            employeeUser.setIsPassword(false);
-	            employeeUser.setPaidHoliday(0);
-	            employeeUser.setCompDay(0);
+	            employeeUser.setIsPassword(true);
+	            employeeUser.setPaidHoliday(20);
+	            employeeUser.setCompDay(5);
 	            employeeUser.setDepartmentHistory(null);
 	            employeeRepository.insertEmployee(employeeUser);
 	            System.out.println("一般(User)ユーザーを初期作成しました。");
