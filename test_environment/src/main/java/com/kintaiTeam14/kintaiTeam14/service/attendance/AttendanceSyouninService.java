@@ -35,9 +35,9 @@ public class AttendanceSyouninService {
 		int sccese=0;
 		int AtClassification =attendanceRepository.findAtClassificationbyAttendId(attendId);
 		if(AtClassification==2) {
-			attendanceRepository.changeAtClassificationByAttendId( attendId,4);
+			sccese=attendanceRepository.changeAtClassificationByAttendId( attendId,4);
 		} else {
-			attendanceRepository.changeAtClassificationByAttendId( attendId,5);
+			sccese=attendanceRepository.changeAtClassificationByAttendId( attendId,5);
 		}
 		
 		
@@ -53,6 +53,14 @@ public class AttendanceSyouninService {
 		
 		
 		return sccese;
+		
+	}
+	
+	public int setAttendTimebyAttendIdService(Long attendId) {
+		int success=0;
+		success=attendanceRepository.setAttendTimebyAttendId(attendId);
+		return success;
+		
 		
 	}
 		

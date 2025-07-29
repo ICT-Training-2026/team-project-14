@@ -127,7 +127,9 @@ public class shinseiController {
 		        // 重複チェック
 		        if (!dateSet.add(dateStr)) {
 		            hasError = true;
+		           
 		            errorMsg = "日付「" + dateStr + "」が重複しています。";
+		            System.out.println( errorMsg);
 		            break;
 		        }
 		        // 過去日付チェック
@@ -135,12 +137,14 @@ public class shinseiController {
 		        if (targetDate.isBefore(today)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」は過去日付です。";
+		            System.out.println( errorMsg);
 		            break;
 		        }
 		        // 申請済みチェック
 		        if (appliedDates.contains(dateStr)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
+		            System.out.println( errorMsg);
 		            break;
 		        }
 		    }
@@ -148,20 +152,21 @@ public class shinseiController {
 		    
 		    
 		    
-		    
-		    for (Map<String, Object> row : requestList) {
-		        String dateStr = (String) row.get("date");
-		        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
-
-		        // ここでDB更新
-		        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)2);
-
-		        // （オプション）更新件数が0ならエラーなどの判定もできる
-		        if (updated == 0) {
-		            hasError = true;
-		            errorMsg = "該当データがありません（" + dateStr + "）";
-		            break;
-		        }
+		    if(!hasError) {
+			    for (Map<String, Object> row : requestList) {
+			        String dateStr = (String) row.get("date");
+			        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
+	
+			        // ここでDB更新
+			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)2);
+	
+			        // （オプション）更新件数が0ならエラーなどの判定もできる
+			        if (updated == 0) {
+			            hasError = true;
+			            errorMsg = "該当データがありません（" + dateStr + "）";
+			            break;
+			        }
+			    }
 		    }
 
 		    if (hasError) {
@@ -279,6 +284,7 @@ public class shinseiController {
 		        if (!dateSet.add(dateStr)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」が重複しています。";
+		            System.out.println( errorMsg);
 		            break;
 		        }
 		        // 過去日付チェック
@@ -286,12 +292,14 @@ public class shinseiController {
 		        if (targetDate.isBefore(today)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」は過去日付です。";
+		            System.out.println( errorMsg);
 		            break;
 		        }
 		        // 申請済みチェック
 		        if (appliedDates.contains(dateStr)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
+		            System.out.println( errorMsg);
 		            break;
 		        }
 		    }
@@ -299,20 +307,21 @@ public class shinseiController {
 		    
 		    
 		    
-		    
-		    for (Map<String, Object> row : requestList) {
-		        String dateStr = (String) row.get("date");
-		        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
-
-		        // ここでDB更新
-		        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)3);
-
-		        // （オプション）更新件数が0ならエラーなどの判定もできる
-		        if (updated == 0) {
-		            hasError = true;
-		            errorMsg = "該当データがありません（" + dateStr + "）";
-		            break;
-		        }
+		    if(!hasError) {
+			    for (Map<String, Object> row : requestList) {
+			        String dateStr = (String) row.get("date");
+			        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
+	
+			        // ここでDB更新
+			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)3);
+	
+			        // （オプション）更新件数が0ならエラーなどの判定もできる
+			        if (updated == 0) {
+			            hasError = true;
+			            errorMsg = "該当データがありません（" + dateStr + "）";
+			            break;
+			        }
+			    }
 		    }
 
 		    if (hasError) {
