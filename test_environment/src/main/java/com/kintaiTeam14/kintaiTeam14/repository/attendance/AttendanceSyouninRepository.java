@@ -35,9 +35,9 @@ public class AttendanceSyouninRepository {
 	}
 	
 	
-	public void changeAtClassificationByAttendId(Long attendId,int at_classification) {
+	public int changeAtClassificationByAttendId(Long attendId,int at_classification) {
 		String sql = "UPDATE attendance SET at_classification = ? WHERE attend_id = ?";
-	    jdbcTemplate.update(sql, at_classification, attendId);
+	    return jdbcTemplate.update(sql, at_classification, attendId);
 		
 	}
 	
@@ -65,6 +65,18 @@ public class AttendanceSyouninRepository {
               return attendance;
           }
       );
+	}
+	
+	
+	public int  setAttendTimebyAttendId(long attendId) {
+		 String sql = "UPDATE attendance " +
+                 "SET arrival_time = CONCAT(date, ' 09:00:00'), " +
+                 "    end_time = CONCAT(date, ' 17:00:00'), " +
+                 "    break_time = 1 " +
+                 "WHERE attend_id = ?";
+    return jdbcTemplate.update(sql, attendId);
+		
+		
 	}
 
 
