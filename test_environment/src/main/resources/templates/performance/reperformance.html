@@ -42,11 +42,10 @@
 		</div>
 	</header>
 
-
 	<main>
 		<div class="page-title">再申請</div>
 		<div class="page-desc">ここで実績を再度申請してください。</div>
-
+		
 		<div class="database-container">
 			<table class="performance-database">
 				<thead>
@@ -71,69 +70,61 @@
 									<th class="col-worktype">出社区分</th>
 									<th class="col-reason">事由</th>
 									<th class="col-correct-reason">訂正理由</th>
-									<th class="col-diff-reason">差異理由</th>								</tr>
+									<th class="col-diff-reason">差異理由</th>
+								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="rePerformance : ${rePerformances}" class="performance-row">
-									<td class="col-date">
-										<input type="date" th:value="${rePerformance.date}"
-											class="performance-date-input" disabled />
-										<input type="hidden" th:name="date" th:value="${rePerformance.date}"
-											class="performance-date-input" />
-									</td>
-									<td class="col-dayofweek">
-										<input type="text" th:value="${rePerformance.dayOfWeek}"
-											class="performance-dayofweek-input" disabled />
-									</td>
-									<td class="col-time-start"><input type="time" th:value="${rePerformance.startTime}"
-											class="performance-start-input" disabled /></td>
-									<td class="col-time-end"><input type="time" th:value="${rePerformance.endTime}"
-											class="performance-end-input" disabled /></td>
-									<td class="col-break"><input type="text" th:value="${rePerformance.breakTime}"
-											class="performance-break-input" disabled /></td>
-									<td class="col-status">
-										<select class="status-select" disabled>
-											<option value="未申請" th:selected="${rePerformance.status == '未申請'}">未申請
-											</option>
-											<option value="申請済み" th:selected="${rePerformance.status == '申請済み'}">申請済み
-											</option>
-											<option value="確定済み" th:selected="${rePerformance.status == '確定済み'}">確定済み
-											</option>
-											<option value="差し戻し" th:selected="${rePerformance.status == '差し戻し'}">差し戻し
-											</option>
-											<option value="再申請済み" th:selected="${rePerformance.status == '再申請済み'}">再申請済み
-											</option>
-										</select>
-										<input type="hidden" th:name="status" th:value="${rePerformance.status}" />
-									</td>
-									<td class="col-worktype">
-										<select class="work-select" disabled>
-											<option value=0 th:selected="${rePerformance.atClassification == 0}">出勤
-											</option>
-											<option value=1 th:selected="${rePerformance.atClassification == 1}">欠勤
-											</option>
-											<option value=2 th:selected="${rePerformance.atClassification == 2}">振休
-											</option>
-											<option value=3 th:selected="${rePerformance.atClassification == 3}">振出
-											</option>
-											<option value=4 th:selected="${rePerformance.atClassification == 4}">休日
-											</option>
-											<option value=5 th:selected="${rePerformance.atClassification == 5}">年休
-											</option>
-										</select>
-										<input type="hidden" th:name="atClassification"
-											th:value="${rePerformance.atClassification}" />
-									</td>
-									<td class="col-reason"><input type="text" th:value="${rePerformance.reason}"
-											class="performance-reason-input" disabled /></td>
-									<td class="col-correct-reason"><input type="text" th:value="${rePerformance.correctReason}"
-											class="performance-correctReason-input" disabled /></td>
-									<td class="col-diff-reason"><input type="text" th:value="${rePerformance.diffReason}"
-											class="performance-diffReason-input" /></td>
-									<td><input type="hidden" class="reperformance-id" th:value="${rePerformance.id}" />
-									</td>
-
-								</tr>
+							  <tr th:each="rePerformance : ${rePerformances}" class="performance-row">
+							    <td class="col-date">
+							      <input type="date" th:value="${rePerformance.date}" class="performance-date-input" disabled />
+							      <input type="hidden" th:name="date" th:value="${rePerformance.date}" />
+							    </td>
+							    <td class="col-dayofweek">
+							      <input type="text" th:value="${rePerformance.dayOfWeek}" class="performance-dayofweek-input" disabled />
+							    </td>
+							    <td class="col-time-start">
+							      <input type="time" th:value="${rePerformance.startTime}" class="performance-start-input" disabled />
+							    </td>
+							    <td class="col-time-end">
+							      <input type="time" th:value="${rePerformance.endTime}" class="performance-end-input" disabled />
+							    </td>
+							    <td class="col-break">
+							      <input type="text" th:value="${rePerformance.breakTime}" class="performance-break-input" disabled />
+							    </td>
+							    <td class="col-status">
+							      <select class="status-select" disabled>
+							        <option value="未申請" th:selected="${rePerformance.status == '未申請'}">未申請</option>
+							        <option value="申請済み" th:selected="${rePerformance.status == '申請済み'}">申請済み</option>
+							        <option value="確定済み" th:selected="${rePerformance.status == '確定済み'}">確定済み</option>
+							        <option value="差し戻し" th:selected="${rePerformance.status == '差し戻し'}">差し戻し</option>
+							        <option value="再申請済み" th:selected="${rePerformance.status == '再申請済み'}">再申請済み</option>
+							      </select>
+							      <input type="hidden" th:name="status" th:value="${rePerformance.status}" />
+							    </td>
+							    <td class="col-worktype">
+							      <select class="work-select" disabled>
+							        <option value=0 th:selected="${rePerformance.atClassification == 0}">出勤</option>
+							        <option value=1 th:selected="${rePerformance.atClassification == 1}">欠勤</option>
+							        <option value=2 th:selected="${rePerformance.atClassification == 2}">振休</option>
+							        <option value=3 th:selected="${rePerformance.atClassification == 3}">振出</option>
+							        <option value=4 th:selected="${rePerformance.atClassification == 4}">休日</option>
+							        <option value=5 th:selected="${rePerformance.atClassification == 5}">年休</option>
+							      </select>
+							      <input type="hidden" th:name="atClassification" th:value="${rePerformance.atClassification}" />
+							    </td>
+							    <td class="col-reason">
+							      <input type="text" th:value="${rePerformance.reason}" class="performance-reason-input" disabled />
+							    </td>
+							    <td class="col-correct-reason">
+							      <input type="text" th:value="${rePerformance.correctReason}" class="performance-correctReason-input" disabled />
+							    </td>
+							    <td class="col-diff-reason">
+							      <input type="text" th:value="${rePerformance.diffReason}" class="performance-diffReason-input" />
+							    </td>
+							    <td style="display:none;">
+							      <input type="hidden" class="reperformance-id" th:value="${rePerformance.id}" />
+							    </td>
+							  </tr>
 							</tbody>
 						</table>
 					</div>
@@ -145,6 +136,9 @@
 					</form>
 
 	</main>
+
+
+
 	<script th:src="@{/js/reperformance.js}"></script>
 
 </body>
