@@ -13,7 +13,7 @@ public class UserRegistService {
 	
 	private final UserRegistRepository r;
 	
-	public boolean userRegist(UserRegistForm f) {
+	public int userRegist(UserRegistForm f) {
 		return r.userRegist(f);
 	}
 }

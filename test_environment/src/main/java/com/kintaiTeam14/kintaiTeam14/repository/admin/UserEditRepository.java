@@ -16,9 +16,10 @@ public class UserEditRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 	
-	public boolean userEditCheck(UserEditForm f) {
+	public int userEditCheck(UserEditForm f) {
 		
-		boolean result=true;
+		//0:成功 1:存在しない部署 2:何も編集されてない
+		int result=0;
 		
 		String sql_currentInfo="SELECT employee_name,department_id,department_history FROM employee "
 				+ "WHERE employee_id=?";
@@ -27,9 +28,12 @@ public class UserEditRepository {
 		String currentName=currentInfo.get(0).get("employee_name").toString(); //現在の名前
 		String currentDepartment=currentInfo.get(0).get("department_id").toString(); //現在の部署
 		
+		//存在しない部署IDが入力されていたら弾く
+		result=checkDepartmentId(f.getDepartmentId());
+		
 		//なにも編集されていない場合
 		if((currentName==null || currentName.equals(f.getName())) && (currentDepartment==null || currentDepartment.equals(f.getDepartmentId()))) {
-			result=false;
+			result=2;
 		}
 		
 		return result;
@@ -54,6 +58,7 @@ public class UserEditRepository {
 		String currentName=currentInfo.get(0).get("employee_name").toString(); //現在の名前
 		String currentDepartment=currentInfo.get(0).get("department_id").toString(); //現在の部署
 		String currentDepartmentHistory; //部署移動履歴
+		
 		
 		//部署変更がある場合のみ、部署の移動履歴を追加する
 		if(!currentDepartment.equals(f.getDepartmentId())) {
@@ -83,5 +88,19 @@ public class UserEditRepository {
 		}
 		
 		return result;
+	}
+	
+	//存在しない部署IDを弾くための関数
+	public int checkDepartmentId(String id) {
+		String sql = "SELECT department_id FROM departments WHERE department_id=?";
+		
+		List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, id);
+		
+		if(list.isEmpty()) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 }

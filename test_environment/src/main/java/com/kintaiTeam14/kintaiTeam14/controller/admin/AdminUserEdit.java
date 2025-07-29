@@ -22,16 +22,22 @@ public class AdminUserEdit {
 	@PostMapping("/admin/user-edit-exe")
 	public String userEdit(@ModelAttribute UserEditForm f,Model model,RedirectAttributes ra) {
 		
-		if(s.userEdit(f)) {
+		switch(s.userEdit(f)) {
+		case 0:
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 			String formatted = f.getActivateDate().format(formatter);
 			s.editSchedule(f);
 			String msg="編集予定を登録しました。\n実行日："+formatted;
 			ra.addFlashAttribute("msg", msg);
-		}
-		else {
+			break;
+		case 1:
+			ra.addFlashAttribute("msg", "存在しない部署IDです");
+			break;
+		case 2:
 			ra.addFlashAttribute("msg", "編集前と内容が同じだったため更新されませんでした");
+			break;
 		}
+		
 		return "redirect:/admin/User-management";
 	}
 }
