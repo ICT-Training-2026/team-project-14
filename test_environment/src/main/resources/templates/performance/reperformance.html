@@ -6,7 +6,7 @@
 	<title>再申請画面</title>
 	<meta name="_csrf" th:content="${_csrf.token}">
 	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/reperformance.css}">
 
 </head>
 
@@ -44,6 +44,9 @@
 
 
 	<main>
+		<div class="page-title">再申請</div>
+		<div class="page-desc">ここで実績を再度申請してください。</div>
+
 		<div class="database-container">
 			<table class="performance-database">
 				<thead>
@@ -55,43 +58,40 @@
 						<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 					</head>
 
-					<h1>再申請</h1>
-
 					<div class="database-container">
 						<table class="reperformance-database">
 							<thead>
 								<tr>
-									<th>日付</th>
-									<th>曜日</th>
-									<th>出勤時間</th>
-									<th>退勤時間</th>
-									<th>休憩時間(h)</th>
-									<th>状況</th>
-									<th>出社区分</th>
-									<th>事由</th>
-									<th>訂正理由</th>
-									<th>差異理由</th>
-								</tr>
+									<th class="col-date">日付</th>
+									<th class="col-dayofweek">曜日</th>
+									<th class="col-time-start">出勤時間</th>
+									<th class="col-time-end">退勤時間</th>
+									<th class="col-break">休憩時間(h)</th>
+									<th class="col-status">状況</th>
+									<th class="col-worktype">出社区分</th>
+									<th class="col-reason">事由</th>
+									<th class="col-correct-reason">訂正理由</th>
+									<th class="col-diff-reason">差異理由</th>								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="rePerformance : ${rePerformances}" class="performance-row">
-									<td>
+									<td class="col-date">
 										<input type="date" th:value="${rePerformance.date}"
 											class="performance-date-input" disabled />
 										<input type="hidden" th:name="date" th:value="${rePerformance.date}"
 											class="performance-date-input" />
 									</td>
-									<td>
+									<td class="col-dayofweek">
 										<input type="text" th:value="${rePerformance.dayOfWeek}"
 											class="performance-dayofweek-input" disabled />
 									</td>
-									<td><input type="time" th:value="${rePerformance.startTime}"
+									<td class="col-time-start"><input type="time" th:value="${rePerformance.startTime}"
 											class="performance-start-input" disabled /></td>
-									<td><input type="time" th:value="${rePerformance.endTime}"
+									<td class="col-time-end"><input type="time" th:value="${rePerformance.endTime}"
 											class="performance-end-input" disabled /></td>
-									<td><input type="text" th:value="${rePerformance.breakTime}"
+									<td class="col-break"><input type="text" th:value="${rePerformance.breakTime}"
 											class="performance-break-input" disabled /></td>
-									<td>
+									<td class="col-status">
 										<select class="status-select" disabled>
 											<option value="未申請" th:selected="${rePerformance.status == '未申請'}">未申請
 											</option>
@@ -106,7 +106,7 @@
 										</select>
 										<input type="hidden" th:name="status" th:value="${rePerformance.status}" />
 									</td>
-									<td>
+									<td class="col-worktype">
 										<select class="work-select" disabled>
 											<option value=0 th:selected="${rePerformance.atClassification == 0}">出勤
 											</option>
@@ -124,11 +124,11 @@
 										<input type="hidden" th:name="atClassification"
 											th:value="${rePerformance.atClassification}" />
 									</td>
-									<td><input type="text" th:value="${rePerformance.reason}"
+									<td class="col-reason"><input type="text" th:value="${rePerformance.reason}"
 											class="performance-reason-input" disabled /></td>
-									<td><input type="text" th:value="${rePerformance.correctReason}"
+									<td class="col-correct-reason"><input type="text" th:value="${rePerformance.correctReason}"
 											class="performance-correctReason-input" disabled /></td>
-									<td><input type="text" th:value="${rePerformance.diffReason}"
+									<td class="col-diff-reason"><input type="text" th:value="${rePerformance.diffReason}"
 											class="performance-diffReason-input" /></td>
 									<td><input type="hidden" class="reperformance-id" th:value="${rePerformance.id}" />
 									</td>
