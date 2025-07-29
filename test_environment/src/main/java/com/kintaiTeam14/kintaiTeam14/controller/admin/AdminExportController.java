@@ -62,7 +62,7 @@ public class AdminExportController {
                         int breakHour = a.getBreakTime() != null ? a.getBreakTime() : 0;
                         int breakMin = breakHour * 60;
                         int workMin = 0;
-                        // (終業-始業) - 休憩時間（分）
+                        // (終業-始業) - 休憩時間  （分）
                         if (a.getArrivalTime() != null && a.getEndTime() != null) {
                             workMin = (int) Duration.between(a.getArrivalTime(), a.getEndTime()).toMinutes() - breakMin;
                             if (workMin < 0) workMin = 0;
@@ -76,6 +76,7 @@ public class AdminExportController {
                     }
                     String fileName = empCode + "_" + ym + ".csv";
                     zos.putNextEntry(new ZipEntry(fileName));
+                    zos.write(new byte[]{(byte)0xEF, (byte)0xBB, (byte)0xBF});
                     for (String line : lines) {
                         zos.write((line + "\r\n").getBytes(StandardCharsets.UTF_8));
                     }
