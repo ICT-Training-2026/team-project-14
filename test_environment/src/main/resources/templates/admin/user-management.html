@@ -84,7 +84,7 @@
                 <td>
                     <form th:action="@{|/admin/delete/${user.employee_Id}|}" method="post" style="display:inline;">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                        <button type="submit" class="delete-btn">削除</button>
+                        <button type="submit" class="delete-btn" onclick="return confirm('本当に削除しますか？');">削除</button>
                     </form>
                 </td>
             </tr>
