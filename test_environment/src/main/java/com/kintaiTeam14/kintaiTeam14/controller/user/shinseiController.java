@@ -2,6 +2,7 @@ package com.kintaiTeam14.kintaiTeam14.controller.user;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,8 +51,8 @@ public class shinseiController {
 	@PostMapping("/{employeeId}/top/shinsei/nenkyu")
 	public String nenkyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
-		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
-		  List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
+		  List<LocalDate> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		  List<LocalDate> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
 		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
 		    int  kakusyusinseiAppliedDatesSize4 =  appliedDates4.size();
@@ -71,8 +72,8 @@ public class shinseiController {
 	@PreAuthorize("#employeeId== principal.employeeId")
 	public String nenkyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
-	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
-	    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
+	    List<LocalDate> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+	    List<LocalDate> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
 	    // 年休残日数を計算
 	    int paidHoliday = employeeService.getPaidHoliday(employeeId);
 	    int appliedDatesSize = appliedDates.size();
@@ -106,91 +107,73 @@ public class shinseiController {
 		   System.out.println("/{employeeId}/top/shinsei/nenkyu/apply");
 		   boolean hasError = false;
 		    String errorMsg = "";
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
 		    Map<String, Object> result = new HashMap<>();
 
-		    Set<String> dateSet = new HashSet<>();
+		    Set<LocalDate> dateSet = new HashSet<>();
 		    LocalDate today = LocalDate.now();
-		    // 仮：申請済み日付リスト
-		    
-		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
-		    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
-		    List<String> appliedDates3 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
-		    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
-		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
-		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
-		    int  kakusyusinseiAppliedDatesSize4 =  appliedDates4.size();
-		    System.out.println(kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize);
-		    m.addAttribute("PaidHoliday", kakusyusinseiPaidHoliday- kakusyusinseiAppliedDatesSize- kakusyusinseiAppliedDatesSize4);
-		    
+
+		    // 申請済み日付リスト
+		    List<LocalDate> appliedDates  = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		    List<LocalDate> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
+		    List<LocalDate> appliedDates3 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		    List<LocalDate> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
+
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/M/d");
+
 		    for (Map<String, Object> row : requestList) {
-		    	String dateStr = (String) row.get("date");
-		        LocalDate targetDate = LocalDate.parse(dateStr.replace("/", "-"), formatter);
-		        // 重複チェック
-		        if (!dateSet.add(dateStr)) {
+		        String dateStr = (String) row.get("date");
+		        LocalDate targetDate;
+		        try {
+		            targetDate = LocalDate.parse(dateStr, formatter);
+		        } catch (DateTimeParseException e) {
 		            hasError = true;
-		           
+		            errorMsg = "日付「" + dateStr + "」の形式が不正です。";
+		            break;
+		        }
+		        // 重複チェック（LocalDateで）
+		        if (!dateSet.add(targetDate)) {
+		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」が重複しています。";
-		            System.out.println( errorMsg);
 		            break;
 		        }
 		        // 過去日付チェック
-		       
 		        if (targetDate.isBefore(today)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」は過去日付です。";
-		            System.out.println( errorMsg);
 		            break;
 		        }
 		        // 申請済みチェック
-		        if (appliedDates.contains(dateStr)||appliedDates4.contains(dateStr)||appliedDates3.contains(dateStr)||appliedDates5.contains(dateStr)) {
+		        if (appliedDates.contains(targetDate) ||
+		            appliedDates4.contains(targetDate) ||
+		            appliedDates3.contains(targetDate) ||
+		            appliedDates5.contains(targetDate)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
-		            System.out.println( errorMsg);
 		            break;
 		        }
 		    }
-		    
-		    
-		    
-		    
-		    if(!hasError) {
-			    for (Map<String, Object> row : requestList) {
-			        String dateStr = (String) row.get("date");
-			        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
-	
-			        // ここでDB更新
-			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)2,"年休申請中");
-	
-			        // （オプション）更新件数が0ならエラーなどの判定もできる
-			        if (updated == 0) {
-			            hasError = true;
-			            errorMsg = "該当データがありません（" + dateStr + "）";
-			            break;
-			        }
-			    }
-		    }
 
+		    if (!hasError) {
+		        for (Map<String, Object> row : requestList) {
+		            String dateStr = (String) row.get("date");
+		            LocalDate targetDate = LocalDate.parse(dateStr, formatter);
+		            int updated = attendanceService.updateAtClassificationService(employeeId, targetDate, (byte)2, "年休申請中");
+		            if (updated == 0) {
+		                hasError = true;
+		                errorMsg = "該当データがありません（" + dateStr + "）";
+		                break;
+		            }
+		        }
+		    }
 		    if (hasError) {
 		        result.put("success", false);
 		        result.put("errorMsg", errorMsg);
-		        System.out.println("送信ミス");
-		        
 		        return result;
 		    }
-		    
-		    
-		    
-		    
-		    
-		    // 正常処理...
 		    result.put("success", true);
-		    
-		    
-		    
-		    
 		    return result;
-	    }
+		}
+	    
 	   
 	
 	
@@ -199,8 +182,8 @@ public class shinseiController {
 	@PostMapping("/{employeeId}/top/shinsei/hurikyu")
 	public String hurikyu(Model m,@PathVariable Long employeeId) {
 		m.addAttribute("employeeId", employeeId);
-		  List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
-		  List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
+		  List<LocalDate> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		  List<LocalDate> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
 		    int kakusyusinseiPaidHoliday=employeeService.getCompday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
 		    int  kakusyusinseiAppliedDatesSize5 =  appliedDates5.size();
@@ -221,8 +204,8 @@ public class shinseiController {
 	@PreAuthorize("#employeeId== principal.employeeId")
 	public String hurikyuGet(Model m, @PathVariable Long employeeId) {
 	    // 申請済み日付リストを取得
-	    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
-	    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
+	    List<LocalDate> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+	    List<LocalDate> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
 
 	    // 年休残日数を計算
 	    int paidHoliday = employeeService.getCompday(employeeId);
@@ -261,72 +244,78 @@ public class shinseiController {
 	   @PostMapping("/{employeeId}/top/shinsei/hurikyu/apply")
 	   @ResponseBody
 	    public Map<String, Object> applyHurikyu(Model m,@PathVariable Long employeeId,@RequestBody List<Map<String, Object>> requestList) {
-	        // ここでrequestListの内容をDB保存等のロジックに利用
 		   boolean hasError = false;
 		    String errorMsg = "";
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
 		    Map<String, Object> result = new HashMap<>();
 
-		    Set<String> dateSet = new HashSet<>();
+		    Set<LocalDate> dateSet = new HashSet<>(); // LocalDate型に修正
 		    LocalDate today = LocalDate.now();
-		    // 仮：申請済み日付リスト
-		    
-		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
-		    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
-		    List<String> appliedDates2 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
-		    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
-		    
-		    int hurikyusinseiCompday=employeeService.getCompday(employeeId);
-		    int  hurikyusinseiAppliedDatesSize =  appliedDates.size();
-		    int  hurikyusinseiAppliedDatesSize5 =  appliedDates5.size();
-		    System.out.println(hurikyusinseiCompday -hurikyusinseiAppliedDatesSize);
-		    m.addAttribute("PaidHoliday", hurikyusinseiCompday- hurikyusinseiAppliedDatesSize-hurikyusinseiAppliedDatesSize5);
-		    
+
+		    // 申請済み日付リスト
+		    List<LocalDate> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		    List<LocalDate> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
+		    List<LocalDate> appliedDates2 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		    List<LocalDate> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
+
+		    int hurikyusinseiCompday = employeeService.getCompday(employeeId);
+		    int hurikyusinseiAppliedDatesSize = appliedDates.size();
+		    int hurikyusinseiAppliedDatesSize5 = appliedDates5.size();
+		    System.out.println(hurikyusinseiCompday - hurikyusinseiAppliedDatesSize);
+		    m.addAttribute("PaidHoliday", hurikyusinseiCompday - hurikyusinseiAppliedDatesSize - hurikyusinseiAppliedDatesSize5);
+
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/M/d"); // 1桁/2桁どちらも対応
+
 		    for (Map<String, Object> row : requestList) {
-		    	String dateStr = (String) row.get("date");
-		        LocalDate targetDate = LocalDate.parse(dateStr.replace("/", "-"), formatter);
-		        // 重複チェック
-		        if (!dateSet.add(dateStr)) {
+		        String dateStr = (String) row.get("date");
+		        LocalDate targetDate;
+		        try {
+		            targetDate = LocalDate.parse(dateStr, formatter);
+		        } catch (DateTimeParseException e) {
+		            hasError = true;
+		            errorMsg = "日付「" + dateStr + "」の形式が不正です。";
+		            break;
+		        }
+
+		        // 重複チェック（LocalDateで）
+		        if (!dateSet.add(targetDate)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」が重複しています。";
-		            System.out.println( errorMsg);
+		            System.out.println(errorMsg);
 		            break;
 		        }
 		        // 過去日付チェック
-		       
 		        if (targetDate.isBefore(today)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」は過去日付です。";
-		            System.out.println( errorMsg);
+		            System.out.println(errorMsg);
 		            break;
 		        }
 		        // 申請済みチェック
-		        if (appliedDates.contains(dateStr)||appliedDates5.contains(dateStr)||appliedDates2.contains(dateStr)||appliedDates4.contains(dateStr)) {
+		        if (appliedDates.contains(targetDate) ||
+		            appliedDates5.contains(targetDate) ||
+		            appliedDates2.contains(targetDate) ||
+		            appliedDates4.contains(targetDate)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
-		            System.out.println( errorMsg);
+		            System.out.println(errorMsg);
 		            break;
 		        }
 		    }
-		    
-		    
-		    
-		    
-		    if(!hasError) {
-			    for (Map<String, Object> row : requestList) {
-			        String dateStr = (String) row.get("date");
-			        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
-	
-			        // ここでDB更新
-			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)3,"振休申請中");
-	
-			        // （オプション）更新件数が0ならエラーなどの判定もできる
-			        if (updated == 0) {
-			            hasError = true;
-			            errorMsg = "該当データがありません（" + dateStr + "）";
-			            break;
-			        }
-			    }
+
+		    if (!hasError) {
+		        for (Map<String, Object> row : requestList) {
+		            String dateStr = (String) row.get("date");
+		            LocalDate targetDate = LocalDate.parse(dateStr, formatter);
+
+		            // ここでDB更新
+		            int updated = attendanceService.updateAtClassificationService(employeeId, targetDate, (byte) 3, "振休申請中");
+
+		            if (updated == 0) {
+		                hasError = true;
+		                errorMsg = "該当データがありません（" + dateStr + "）";
+		                break;
+		            }
+		        }
 		    }
 
 		    if (hasError) {
@@ -334,17 +323,8 @@ public class shinseiController {
 		        result.put("errorMsg", errorMsg);
 		        return result;
 		    }
-		    
-		    
-		    
-		    
-		    
-		    // 正常処理...
+
 		    result.put("success", true);
-		    
-		    
-		    
-		    
 		    return result;
 	    }
 	
