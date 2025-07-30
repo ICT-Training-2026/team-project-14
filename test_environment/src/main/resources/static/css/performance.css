@@ -1,493 +1,517 @@
-/* ===== トップ画面用CSS ===== */
-
-/* --- ベース --- */
+/* ===== ベース ===== */
 body {
-	background: #f6f8fb;
-	font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	min-height: 100vh;
-	color: #222;
+  background: #f6f8fb;
+  font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: #222;
 }
 
-/* --- タスクバー --- */
+/* ===== タスクバー ===== */
 .taskbar {
-	width: 100vw;
-	height: 60px;
-	background: #1565c0;
-	color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 32px;
-	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 100;
-	box-sizing: border-box;
-	min-width: 0;
+  width: 100vw;
+  height: 60px;
+  background: #1565c0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .taskbar-left {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
 }
 
 .taskbar-logo {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .taskbar-title {
-	font-size: 1.4rem;
-	font-weight: 700;
-	letter-spacing: 0.01em;
-	white-space: nowrap;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .taskbar-tabs {
-	display: flex;
-	gap: 2px;
-	margin-left: 36px;
-	flex: none;
+  display: flex;
+  gap: 2px;
+  margin-left: 36px;
+  flex: none;
 }
 
 .taskbar-tab {
-	color: #e3ecf7;
-	font-size: 1.07rem;
-	font-weight: 700;
-	padding: 9px 28px;
-	border: none;
-	background: transparent;
-	border-radius: 8px 8px 0 0;
-	cursor: pointer;
-	transition: background 0.18s, color 0.18s;
-	outline: none;
-	text-decoration: none;
-	position: relative;
-	top: 2px;
-	letter-spacing: 0.01em;
+  color: #e3ecf7;
+  font-size: 1.07rem;
+  font-weight: 700;
+  padding: 9px 28px;
+  border: none;
+  background: transparent;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  outline: none;
+  text-decoration: none;
+  position: relative;
+  top: 2px;
+  letter-spacing: 0.01em;
 }
 
 .taskbar-tab.active,
 .taskbar-tab:focus {
-	background: #fff;
-	color: #1565c0;
-	box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
+  background: #fff;
+  color: #1565c0;
+  box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
 }
 
 .taskbar-right {
-	display: flex;
-	align-items: center;
-	gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .taskbar-logout {
-	background: rgba(255, 255, 255, 0.16);
-	color: #fff;
-	border: none;
-	border-radius: 8px;
-	padding: 10px 28px;
-	font-size: 1.1rem;
-	font-weight: 700;
-	cursor: pointer;
-	transition: background 0.15s, color 0.15s;
-	margin-left: 0;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin-left: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
 
 .taskbar-logout:hover,
 .taskbar-logout:focus {
-	background: #fff;
-	color: #1565c0;
+  background: #fff;
+  color: #1565c0;
 }
 
-/* --- メイン・フォーム --- */
+/* ===== メイン・フォーム ===== */
 main {
-	max-width: 100vw;
-	padding: 0 2vw;
-	margin-top: 120px;
+  max-width: 100vw;
+  padding: 0 2vw;
+  margin-top: 120px;
 }
 
 .search-form-inline {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 110px 0 20px 0;
-	gap: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 110px 0 20px 0;
+  gap: 0;
 }
 
-/* --- ボタン --- */
+/* ===== ボタン ===== */
 .modern-btn {
-	background: #1565c0;
-	color: #fff;
-	border: none;
-	border-radius: 14px;
-	padding: 24px 0;
-	font-size: 1.2rem;
-	font-weight: 800;
-	letter-spacing: 0.02em;
-	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
-	transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
-	cursor: pointer;
-	text-align: center;
-	margin: 0 auto;
-	display: block;
-	text-decoration: none !important;
-	border-bottom: none !important;
-	width: 100%;
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 24px 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.11);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.13s;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  width: 100%;
 }
 
 .modern-btn:hover,
 .modern-btn:focus {
-	background: #0d47a1;
-	box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
-	transform: translateY(-2px) scale(1.012);
+  background: #0d47a1;
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.21);
+  transform: translateY(-2px) scale(1.012);
 }
 
 .search-btn-small {
-	font-size: 12px;
-	padding: 5px 12px;
-	width: auto;
-	min-width: 0;
-	height: auto;
-	border-radius: 4px;
-	font-weight: 600;
-	margin-left: 2px;
-	box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
-	line-height: 1;
-	letter-spacing: 0.05em;
+  font-size: 12px;
+  padding: 5px 12px;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-left: 2px;
+  box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
+  line-height: 1;
+  letter-spacing: 0.05em;
 }
 
 .main-action-btn {
-	background: #696969;
-	color: #fff;
+  background: #696969;
+  color: #fff;
 }
 
 .main-action-btn:hover,
 .main-action-btn:focus {
-	background: #01579b;
+  background: #01579b;
 }
 
-/* --- 月ナビゲーション --- */
+.common-btn {
+  height: 28px;
+  padding: 0 8px;
+  font-size: 0.85rem;
+  line-height: 28px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.common-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+.common-btn:hover:not(:disabled),
+.common-btn:focus:not(:disabled) {
+  background-color: #1565c0;
+  color: #fff;
+  outline: none;
+}
+
+/* ===== 月ナビゲーション ===== */
 .month-navigation-nav {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 18px;
-	margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 24px;
 }
 
 .current-year-month-nav {
-	font-size: 1.2rem;
-	font-weight: bold;
-	letter-spacing: 0.05em;
-	min-width: 70px;
-	text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  min-width: 70px;
+  text-align: center;
 }
 
 .month-arrow-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background: #1565c0;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	font-size: 1rem;
-	font-weight: bold;
-	padding: 2px 10px;
-	min-width: 0;
-	cursor: pointer;
-	text-decoration: none;
-	transition: background 0.16s, color 0.16s;
-	box-shadow: 0 2px 6px rgba(21, 101, 192, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 2px 10px;
+  min-width: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.16s, color 0.16s;
+  box-shadow: 0 2px 6px rgba(21, 101, 192, 0.08);
 }
 
 .month-arrow-btn:hover,
 .month-arrow-btn:focus {
-	background: #104a8d;
-	color: #fff;
-	text-decoration: none;
-	outline: none;
+  background: #104a8d;
+  color: #fff;
+  text-decoration: none;
+  outline: none;
 }
 
-/* --- テーブルレイアウト --- */
+/* ===== テーブルレイアウト ===== */
 .database-container {
-	max-width: 100vw;
-	margin: 0 auto;
-	overflow-x: auto;
+  max-width: 100vw;
+  margin: 0 auto;
+  overflow-x: auto;
 }
 
 .summary-container {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	width: 100%;
-	margin: 32px 0 48px 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin: 32px 0 48px 0;
 }
 
 .performance-database,
 .summary-table,
 .user-table {
-	width: 100%;
-	max-width: 100%;
-	table-layout: fixed;
-	border-collapse: collapse;
-	background: #fff;
-	box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
-	font-size: 0.85rem;
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
+  font-size: 0.85rem;
 }
 
 .performance-database,
 .user-table {
-	min-width: 1150px;
-	border-radius: 10px;
+  min-width: 1150px;
+  border-radius: 10px;
 }
 
 .summary-table {
-	max-width: 600px;
-	margin: 0 auto;
-	border-radius: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 0;
 }
 
-/* --- テーブルヘッダー・セル --- */
 .performance-database th,
 .performance-database td,
 .summary-table th,
 .summary-table td,
 .user-table th,
 .user-table td {
-	font-size: 0.85rem;
-	padding: 4px 6px;
-	height: 22px;
-	text-align: center;
-	border-bottom: 1px solid #e0e7ee;
-	box-sizing: border-box;
-	vertical-align: middle;
+  font-size: 0.85rem;
+  padding: 4px 6px;
+  height: 22px;
+  text-align: center;
+  border-bottom: 1px solid #e0e7ee;
+  box-sizing: border-box;
+  vertical-align: middle;
 }
 
 .performance-database th,
 .summary-table th,
 .user-table th {
-	background: #f6f8fb;
-	color: #1976d2;
-	font-weight: 700;
+  background: #f3f7fc !important;
+  color: #1976d2 !important;
+  font-weight: bold;
+  font-size: 0.90rem;
+  border-bottom: 2px solid #e0e7ee;
 }
 
 .performance-database th,
 .user-table th {
-	height: 38px;
+  height: 38px;
 }
 
 .performance-database td,
 .user-table td {
-	height: 30px;
+  height: 30px;
 }
 
-/* --- テーブル列幅 --- */
+/* ===== テーブル列幅 ===== */
 .performance-database .col-date {
-	width: 90px;
-	min-width: 70px;
-	max-width: 120px;
+  width: 120px;
+  min-width: 90px;
+  max-width: 130px;
 }
 
 .performance-database .col-dayofweek {
-	width: 24px;
-	min-width: 20px;
-	max-width: 50px;
+  width: 60px;
+  min-width: 35px;
+  max-width: 60px;
 }
 
 .performance-database .col-time {
-	width: 60px;
-	min-width: 40px;
-	max-width: 90px;
+  width: 75px;
+  min-width: 65px;
+  max-width: 110px;
 }
 
 .performance-database .col-break,
-.performance-database .col-apply,
 .performance-database .col-status,
-.performance-database .col-worktype,
-/* ← 追加: 出社区分 */
+.performance-database .col-worktype {
+  width: 70px;
+  min-width: 60px;
+  max-width: 80px;
+}
+
+.performance-database .col-apply,
 .performance-database .col-resubmit,
 .performance-database .col-remove {
-	width: 40px;
-	min-width: 32px;
-	max-width: 60px;
+  width: 50px;
+  min-width: 30px;
+  max-width: 80px;
 }
 
 .performance-database .col-reason {
-	width: 140px;
-	min-width: 60px;
-	max-width: 140px;
+  width: 170px;
+  min-width: 90px;
+  max-width: 200px;
 }
 
-.summary-table .col-sum-month {
-	width: 25px;
-	min-width: 16px;
+/* ===== 曜日・日付欄 ===== */
+.col-date input[type="date"] {
+  background: #f0f0f0 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 2px !important;
+  padding: 1px 3px !important;
+  height: 26px !important;
+  font-size: 0.90rem !important;
+  box-sizing: border-box;
+  width: 140px !important;
+  color: #222 !important;
+  text-align: left !important;
 }
 
-.summary-table .col-sum-scheduled {
-	width: 60px;
-	min-width: 40px;
+.col-dayofweek input[type="text"] {
+  background: #f0f0f0 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 2px !important;
+  padding: 1px 3px !important;
+  height: 26px !important;
+  font-size: 0.90rem !important;
+  box-sizing: border-box;
+  width: 40px !important;
+  color: #222 !important;
+  text-align: center !important;
 }
 
-.summary-table .col-sum-actual {
-	width: 60px;
-	min-width: 40px;
+.col-date input[type="date"]:disabled,
+.col-dayofweek input[type="text"]:disabled {
+  opacity: 1 !important;
 }
 
-.summary-table .col-sum-overtime {
-	width: 50px;
-	min-width: 30px;
-}
-
-.summary-table .col-sum-paid {
-	width: 38px;
-	min-width: 20px;
-}
-
-.summary-table .col-sum-comp {
-	width: 38px;
-	min-width: 20px;
-}
-
-.performance-database .col-dayofweek input[type="text"],
-.user-table .col-dayofweek input[type="text"] {
-    text-align: center;
-}
-
-/* --- テーブル内入力 --- */
+/* ===== 入力欄共通 ===== */
 .performance-database input[type="text"],
-.performance-database input[type="date"],
 .performance-database input[type="time"],
-.performance-database select,
-.summary-table input,
-.summary-table select {
-	width: 100%;
-	box-sizing: border-box;
-	font-size: 0.85rem;
-	padding: 1px 3px;
-	height: 22px;
-	margin: 0;
+.performance-database select {
+  background: #fff;
+  border: 1px solid #e0e7ee;
+  border-radius: 2px;
+  color: #222;
+  font-weight: normal;
+  padding: 1px 3px;
+  height: 26px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* --- テーブルボタン --- */
-.performance-database .modern-btn,
-.performance-database .main-action-btn,
-.performance-database .delete-btn,
-.summary-table .modern-btn,
-.user-table .modern-btn {
-	width: 70px;
-	font-size: 0.85rem;
-	height: 22px;
-	padding: 1px 8px;
-	min-width: 36px;
-	border-radius: 2px;
-	font-weight: 700;
-	box-sizing: border-box;
+.performance-database input[type="text"]:disabled,
+.performance-database input[type="time"]:disabled,
+.performance-database select:disabled {
+  opacity: 1;
 }
 
-.performance-database .delete-btn,
-.user-table .delete-btn {
-	background: #d93025;
-	color: #fff;
-	border: none;
+/* ===== ステータス・出社区分セレクト ===== */
+.status-select,
+.work-select {
+  background: #fff;
+  border: 1px solid #e0e7ee;
+  border-radius: 4px;
+  color: #222;
+  padding: 0 3px;
+  height: 26px;
 }
 
-.performance-database .delete-btn:hover,
-.user-table .delete-btn:hover {
-	background: #b71c1c;
+/* ===== 事由欄 ===== */
+.performance-reason-input {
+  background: #fff;
+  border: 1px solid #e0e7ee;
+  border-radius: 4px;
+  padding: 1px 3px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 26px;
 }
 
-/* --- 日付box・会社休日 --- */
-.date-holiday-flex,
-.date-box {
-	display: flex;
-	align-items: center;
-	background: #f6f6f6;
-	border: 1px solid #e0e7ee;
-	border-radius: 4px;
-	padding: 0 6px;
-	height: 24px;
-	min-width: 90px;
-	box-sizing: border-box;
+/* ===== 休日行 ===== */
+.holiday-row td,
+.holiday-cell {
+  background: #fbeee3 !important;
 }
 
-.date-holiday-flex input[type="date"] {
-	border: none;
-	background: transparent;
-	font-size: 0.85rem;
-	color: #222;
-	width: 95px;
-	padding: 0;
-	margin: 0;
-	outline: none;
-	pointer-events: none;
+.holiday-row input[type="text"],
+.holiday-row input[type="time"],
+.holiday-row select {
+  background: #fbeee3 !important;
+  color: #b67d34 !important;
+  border: 1px solid #f5d1ae;
+}
+
+.holiday-row input[type="date"] {
+  background: #fbeee3 !important;
+  color: #b67d34 !important;
+}
+
+.holiday-row .performance-reason-input {
+  background: #fbeee3 !important;
+  border: 1px solid #f5d1ae !important;
 }
 
 .holiday-label {
-	color: #d93025;
-	font-size: 0.85em;
-	margin-left: 0px;
-	font-weight: bold;
-	letter-spacing: 0.02em;
-	white-space: nowrap;
-	background: transparent;
-	border: none;
-	padding: 0;
+  color: #d93025 !important;
+  font-size: 0.95em;
+  font-weight: bold;
+  margin-left: 4px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
-.holiday-row>td {
-	background: #faebd7 !important;
-}
+/* ===== テーブルボタン ===== */
+/* 申請・再申請・取消ボタンは変更なし */
 
-/* --- レスポンシブ --- */
+/* ===== レスポンシブ ===== */
 @media (max-width: 900px) {
-	main {
-		max-width: 98vw;
-		padding: 0 2vw;
-	}
+  main {
+    max-width: 98vw;
+    padding: 0 2vw;
+  }
 
-	.taskbar-tabs {
-		margin-left: 10px;
-	}
+  .taskbar-tabs {
+    margin-left: 10px;
+  }
 
-	.taskbar-tab {
-		padding: 6px 9px;
-		font-size: 0.95rem;
-	}
+  .taskbar-tab {
+    padding: 6px 9px;
+    font-size: 0.95rem;
+  }
 }
 
 @media (max-width: 600px) {
-	.taskbar {
-		padding: 0 4px;
-	}
+  .taskbar {
+    padding: 0 4px;
+  }
 
-	.taskbar-title {
-		font-size: 1.05rem;
-	}
+  .taskbar-title {
+    font-size: 1.05rem;
+  }
 
-	.taskbar-tabs {
-		gap: 0;
-		margin-left: 0;
-	}
+  .taskbar-tabs {
+    gap: 0;
+    margin-left: 0;
+  }
 
-	.taskbar-tab {
-		padding: 5px 4vw;
-		font-size: 0.9rem;
-	}
+  .taskbar-tab {
+    padding: 5px 4vw;
+    font-size: 0.9rem;
+  }
 
-	main {
-		margin-top: 85px;
-	}
+  main {
+    margin-top: 85px;
+  }
 }
 
-/* --- 戻るリンク --- */
+/* ===== 戻るリンク ===== */
 .back-link {
   display: block;
   margin: 40px auto 80px auto;
@@ -496,6 +520,44 @@ main {
   text-align: center;
   text-decoration: underline;
 }
+
 .back-link:hover {
   color: #0d47a1;
+}
+
+/* ===== 日付欄のラッパー ===== */
+.date-label-wrapper {
+  display: inline-flex;
+  align-items: center;
+  background: #f6f6f6;
+  border: 1px solid #e0e7ee;
+  border-radius: 4px;
+  padding: 0 8px 0 6px; /* 左側の余白は0、右は8px */
+  box-sizing: border-box;
+  height: 24px;
+  min-width: 180px; /* 160pxから広げて余裕を持たせる */
+}
+
+.date-label-wrapper input.performance-date-input {
+  flex-grow: 0;
+  width: 110px !important; /* 幅を広げて日付が切れないように */
+  background: transparent !important;
+  border: none !important;
+  color: #222 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 20px !important;
+  pointer-events: none;
+  user-select: none;
+  outline: none;
+}
+
+.holiday-label {
+  color: #d93025;
+  font-weight: bold;
+  font-size: 0.65rem;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+  margin-left: 0;
 }
