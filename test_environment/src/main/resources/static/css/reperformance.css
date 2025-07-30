@@ -1,192 +1,235 @@
 /* ===== ベース ===== */
 body {
-    background: #f6f8fb;
-    font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    color: #222;
+	background: #f6f8fb;
+	font-family: 'Segoe UI', 'Noto Sans JP', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	color: #222;
 }
 
 /* ===== タスクバー ===== */
 .taskbar {
-    width: 100vw;
-    height: 60px;
-    background: #1565c0;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    box-sizing: border-box;
+	width: 100vw;
+	height: 60px;
+	background: #1565c0;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 32px;
+	box-shadow: 0 2px 8px rgba(21, 101, 192, 0.13);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	box-sizing: border-box;
 }
+
 .taskbar-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
 }
+
 .taskbar-logo {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
+
 .taskbar-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	font-size: 1.4rem;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+
 .taskbar-tabs {
-    display: flex;
-    gap: 2px;
-    margin-left: 36px;
-    flex: none;
+	display: flex;
+	gap: 2px;
+	margin-left: 36px;
+	flex: none;
 }
+
 .taskbar-tab {
-    color: #e3ecf7;
-    font-size: 1.07rem;
-    font-weight: 700;
-    padding: 9px 28px;
-    border: none;
-    background: transparent;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    transition: background 0.18s, color 0.18s;
-    outline: none;
-    text-decoration: none;
-    position: relative;
-    top: 2px;
-    letter-spacing: 0.01em;
+	color: #e3ecf7;
+	font-size: 1.07rem;
+	font-weight: 700;
+	padding: 9px 28px;
+	border: none;
+	background: transparent;
+	border-radius: 8px 8px 0 0;
+	cursor: pointer;
+	transition: background 0.18s, color 0.18s;
+	outline: none;
+	text-decoration: none;
+	position: relative;
+	top: 2px;
+	letter-spacing: 0.01em;
 }
+
 .taskbar-tab.active,
 .taskbar-tab:focus {
-    background: #fff;
-    color: #1565c0;
-    box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
+	background: #fff;
+	color: #1565c0;
+	box-shadow: 0 4px 14px rgba(21, 101, 192, 0.07);
 }
+
 .taskbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
 }
+
 .taskbar-logout {
-    background: rgba(255, 255, 255, 0.16);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 28px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    margin-left: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 28px;
+	font-size: 1.1rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+	margin-left: 0;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
+
 .taskbar-logout:hover,
 .taskbar-logout:focus {
-    background: #fff;
-    color: #1565c0;
+	background: #fff;
+	color: #1565c0;
 }
 
 /* ===== メイン ===== */
 main {
-    max-width: 100vw;
-    padding: 0 2vw;
-    margin-top: 120px;
+	max-width: 100vw;
+	padding: 0 2vw;
+	margin-top: 120px;
 }
+
 .page-title {
-    font-size: 2.1rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    margin-bottom: 18px;
-    text-align: center;
-    color: #1565c0;
+	font-size: 2.1rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	margin-bottom: 18px;
+	text-align: center;
+	color: #1565c0;
 }
+
 .page-desc {
-    color: #7a7a7a;
-    margin-bottom: 32px;
-    font-size: 1.1rem;
-    text-align: center;
+	color: #7a7a7a;
+	margin-bottom: 32px;
+	font-size: 1.1rem;
+	text-align: center;
 }
+
 .back-link {
-    display: block;
-    margin: 40px auto 0 auto;
-    color: #1976d2;
-    font-size: 1rem;
-    text-align: center;
-    text-decoration: underline;
+	display: block;
+	margin: 40px auto 0 auto;
+	color: #1976d2;
+	font-size: 1rem;
+	text-align: center;
+	text-decoration: underline;
 }
+
 .back-link:hover {
-    color: #0d47a1;
+	color: #0d47a1;
 }
 
 /* ===== テーブルレイアウト ===== */
 .database-container {
-    max-width: 100vw;
-    margin: 0 auto;
-    overflow-x: auto;
-}
-.reperformance-database {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
-    font-size: 0.85rem;
-    table-layout: fixed;
+	max-width: 100vw;
+	margin: 0 auto;
+	overflow-x: auto;
 }
 
-.reperformance-database .col-date              { width: 50px; }
-.reperformance-database .col-dayofweek         { width: 40px; }
+.reperformance-database {
+	width: 100%;
+	border-collapse: collapse;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(21, 118, 210, 0.06);
+	font-size: 0.85rem;
+	table-layout: fixed;
+}
+
+.reperformance-database .col-date {
+	width: 60px;
+}
+
+.reperformance-database .col-dayofweek {
+	width: 20px;
+}
+
 .reperformance-database .col-time-start,
-.reperformance-database .col-time-end          { width: 70px; }
-.reperformance-database .col-break             { width: 50px; }
-.reperformance-database .col-status            { width: 80px; }
-.reperformance-database .col-worktype          { width: 80px; }
-.reperformance-database .col-reason            { width: 50px; }
-.reperformance-database .col-correct-reason    { width: 50px; }
-.reperformance-database .col-diff-reason       { width: 50px; }
+.reperformance-database .col-time-end {
+	width: 55px;
+}
+
+.reperformance-database .col-break {
+	width: 50px;
+}
+
+.reperformance-database .col-status {
+	width: 60px;
+}
+
+.reperformance-database .col-worktype {
+	width: 60px;
+}
+
+.reperformance-database .col-reason {
+	width: 70px;
+}
+
+.reperformance-database .col-correct-reason {
+	width: 70px;
+}
+
+.reperformance-database .col-diff-reason {
+	width: 70px;
+}
 
 .reperformance-database input[type="text"],
 .reperformance-database input[type="date"],
 .reperformance-database input[type="time"],
 .reperformance-database select {
-    width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box;
-    font-size: 0.85rem;
-    padding: 1px 3px;
-    height: 22px;
-    margin: 0;
+	width: 100% !important;
+	min-width: 0 !important;
+	box-sizing: border-box;
+	font-size: 0.85rem;
+	padding: 1px 3px;
+	height: 22px;
+	margin: 0;
 }
 
 /* ===== テーブルヘッダ・セル ===== */
 .reperformance-database th,
 .reperformance-database td {
-    font-size: 0.85rem;
-    padding: 4px 6px;
-    height: 22px;
-    text-align: center;
-    border-bottom: 1px solid #e0e7ee;
-    box-sizing: border-box;
-    vertical-align: middle;
+	font-size: 0.85rem;
+	padding: 4px 6px;
+	height: 22px;
+	text-align: center;
+	border-bottom: 1px solid #e0e7ee;
+	box-sizing: border-box;
+	vertical-align: middle;
 }
+
 .reperformance-database th {
-    background: #f6f8fb;
-    color: #1976d2;
-    font-weight: 700;
-    height: 38px;
+	background: #f6f8fb;
+	color: #1976d2;
+	font-weight: 700;
+	height: 38px;
 }
+
 .reperformance-database td {
-    height: 30px;
+	height: 30px;
 }
+
 .reperformance-database tr:last-child td {
-    border-bottom: none;
+	border-bottom: none;
 }
 
 
@@ -194,69 +237,96 @@ main {
 /* ===== ボタン ===== */
 #confirm-button,
 .resubmit-button-on {
-    background: #1976d2;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 36px;
-    font-size: 1.05rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.16s;
-    box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
-    margin: 10px auto 0 auto;
-    display: block;
+	background: #1976d2;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 10px 36px;
+	font-size: 1.05rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.16s;
+	box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
+	margin: 10px auto 0 auto;
+	display: block;
 }
+
 #confirm-button:hover,
 #confirm-button:focus,
 .resubmit-button-on:hover,
 .resubmit-button-on:focus {
-    background: #0d47a1;
+	background: #0d47a1;
 }
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 900px) {
-    .reperformance-database .col-date              { width: 55px; }
-    .reperformance-database .col-dayofweek         { width: 28px; }
-    .reperformance-database .col-time-start,
-    .reperformance-database .col-time-end          { width: 46px; }
-    .reperformance-database .col-break             { width: 30px; }
-    .reperformance-database .col-status            { width: 45px; }
-    .reperformance-database .col-worktype          { width: 45px; }
-    .reperformance-database .col-reason,
-    .reperformance-database .col-correct-reason,
-    .reperformance-database .col-diff-reason       { width: 56px; }
+	.reperformance-database .col-date {
+		width: 55px;
+	}
+
+	.reperformance-database .col-dayofweek {
+		width: 28px;
+	}
+
+	.reperformance-database .col-time-start,
+	.reperformance-database .col-time-end {
+		width: 46px;
+	}
+
+	.reperformance-database .col-break {
+		width: 30px;
+	}
+
+	.reperformance-database .col-status {
+		width: 45px;
+	}
+
+	.reperformance-database .col-worktype {
+		width: 45px;
+	}
+
+	.reperformance-database .col-reason,
+	.reperformance-database .col-correct-reason,
+	.reperformance-database .col-diff-reason {
+		width: 56px;
+	}
 }
+
 @media (max-width: 600px) {
-    .taskbar {
-        padding: 0 4px;
-    }
-    .taskbar-title {
-        font-size: 1.05rem;
-    }
-    .taskbar-tabs {
-        gap: 0;
-        margin-left: 0;
-    }
-    .taskbar-tab {
-        padding: 5px 4vw;
-        font-size: 0.9rem;
-    }
-    main {
-        margin-top: 85px;
-    }
-    .reperformance-database .col-date,
-    .reperformance-database .col-dayofweek,
-    .reperformance-database .col-time-start,
-    .reperformance-database .col-time-end,
-    .reperformance-database .col-break,
-    .reperformance-database .col-status,
-    .reperformance-database .col-worktype,
-    .reperformance-database .col-reason,
-    .reperformance-database .col-correct-reason,
-    .reperformance-database .col-diff-reason {
-        width: auto;
-        min-width: 28px;
-        max-width: 50px;
-    }
+	.taskbar {
+		padding: 0 4px;
+	}
+
+	.taskbar-title {
+		font-size: 1.05rem;
+	}
+
+	.taskbar-tabs {
+		gap: 0;
+		margin-left: 0;
+	}
+
+	.taskbar-tab {
+		padding: 5px 4vw;
+		font-size: 0.9rem;
+	}
+
+	main {
+		margin-top: 85px;
+	}
+
+	.reperformance-database .col-date,
+	.reperformance-database .col-dayofweek,
+	.reperformance-database .col-time-start,
+	.reperformance-database .col-time-end,
+	.reperformance-database .col-break,
+	.reperformance-database .col-status,
+	.reperformance-database .col-worktype,
+	.reperformance-database .col-reason,
+	.reperformance-database .col-correct-reason,
+	.reperformance-database .col-diff-reason {
+		width: auto;
+		min-width: 28px;
+		max-width: 50px;
+	}
 }
