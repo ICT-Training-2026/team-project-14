@@ -13,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AttendanceSyouninRepository {
 	private final JdbcTemplate jdbcTemplate;
-	public int updateAtClassification(Long employeeId, LocalDate date, Byte atClassification) {
-	    String sql = "UPDATE attendance SET at_classification = ? WHERE employee_id = ? AND date = ?";
-	    return jdbcTemplate.update(sql, atClassification, employeeId, date);
+	public int updateAtClassification(Long employeeId, LocalDate date, Byte atClassification,String status) {
+	    String sql = "UPDATE attendance SET at_classification = ? ,status = ? WHERE employee_id = ? AND date = ?";
+	    return jdbcTemplate.update(sql, atClassification, status,employeeId, date);
 	}
 	public List<java.time.LocalDate> findDatesByEmployeeIdAndAtClassification(Long employeeId, int atClassification) {
         String sql = "SELECT date FROM attendance WHERE employee_id = ? AND at_classification = ?";
@@ -35,9 +35,9 @@ public class AttendanceSyouninRepository {
 	}
 	
 	
-	public int changeAtClassificationByAttendId(Long attendId,int at_classification) {
-		String sql = "UPDATE attendance SET at_classification = ? WHERE attend_id = ?";
-	    return jdbcTemplate.update(sql, at_classification, attendId);
+	public int changeAtClassificationByAttendId(Long attendId,int at_classification,String status) {
+		String sql = "UPDATE attendance SET at_classification = ? ,status = ? WHERE attend_id = ?";
+	    return jdbcTemplate.update(sql, at_classification,status, attendId);
 		
 	}
 	

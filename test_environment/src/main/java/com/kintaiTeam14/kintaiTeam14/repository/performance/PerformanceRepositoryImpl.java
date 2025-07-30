@@ -165,7 +165,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public List<Performance> findByUserIdAndDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
-        String sql = "SELECT a.attend_id, date, arrival_time, end_time, break_time, status, reason " +
+        String sql = "SELECT a.attend_id, date, arrival_time, end_time, break_time, status, reason ,at_classification " +
                      "FROM attendance a LEFT JOIN reason r ON a.attend_id = r.attend_id " +
                      "WHERE a.employee_id = ? AND a.date BETWEEN ? AND ? " +
                      "ORDER BY a.date";
@@ -198,6 +198,8 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
                 final String reason = rs.getString("reason");
                 s.setReason(reason);
+                final int classification = rs.getInt("at_classification");
+                s.setAtClassification(classification);
 
                 return s;
             }

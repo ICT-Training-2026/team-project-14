@@ -306,3 +306,134 @@ input[type="text"].search-input {
         justify-content: flex-end;
     }
 }
+
+/* 検索＆新規登録バーの横並び・中央寄せ */
+.search-register-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 24px auto 28px auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* 検索フォーム横並びレイアウト */
+.search-form-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}
+
+/* 新規登録フォーム */
+.register-form-inline {
+    margin: 0;
+    padding: 0;
+}
+
+/* 検索窓 */
+.search-input {
+    font-size: 1rem;
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    width: 160px;
+    box-sizing: border-box;
+}
+
+/* 検索ボタン */
+.search-btn-small {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 7px 22px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.18s;
+    margin-left: 2px;
+    box-shadow: 0 2px 6px rgba(21, 101, 192, 0.11);
+    line-height: 1.2;
+    text-align: center;
+}
+
+.search-btn-small:hover,
+.search-btn-small:focus {
+    background: #1d4ed8;
+}
+
+/* 新規登録ボタン */
+.register-btn {
+    background: #16a34a;
+    color: #fff;
+    border: none;
+    padding: 7px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.18s;
+    box-shadow: 0 2px 6px rgba(16, 163, 74, 0.11);
+    line-height: 1.2;
+    text-align: center;
+}
+
+.register-btn:hover,
+.register-btn:focus {
+    background: #15803d;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    .search-register-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+        max-width: 98vw;
+    }
+    .search-form-inline,
+    .register-form-inline {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .search-input {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* テーブルの幅と同じにし、左端を揃える */
+.search-register-bar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    /* テーブルと同じ幅・位置にする */
+    width: 900px;         /* テーブルのwidthと合わせる */
+    max-width: 900px;
+    margin: 24px auto 28px auto;
+    justify-content: flex-start;   /* 左寄せ */
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 900px) {
+    .user-table,
+    .search-register-bar {
+        width: 98vw;
+        max-width: 98vw;
+        min-width: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media (max-width: 600px) {
+    .search-register-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+        width: 98vw;
+        max-width: 98vw;
+    }
+}
