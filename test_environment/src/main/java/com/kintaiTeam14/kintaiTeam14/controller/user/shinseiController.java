@@ -115,6 +115,8 @@ public class shinseiController {
 		    
 		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
 		    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
+		    List<String> appliedDates3 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
+		    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
 		    int kakusyusinseiPaidHoliday=employeeService.getPaidHoliday(employeeId);
 		    int  kakusyusinseiAppliedDatesSize =  appliedDates.size();
 		    int  kakusyusinseiAppliedDatesSize4 =  appliedDates4.size();
@@ -141,7 +143,7 @@ public class shinseiController {
 		            break;
 		        }
 		        // 申請済みチェック
-		        if (appliedDates.contains(dateStr)) {
+		        if (appliedDates.contains(dateStr)||appliedDates4.contains(dateStr)||appliedDates3.contains(dateStr)||appliedDates5.contains(dateStr)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
 		            System.out.println( errorMsg);
@@ -158,7 +160,7 @@ public class shinseiController {
 			        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
 	
 			        // ここでDB更新
-			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)2);
+			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)2,"年休申請中");
 	
 			        // （オプション）更新件数が0ならエラーなどの判定もできる
 			        if (updated == 0) {
@@ -271,6 +273,9 @@ public class shinseiController {
 		    
 		    List<String> appliedDates = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 3);
 		    List<String> appliedDates5 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 5);
+		    List<String> appliedDates2 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 2);
+		    List<String> appliedDates4 = attendanceService.findDatesByEmployeeIdAndAtClassificationService(employeeId, 4);
+		    
 		    int hurikyusinseiCompday=employeeService.getCompday(employeeId);
 		    int  hurikyusinseiAppliedDatesSize =  appliedDates.size();
 		    int  hurikyusinseiAppliedDatesSize5 =  appliedDates5.size();
@@ -296,7 +301,7 @@ public class shinseiController {
 		            break;
 		        }
 		        // 申請済みチェック
-		        if (appliedDates.contains(dateStr)) {
+		        if (appliedDates.contains(dateStr)||appliedDates5.contains(dateStr)||appliedDates2.contains(dateStr)||appliedDates4.contains(dateStr)) {
 		            hasError = true;
 		            errorMsg = "日付「" + dateStr + "」はすでに申請済みです。";
 		            System.out.println( errorMsg);
@@ -313,7 +318,7 @@ public class shinseiController {
 			        LocalDate targetDate1 = LocalDate.parse(dateStr.replace("/", "-"), formatter);
 	
 			        // ここでDB更新
-			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)3);
+			        int updated = attendanceService.updateAtClassificationService(employeeId, targetDate1, (byte)3,"振休申請中");
 	
 			        // （オプション）更新件数が0ならエラーなどの判定もできる
 			        if (updated == 0) {

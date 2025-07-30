@@ -130,7 +130,7 @@
 											class="performance-break-input" disabled /></td>
 										<!-- disabledを外してボタン有効化 -->
 										<td><input type="button" value="申請" class="submit-button"
-											th:disabled="${performance.status == '申請済み' or performance.status == '確定済み' or performance.status == '差し戻し' or performance.status == '再申請済み'}" /></td>
+											th:disabled="${performance.status == '申請済み' or performance.status == '確定済み' or performance.status == '差し戻し' or performance.status == '再申請済み'or performance.status == '年休申請中' or performance.status == '年休'or performance.status == '振休申請中' or performance.status == '振休'}" /></td>
 										<td><select class="status-select" disabled>
 												<option value="未申請"
 													th:selected="${performance.status == '未申請'}">未申請</option>
@@ -142,6 +142,14 @@
 													th:selected="${performance.status == '差し戻し'}">差し戻し</option>
 												<option value="再申請済み"
 													th:selected="${performance.status == '再申請済み'}">再申請済み</option>
+													<option value="年休申請中"
+															th:selected="${performance.status == '年休申請中'}">年休申請中</option>
+													<option value="年休"
+															th:selected="${performance.status == '年休'}">年休</option>
+													<option value="振休申請中"
+															th:selected="${performance.status == '振休申請中'}">振休申請中</option>
+														<option value="振休"
+																	th:selected="${performance.status == '振休'}">振休</option>								
 										</select> <input type="hidden" th:name="status"
 											th:value="${performance.status}" /></td>
 										<td><select class="work-select" disabled>
@@ -162,7 +170,7 @@
 										<!-- <td><input type="text" th:value="${performance.reason}" class="performance-reason-input"  /></td> -->
 										<td><input type="text" th:value="${performance.reason}"
 											class="performance-reason-input"
-											th:disabled="${performance.status == '申請済み' or performance.status == '確定済み'}" />
+											th:disabled="${performance.status == '申請済み' or performance.status == '確定済み'or performance.status == '年休申請中' or performance.status == '年休'or performance.status == '振休申請中' or performance.status == '振休'}" />
 										</td>
 										<!-- disabledを外してボタン有効化 -->
 										<td style="width: 3ch;">
@@ -171,13 +179,13 @@
 												method="post" style="margin: 3px;">
 												<button type="submit" class="resubmit-button"
 													style="white-space: nowrap; min-width: 3ch; padding: 4px 8px;"
-													th:disabled="${performance.status == '未申請' or performance.status == '確定済み' or performance.status == '申請済み'}">再申請</button>
+													th:disabled="${performance.status == '未申請' or performance.status == '確定済み' or performance.status == '申請済み'or performance.status == '年休申請中' or performance.status == '年休'or performance.status == '振休申請中' or performance.status == '振休'}">再申請</button>
 												<input type="hidden" name="reId"
 													th:value="${performance.id}" />
 											</form>
 										</td>
 										<td><input type="button" value="取消" class="remove-button"
-											th:disabled="${performance.status == '未申請' or performance.status == '確定済み' or performance.status == '差し戻し' or performance.status == '再申請済み'}" /></td>
+											th:disabled="${performance.status == '未申請' or performance.status == '確定済み' or performance.status == '差し戻し' or performance.status == '再申請済み'or performance.status == '年休申請中' or performance.status == '年休'or performance.status == '振休申請中' or performance.status == '振休'}" /></td>
 										<td><input type="hidden" class="performance-id"
 											th:value="${performance.id}" /></td>
 									</tr>

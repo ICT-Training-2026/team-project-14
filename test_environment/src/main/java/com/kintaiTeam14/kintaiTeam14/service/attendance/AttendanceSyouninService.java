@@ -17,8 +17,9 @@ import lombok.RequiredArgsConstructor;
 public class AttendanceSyouninService {
 	private final AttendanceSyouninRepository attendanceRepository;
 	
-	public int updateAtClassificationService(Long employeeId, LocalDate date, Byte atClassification) {
-	   return   attendanceRepository.updateAtClassification(employeeId, date, atClassification);
+	public int updateAtClassificationService(Long employeeId, LocalDate date, Byte atClassification,String status) {
+	
+	   return   attendanceRepository.updateAtClassification(employeeId, date, atClassification, status);
 	}
 	public List<String> findDatesByEmployeeIdAndAtClassificationService(Long employeeId, int atClassification) {
 		 List<LocalDate> dateList = attendanceRepository.findDatesByEmployeeIdAndAtClassification(employeeId, atClassification);
@@ -35,9 +36,9 @@ public class AttendanceSyouninService {
 		int sccese=0;
 		int AtClassification =attendanceRepository.findAtClassificationbyAttendId(attendId);
 		if(AtClassification==2) {
-			sccese=attendanceRepository.changeAtClassificationByAttendId( attendId,4);
+			sccese=attendanceRepository.changeAtClassificationByAttendId( attendId,4,"年休");
 		} else {
-			sccese=attendanceRepository.changeAtClassificationByAttendId( attendId,5);
+			sccese=attendanceRepository.changeAtClassificationByAttendId( attendId,5,"振休");
 		}
 		
 		
@@ -48,7 +49,7 @@ public class AttendanceSyouninService {
 	public int changeAtClassificationByAttendIdRejectService(Long attendId) {
 		int sccese=0;
 	
-		attendanceRepository.changeAtClassificationByAttendId( attendId,0);
+		attendanceRepository.changeAtClassificationByAttendId( attendId,0,"未申請");
 
 		
 		
