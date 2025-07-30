@@ -267,14 +267,14 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <tr>
-		            <td th:text="${selectedMonth}">7</td>
-		            <td th:text="${scheduledWorkingHours}">140</td>
-		            <td th:text="${actualWorkingHours}">0</td>
-		            <td th:text="${formattedOvertimeHours}">0.00</td>
-		            <td th:text="${remainingAnnualLeave}">5</td>
-		            <td th:text="${remainingSubstituteHoliday}">5</td>
-		        </tr>
+				<tr>
+				    <td class="col-sum-month" th:text="${selectedMonth}">7</td>
+				    <td class="col-sum-scheduled" th:text="${#numbers.formatDecimal(scheduledWorkingHours, 1, 1)}">140.0</td>
+				    <td class="col-sum-actual" th:text="${#numbers.formatDecimal(actualWorkingHours, 1, 1)}">0.0</td>
+				    <td class="col-sum-overtime" th:text="${#numbers.formatDecimal(formattedOvertimeHours, 1, 1)}">0.0</td>
+				    <td class="col-sum-paid" th:text="${remainingAnnualLeave}">5</td>
+				    <td class="col-sum-comp" th:text="${remainingSubstituteHoliday}">5</td>
+				</tr>
 		    </tbody>
 		</table>
         <a th:href="@{/admin}" class="back-link">← 管理者トップに戻る</a>
