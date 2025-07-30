@@ -34,13 +34,12 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 		//出退勤未登録時の処理
 		if(today_arrival.get(0).get("arrival_time") == null && today_arrival.get(0).get("end_time") == null) {
 			
-			String sql_upd="UPDATE attendance SET arrival_time=?,at_classification=? "
+			String sql_upd="UPDATE attendance SET arrival_time=? "
 					+ "WHERE employee_id=? and date=?";
 			
 			
-			jdbcTemplate.update(sql_upd,time,1,emp_id,dateOnly);
+			jdbcTemplate.update(sql_upd,time,emp_id,dateOnly);
 			
-			System.out.println("0");
 			System.out.println("社員番号 : "+emp_id.toString());
 			System.out.println("出勤登録 : "+time);
 			
@@ -55,7 +54,6 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 				
 				jdbcTemplate.update(sql_upd,time,emp_id,dateOnly);
 				
-				System.out.println("1");
 				System.out.println("社員番号 : "+emp_id.toString());
 				System.out.println("出勤登録 : "+time);
 				
@@ -91,11 +89,11 @@ public class AttendanceAndDepatureRepositoryImpl implements AttendanceAndDepatur
 		//出退勤未登録時の処理
 		if(today_arrival.get(0).get("arrival_time") == null && today_arrival.get(0).get("end_time") == null) {
 
-			String sql_upd="UPDATE attendance SET end_time=?,at_classification=? "
+			String sql_upd="UPDATE attendance SET end_time=? "
 					+ "WHERE employee_id=? and date=?";
 
 
-			jdbcTemplate.update(sql_upd,time,1,emp_id,dateOnly);
+			jdbcTemplate.update(sql_upd,time,emp_id,dateOnly);
 
 			System.out.println("社員番号 : "+emp_id.toString());
 			System.out.println("退勤登録 : "+time);
