@@ -47,7 +47,7 @@ public class DataInitializer implements ApplicationRunner {
 	            Employee employeeUser = new Employee();
 	            employeeUser.setEmployeeId(100003L);
 	            employeeUser.setEmployeeName("user3");
-	            employeeUser.setPassword(passwordEncoder.encode("user3")); // 初期パスワードは適宜変更
+	            employeeUser.setPassword(passwordEncoder.encode("pass")); // 初期パスワードは適宜変更
 	            employeeUser.setDepartmentId("D001");   // 例：開発
 	            employeeUser.setIsPassword(false);
 	            employeeUser.setPaidHoliday(0);
