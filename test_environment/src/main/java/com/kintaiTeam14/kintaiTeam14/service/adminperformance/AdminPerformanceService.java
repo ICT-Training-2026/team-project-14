@@ -103,21 +103,22 @@ public class AdminPerformanceService {
         for (AttendanceWithReasonDto attendance : attendanceList) {
             LocalDateTime arrival = attendance.getArrivalTime();
             LocalDateTime end = attendance.getEndTime();
-            Double breakTime = attendance.getBreakTime();
+            Double breakTime = attendance.getBreakTime(); // 休憩時間（時間単位。nullなら0）
 
             if (arrival != null && end != null) {
                 long minutesWorked = Duration.between(arrival, end).toMinutes();
-                double breakMinutes = (breakTime != null) ? breakTime * 60.0 : 0.0;
-                double netMinutes = minutesWorked - breakMinutes;
-                if (netMinutes > 0) {
-                    totalHours += netMinutes / 60.0;
+                double workHours = minutesWorked / 60.0; // 分→時間
+                double breakHours = (breakTime != null) ? breakTime : 0.0;
+                double netHours = workHours - breakHours;
+                if (netHours > 0) {
+                    totalHours += netHours;
                 }
             }
         }
-
         logger.debug("Total actual working hours for employeeId {}: {}", employeeId, totalHours);
         return totalHours;
     }
+
 
     /**
      * 社員IDで社員情報を取得する
