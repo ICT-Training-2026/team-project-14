@@ -132,11 +132,11 @@
 						<td class="col-worktype">
 							<select class="work-select" disabled>
 								<option value=0 th:selected="${performance.atClassification == 0}">出勤</option>
-								<option value=1 th:selected="${performance.atClassification == 1}">欠勤</option>
-								<option value=2 th:selected="${performance.atClassification == 2}">振休</option>
-								<option value=3 th:selected="${performance.atClassification == 3}">振出</option>
-								<option value=4 th:selected="${performance.atClassification == 4}">休日</option>
-								<option value=5 th:selected="${performance.atClassification == 5}">年休</option>
+								<option value=1 th:selected="${performance.atClassification == 1}">休日</option>
+								<option value=2 th:selected="${performance.atClassification == 2}">出勤</option>
+								<option value=3 th:selected="${performance.atClassification == 3}">出勤</option>
+								<option value=4 th:selected="${performance.atClassification == 4}">年休</option>
+								<option value=5 th:selected="${performance.atClassification == 5}">振休</option>
 							</select>
 							<input type="hidden" th:name="status" th:value="${performance.status}" />
 						</td>

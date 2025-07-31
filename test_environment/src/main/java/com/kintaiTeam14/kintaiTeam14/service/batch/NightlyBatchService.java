@@ -46,5 +46,8 @@ public class NightlyBatchService {
 			ur.userEditExe(f);
 			nr.deleteTask(row.get("task_id").toString());
 		}
+		
+		
+		
 	}
 }
