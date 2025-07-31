@@ -28,7 +28,7 @@ public class NightlyBatchRepository {
 	
 	public List<Map<String,Object>> checkDeleteTask(){
 		String sql="SELECT * FROM employee WHERE isdelete=1 and updated_at < ?";
-        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(5);
         List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, oneYearAgo);
         System.out.println("ユーザ削除実行リスト");
         System.out.println(list);
