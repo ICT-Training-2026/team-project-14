@@ -6,12 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.kintaiTeam14.kintaiTeam14.form.UserEditForm;
+import com.kintaiTeam14.kintaiTeam14.repository.admin.UserDeleteRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.admin.UserEditRepository;
 import com.kintaiTeam14.kintaiTeam14.repository.batch.NightlyBatchRepository;
 
@@ -19,17 +18,16 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@SpringBootApplication
-@EnableScheduling
 public class NightlyBatchService {
 	
 	private final NightlyBatchRepository nr;
 	private final UserEditRepository ur;
+	private final UserDeleteRepository udr;
 
 	@Scheduled(cron = "0 0 2 * * *", zone = "Asia/Tokyo")
 	public void checkTask() {
 		
-		List<Map<String,Object>> list = nr.checkTask();
+		List<Map<String,Object>> list = nr.checkEditTask();
 		System.out.println("タスクリスト");
 		System.out.println(list);
 		
@@ -46,5 +44,16 @@ public class NightlyBatchService {
 			ur.userEditExe(f);
 			nr.deleteTask(row.get("task_id").toString());
 		}
+	}
+	
+	@Scheduled(cron = "0 0 2 1 * *", zone = "Asia/Tokyo")
+	public void checkDelete() {
+		List<Map<String,Object>> list = nr.checkDeleteTask();
+
+		for(Map<String,Object> row:list) {
+			String empId=row.get("employee_id").toString();
+			udr.deleteUser(empId);
+		}
+
 	}
 }
