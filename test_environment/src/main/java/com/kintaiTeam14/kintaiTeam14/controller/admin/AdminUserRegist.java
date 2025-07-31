@@ -30,7 +30,7 @@ public class AdminUserRegist {
 					+ "\n所属コード："+f.getDepartmentId()
 					+ "\n社員番号："+f.getEmployeeId();
 			ra.addFlashAttribute("msg", popup);
-			transition="redirect:/admin";
+			transition="redirect:/admin/User-management";
 			break;
 			
 		case 1:
