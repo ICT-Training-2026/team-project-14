@@ -31,7 +31,8 @@ public class AdminExportController {
     @GetMapping("/export-attendance-zip")
     public void exportAttendanceZip(HttpServletResponse response) throws Exception {
         DateTimeFormatter ymFmt = DateTimeFormatter.ofPattern("yyyyMM");
-        String zipName = LocalDate.now().format(ymFmt) + ".zip";
+       
+        String zipName = LocalDate.now().minusMonths(1).format(ymFmt) + ".zip";
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=" + zipName);
  
