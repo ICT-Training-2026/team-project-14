@@ -34,4 +34,16 @@ public class NightlyBatchRepository {
         System.out.println(list);
         return list;
 	}
+	
+	public void addPaidHoliday() {
+		
+		String sql="SELECT employee_id FROM employee WHERE NOT isdelete=1";
+		List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+		
+		String sql_add="UPDATE employee SET paid_holiday=paid_holiday+20 WHERE employee_id=?";
+		for(Map<String,Object> row:list) {
+			jdbcTemplate.update(sql_add, row.get("employee_id").toString());
+		}
+		
+	}
 }

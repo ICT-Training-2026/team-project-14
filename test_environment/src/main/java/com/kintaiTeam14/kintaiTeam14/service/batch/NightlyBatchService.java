@@ -56,4 +56,9 @@ public class NightlyBatchService {
 		}
 
 	}
+	
+	@Scheduled(cron = "0 0 2 1 4 *", zone = "Asia/Tokyo")
+	public void addPaidHoliday() {
+		nr.addPaidHoliday();
+	}
 }
