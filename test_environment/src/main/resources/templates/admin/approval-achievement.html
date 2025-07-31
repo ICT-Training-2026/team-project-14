@@ -76,9 +76,9 @@
 							<input type="text" th:value="${performance.dayOfWeek}" class="performance-dayofweek-input"
 								disabled />
 						</td>
-						<td class="col-start"><input type="time" th:value="${performance.startTime}"
+						<td class="col-start"><input type="time" step="1"th:value="${performance.startTime}"
 								class="performance-start-input" /></td>
-						<td class="col-end"><input type="time" th:value="${performance.endTime}"
+						<td class="col-end"><input type="time" step="1"th:value="${performance.endTime}"
 								class="performance-end-input" /></td>
 						<td class="col-break"><input type="text" th:value="${performance.breakTime}"
 								class="performance-break-input" /></td>
