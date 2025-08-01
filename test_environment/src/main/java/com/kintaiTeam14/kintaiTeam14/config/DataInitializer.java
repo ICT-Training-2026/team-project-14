@@ -41,7 +41,7 @@ public class DataInitializer implements ApplicationRunner {
 	            employeeRepository.insertEmployee(employee);
 	            System.out.println("管理者(Admin)ユーザーを初期作成しました。");
 	        }
-	        employeeRepository.updatePassword(100002L, passwordEncoder.encode("user2"));
+	    
 
 	        Employee normalUser = employeeRepository.findByEmployeeName("user3");
 	        if (normalUser == null) {
