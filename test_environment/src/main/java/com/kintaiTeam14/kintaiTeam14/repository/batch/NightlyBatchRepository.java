@@ -15,7 +15,7 @@ public class NightlyBatchRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 	
-	public List<Map<String,Object>> checkTask(){
+	public List<Map<String,Object>> checkEditTask(){
 		String sql="SELECT * FROM edit_tasks WHERE activate_time < ?";
 		LocalDateTime now = LocalDateTime.now();
 		return jdbcTemplate.queryForList(sql,now);
@@ -24,5 +24,14 @@ public class NightlyBatchRepository {
 	public void deleteTask(String task_id) {
 		String sql="DELETE FROM edit_tasks WHERE task_id=?";
 		jdbcTemplate.update(sql, Integer.parseInt(task_id));
+	}
+	
+	public List<Map<String,Object>> checkDeleteTask(){
+		String sql="SELECT * FROM employee WHERE isdelete=1 and updated_at < ?";
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(5);
+        List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, oneYearAgo);
+        System.out.println("ユーザ削除実行リスト");
+        System.out.println(list);
+        return list;
 	}
 }

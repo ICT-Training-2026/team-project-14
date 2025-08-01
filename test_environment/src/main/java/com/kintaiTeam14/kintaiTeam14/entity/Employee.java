@@ -59,4 +59,6 @@ public class Employee {
 
 	    private LocalDateTime createdAt; // 登録日時
 	    private LocalDateTime updatedAt; // 更新日時
+	    
+	    private Integer isdelete;
 }

@@ -47,6 +47,7 @@ public class EmployeeRepository {
 			// nullチェック付きでセット
 			employee.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
 			employee.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+			employee.setIsdelete((Integer) rs.getObject("isdelete"));
 			return employee;
 		}
 	};
@@ -62,6 +63,8 @@ public class EmployeeRepository {
 	public Employee findByEmployeeName(String employeename) {
 		String sql = "SELECT * FROM employee  WHERE employee_name = ?";
 		List<Employee> employees = jdbcTemplate.query(sql, USER_ROW_MAPPER, employeename);
+		System.out.println("findByEmployeeName");
+		System.out.println(employees);
 		return employees.isEmpty() ? null : employees.get(0);
 	}
 
@@ -73,7 +76,7 @@ public class EmployeeRepository {
 	 * @return Userオブジェクトまたはnull
 	 */
 	public List<Map<String, Object>> findByEmployeeNameAll(String employeename){
-		String sql = "SELECT * FROM employee WHERE employee_name LIKE ?";
+		String sql = "SELECT * FROM employee WHERE (isdelete IS NULL OR isdelete = 0) AND employee_name LIKE ?";
 		String p="%"+employeename+"%";
 		List<Map<String, Object>> employees = jdbcTemplate.queryForList(sql, p);
 		System.out.println(employees);
@@ -134,7 +137,7 @@ public class EmployeeRepository {
 	 * @return 削除したレコード数（通常1）
 	 */
 	public int deleteById(Long id) {
-		String sql = "DELETE FROM employee WHERE employee_id = ?";
+		 String sql = "UPDATE employee SET isdelete = 1 WHERE employee_id = ?";
 		return jdbcTemplate.update(sql, id);
 	}
 

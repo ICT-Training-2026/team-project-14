@@ -31,7 +31,8 @@ public class AdminExportController {
     @GetMapping("/export-attendance-zip")
     public void exportAttendanceZip(HttpServletResponse response) throws Exception {
         DateTimeFormatter ymFmt = DateTimeFormatter.ofPattern("yyyyMM");
-        String zipName = LocalDate.now().format(ymFmt) + ".zip";
+       
+        String zipName = LocalDate.now().minusMonths(1).format(ymFmt) + ".zip";
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=" + zipName);
  
@@ -63,7 +64,7 @@ public class AdminExportController {
                         int breakHour = a.getBreakTime() != null ? a.getBreakTime() : 0;
                         int breakMin = breakHour * 60;
                         int workMin = 0;
-                        // (終業-始業) - 休憩時間（分）
+                        // (終業-始業) - 休憩時間  （分）
                         if (a.getArrivalTime() != null && a.getEndTime() != null) {
                             workMin = (int) Duration.between(a.getArrivalTime(), a.getEndTime()).toMinutes() - breakMin;
                             if (workMin < 0) workMin = 0;

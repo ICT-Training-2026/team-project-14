@@ -110,6 +110,7 @@ public class PerformanceController {
         int compDay = performanceService.getRemainingCompDay(employeeId);
 
         model.addAttribute("performances", performances);
+        System.out.println("performances");
         System.out.println(performances);
         model.addAttribute("userId", employeeId);
         model.addAttribute("year", y);

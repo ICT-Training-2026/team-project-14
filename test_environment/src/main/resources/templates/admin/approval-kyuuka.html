@@ -124,7 +124,7 @@
                 <td th:text="${attendance.employeeId}">社員ID</td>
                 <td th:text="${attendance.date}">日付</td>
                 <td th:switch="${attendance.atClassification}">
-                    <span th:case="2">有給申請</span>
+                    <span th:case="2">年休申請</span>
                     <span th:case="3">振休申請</span>
                     <span th:case="*">その他</span>
                 </td>

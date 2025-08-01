@@ -46,7 +46,7 @@ public class AttendanceExportService {
         String prevYmStr = prev.format(ymFmt);
 
         for (Attendance att : all) {
-            if (att.getEmployeeId() == null || att.getDate() == null) continue;
+            if (att.getEmployeeId() == null || att.getDate() == null || att.getAtClassification() != 0 ) continue;
             String ym = att.getDate().format(ymFmt);
             if (!ym.equals(prevYmStr)) continue; // 前月以外はスキップ
             int emp = att.getEmployeeId();
@@ -56,6 +56,7 @@ public class AttendanceExportService {
         }
         return result;
     }
+    
     // 指定年月の所定労働日数（土日・休日・振休を除外）
     public int calcStandardWorkingDays(int year, int month) {
         LocalDate first = LocalDate.of(year, month, 1);
